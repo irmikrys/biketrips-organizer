@@ -8,7 +8,7 @@ export const MENU_FOR_USER = [
 
 export const MENU_FOR_GUEST = [
   {label: 'Home', link: '/'},
-  {label: 'Login', link: '/login'}
+  {label: 'Login', link: '/'}
 ];
 
 export const USERNAME = "username";
