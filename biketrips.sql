@@ -116,3 +116,13 @@ INSERT INTO levels (id_level, name) VALUES
   (1, 'easy'),
   (2, 'medium'),
   (3, 'hard');
+
+INSERT INTO users (username, password, email, first_name, last_name, role) VALUES
+  (
+    'admin',
+    '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',
+    'biketrips.admin@gmail.com',
+    'admin',
+    'admin',
+    'ADMIN'
+  );
