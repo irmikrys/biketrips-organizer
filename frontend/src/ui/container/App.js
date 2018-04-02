@@ -3,7 +3,8 @@ import { Link } from "react-router";
 import { connect } from "react-redux";
 import { getSession } from "../../reducers/authentication";
 import "stylus/main.styl";
-import {MENU_FOR_GUEST, MENU_FOR_USER} from "../constants/constants";
+import {MENU_FOR_GUEST, MENU_FOR_USER, MENU_FOR_ADMIN} from "../constants/constants";
+import {fetchUserByUsername} from "../../reducers/user";
 
 
 const TopMenu = (props) => {
@@ -25,13 +26,22 @@ const TopMenu = (props) => {
 
 export class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.props.fetchUserByUsername(props.username);
+  }
+
   componentDidMount() {
     this.props.getSession();
   }
 
   render() {
     const {isAuthenticated} = this.props;
-    const menuItems = isAuthenticated ? MENU_FOR_USER : MENU_FOR_GUEST;
+    const {user} = this.props;
+    const menuItems = isAuthenticated ? (
+      user.role === 'USER' ?
+      MENU_FOR_USER : MENU_FOR_ADMIN
+    ) : MENU_FOR_GUEST;
 
     return (
       <div id="application">
@@ -43,6 +53,10 @@ export class App extends Component {
 }
 
 export default connect(
-  state => ({isAuthenticated: state.authentication.isAuthenticated}),
-  {getSession}
+  state => ({
+    isAuthenticated: state.authentication.isAuthenticated,
+    username: state.authentication.username,
+    user: state.user.user,
+  }),
+  {getSession, fetchUserByUsername}
 )(App);
