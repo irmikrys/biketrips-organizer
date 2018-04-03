@@ -1,21 +1,28 @@
 import { FormFieldBuilder } from "../component/forms/FormFieldBuilder";
 
 export const MENU_FOR_USER = [
-  {label: 'Home', link: '/'},
-  {label: 'Profile', link: '/profile'},
-  {label: 'Logout', link: '/logout'}
 ];
 
 export const MENU_FOR_GUEST = [
-  {label: 'Home', link: '/'},
-  {label: 'Login', link: '/login'}
 ];
 
 export const MENU_FOR_ADMIN = [
-  {label: 'Home', link: '/'},
-  {label: 'Applications', link: '/applications'},
-  {label: 'Logout', link: '/logout'}
+  {label: 'Applications', link: '/applications', icon: ''}
 ];
+
+export const USER_RIGHT_ITEMS = [
+  {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
+  {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
+];
+
+export const GUEST_RIGHT_ITEMS = [
+  {label: 'Login', link: '/login', icon: 'glyphicon glyphicon-log-in'}
+];
+
+export const ADMIN_RIGHT_ITEMS = [
+  {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
+];
+
 
 export const USERNAME = "username";
 export const PASSWORD = "password";
