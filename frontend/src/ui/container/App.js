@@ -37,12 +37,18 @@ export class App extends Component {
       <div id="application">
         <TopMenu items={menuItems}/>
         {this.props.children}
+        <div>
+          <p>{username}</p>
+        </div>
       </div>
     );
   }
 }
 
 export default connect(
-  state => ({isAuthenticated: state.authentication.isAuthenticated}),
+  state => ({
+    isAuthenticated: state.authentication.isAuthenticated,
+    username: state.authentication.username
+  }),
   {getSession}
 )(App);

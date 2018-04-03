@@ -40,7 +40,6 @@ export default class LoginForm extends Component {
               })
             }
             <button type="submit">Login</button>
-            <p className="message">Not registered? <Link to="/register">Create an account</Link></p>
           </form>
         </div>
       </div>
