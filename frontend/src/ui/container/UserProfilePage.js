@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-export class UserProfile extends Component {
+export class UserProfilePage extends Component {
 
   render() {
     return (
@@ -14,4 +14,4 @@ export class UserProfile extends Component {
 
 export default connect(
   ({authentication}) => ({username: authentication.username})
-)(UserProfile);
+)(UserProfilePage);
