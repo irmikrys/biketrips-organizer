@@ -11,6 +11,10 @@ export const MENU_FOR_GUEST = [
   {label: 'Login', link: '/'}
 ];
 
+export const MENU_FOR_ADMIN = [
+  {label: 'Logout', link: '/logout'}
+];
+
 export const USERNAME = "username";
 export const PASSWORD = "password";
 export const FIRST_NAME = "firstName";

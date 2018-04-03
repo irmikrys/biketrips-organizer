@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {ErrorPanel} from "./ErrorPanel";
-import {USERNAME, PASSWORD, getFormField} from "../../constants/constants";
-import {Link} from "react-router";
+import {getFormField, PASSWORD, USERNAME} from "../../constants/constants";
 
 export default class LoginForm extends Component {
 
@@ -29,14 +28,14 @@ export default class LoginForm extends Component {
             {
               [USERNAME, PASSWORD].map(fieldKey => {
                 const field = getFormField(fieldKey);
-                  return <input key={field.name}
-                                type={field.type}
-                                placeholder={field.placeholder}
-                                name={field.name}
-                                pattern={field.pattern}
-                                onChange={this.handleInputChange}
-                                required
-                  />
+                return <input key={field.name}
+                              type={field.type}
+                              placeholder={field.placeholder}
+                              name={field.name}
+                              pattern={field.pattern}
+                              onChange={this.handleInputChange}
+                              required
+                />
               })
             }
             <button type="submit">Login</button>
@@ -48,8 +47,8 @@ export default class LoginForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { username, password } = this.state;
-    const { login } = this.props;
+    const {username, password} = this.state;
+    const {login} = this.props;
     login(username, password);
   }
 }
