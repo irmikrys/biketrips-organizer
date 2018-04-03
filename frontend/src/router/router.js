@@ -9,6 +9,7 @@ import RegisterPage from '../ui/container/RegisterPage';
 import UserLoginPage from '../ui/container/UserLoginPage';
 import WelcomePage from "../ui/container/WelcomePage";
 import ApplicationsPage from "../ui/container/ApplicationsPage";
+import ApplyPage from "../ui/container/ApplyPage";
 
 export default (onLogout) => (
   <Route path="/" name="app" component={App}>
@@ -18,6 +19,7 @@ export default (onLogout) => (
     <Route path="login" component={UserLoginPage}/>
     <Route path="admin_login" component={AdminLoginPage}/>
     <Route path="applications" component={ApplicationsPage}/>
+    <Route path="apply" component={ApplyPage}/>
     <Route path="logout" onEnter={onLogout}/>
   </Route>
 );
