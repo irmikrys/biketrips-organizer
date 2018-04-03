@@ -4,6 +4,7 @@ USE bike_trips;
 
 DROP TABLE IF EXISTS participants;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS episodes;
 DROP TABLE IF EXISTS photos;
 DROP TABLE IF EXISTS albums;
@@ -23,6 +24,13 @@ CREATE TABLE users (
   photo      MEDIUMBLOB           DEFAULT NULL,
   points     INTEGER     NOT NULL DEFAULT 0,
   PRIMARY KEY (username)
+);
+
+CREATE TABLE applications (
+  username   VARCHAR(30) NOT NULL,
+  email      VARCHAR(50) NOT NULL,
+  PRIMARY KEY (username),
+  FOREIGN KEY (username) REFERENCES users(username)
 );
 
 CREATE TABLE levels (

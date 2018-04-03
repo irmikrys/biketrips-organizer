@@ -16,7 +16,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 
 @ContextConfiguration(
   loader = SpringApplicationContextLoader,
-  classes = [FleshcardsManagerApplication]
+  classes = [BikeTripsManagerApplication]
 )
 @ActiveProfiles("test")
 abstract class AbstractMvcSpec extends SpockMvcSpec {
