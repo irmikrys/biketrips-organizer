@@ -3,9 +3,7 @@ import { Link } from "react-router";
 import { connect } from "react-redux";
 import { getSession } from "../../reducers/authentication";
 import "stylus/main.styl";
-import {MENU_FOR_GUEST, MENU_FOR_USER} from "../constants/constants";
-import {fetchUserByUsername} from "../../reducers/user";
-
+import {MENU_FOR_GUEST, MENU_FOR_USER, MENU_FOR_ADMIN} from "../constants/constants";
 
 const TopMenu = (props) => {
   const items = props.items.map((item, key) => (
@@ -31,8 +29,10 @@ export class App extends Component {
   }
 
   render() {
-    const {isAuthenticated} = this.props;
-    const menuItems = isAuthenticated ? MENU_FOR_USER : MENU_FOR_GUEST;
+    const {isAuthenticated, username} = this.props;
+    const menuItems = isAuthenticated ? (
+      username === 'admin' ? MENU_FOR_ADMIN : MENU_FOR_USER
+      ) : MENU_FOR_GUEST;
 
     return (
       <div id="application">
@@ -46,8 +46,7 @@ export class App extends Component {
 export default connect(
   state => ({
     isAuthenticated: state.authentication.isAuthenticated,
-    username: state.authentication.username,
-    user: state.user.user
+    username: state.authentication.username
   }),
-  {getSession, fetchUserByUsername}
+  {getSession}
 )(App);

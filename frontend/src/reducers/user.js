@@ -33,6 +33,6 @@ export default function userReducer(state = initialState, action) {
 export function fetchUserByUsername(username) {
   return  {
     types: [FETCH_USER, FETCH_USER_SUCCESS, FETCH_USER_FAIL],
-    promise: client => client.get(`/api/profile/${username}`)
+    promise: client => client.get(`/api/users/${username}`)
   };
 }
