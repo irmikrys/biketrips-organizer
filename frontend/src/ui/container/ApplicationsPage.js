@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-export class UserProfile extends Component {
+export class ApplicationsPage extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Hello {this.props.username}!</h2>
+      <div className="main">
+        <h2>Hello {this.props.username}, you have applications to consider!</h2>
       </div>
     )
   }
@@ -14,4 +14,4 @@ export class UserProfile extends Component {
 
 export default connect(
   ({authentication}) => ({username: authentication.username})
-)(UserProfile);
+)(ApplicationsPage);

@@ -2,18 +2,39 @@ package biketrips.service;
 
 import biketrips.dto.UserDTO;
 import biketrips.model.User;
+import biketrips.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-public interface UserService {
+import java.util.Optional;
 
-  User findByUsername(String username);
+@Service("userService")
+public class UserService {
 
-  User findByEmail(String username);
+  @Autowired
+  @Qualifier("userRepository")
+  private UserRepository userRepository;
 
-  Iterable<User> findAll();
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  User createUser(UserDTO userDTO);
+  public Optional<User> findByUsername(String username) {
+    return userRepository.findByUsername(username);
+  }
 
-  User updateUser(UserDTO userDTO);
+  public Optional<User>  findByEmail(String username) {
+    return userRepository.findByEmail(username);
+  }
 
+  public Iterable<User> findAll() {
+    return userRepository.findAll();
+  }
+
+  public User createUser(UserDTO userDTO) {
+    User user = userDTO.toUser(bCryptPasswordEncoder.encode(userDTO.getPassword()), "USER");
+    return userRepository.save(user);
+  }
 
 }

@@ -2,13 +2,19 @@ import { FormFieldBuilder } from "../component/forms/FormFieldBuilder";
 
 export const MENU_FOR_USER = [
   {label: 'Home', link: '/'},
-  {label: 'Logout', link: '/logout'},
-  {label: 'Profile', link: '/profile'}
+  {label: 'Profile', link: '/profile'},
+  {label: 'Logout', link: '/logout'}
 ];
 
 export const MENU_FOR_GUEST = [
   {label: 'Home', link: '/'},
   {label: 'Login', link: '/login'}
+];
+
+export const MENU_FOR_ADMIN = [
+  {label: 'Home', link: '/'},
+  {label: 'Applications', link: '/applications'},
+  {label: 'Logout', link: '/logout'}
 ];
 
 export const USERNAME = "username";

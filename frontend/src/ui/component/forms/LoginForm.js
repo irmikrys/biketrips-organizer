@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {ErrorPanel} from "./ErrorPanel";
 import {USERNAME, PASSWORD, getFormField} from "../../constants/constants";
-import {Link} from "react-router";
 
 export default class LoginForm extends Component {
 
@@ -40,7 +39,6 @@ export default class LoginForm extends Component {
               })
             }
             <button type="submit">Login</button>
-            <p className="message">Not registered? <Link to="/register">Create an account</Link></p>
           </form>
         </div>
       </div>

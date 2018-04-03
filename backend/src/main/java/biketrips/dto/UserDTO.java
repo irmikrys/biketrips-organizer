@@ -26,6 +26,10 @@ public class UserDTO {
   @Email
   private String email;
 
+  @Pattern(regexp = "[A-Z]+$")
+  @Size(min = 4, max = 8)
+  private String role;
+
   public String getUsername() {
     return username;
   }
@@ -64,6 +68,14 @@ public class UserDTO {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getRole() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
   }
 
   public User toUser(String password, String role) {

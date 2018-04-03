@@ -1,8 +1,7 @@
 package biketrips.service;
 
-import biketrips.model.User;
-import biketrips.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import biketrips.repository.UserRepository;
+import biketrips.model.User;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,12 +19,15 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Autowired
+  @Qualifier("userRepository")
   private UserRepository userRepository;
+
 
   @Override
   @Transactional(readOnly = true)
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = userRepository.findByUsername(username);
+  public UserDetails loadUserByUsername(String username) {
+    User user = this.userRepository.findByUsername(username).orElseThrow(
+      () -> new UsernameNotFoundException("Username not found"));
 
     Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
     grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));

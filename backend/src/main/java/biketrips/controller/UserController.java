@@ -1,22 +1,19 @@
 package biketrips.controller;
 
 import biketrips.dto.UserDTO;
-import biketrips.dto.session.UserSession;
-import biketrips.exceptions.AccessingPrivateResourcesException;
+import biketrips.dto.UserDetailsDTO;
 import biketrips.exceptions.RegisterException;
+import biketrips.exceptions.UserException;
 import biketrips.model.User;
 import biketrips.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 
 @RestController
@@ -38,19 +35,22 @@ public class UserController {
     return ResponseEntity.ok(user);
   }
 
-  @RequestMapping(method = PUT, path = "/api/users")
-  public @ResponseBody
-  ResponseEntity<User> updateUser(@Valid @RequestBody UserDTO userDTO, HttpSession session) throws AccessingPrivateResourcesException {
-    UserSession userSession = (UserSession) session.getAttribute("user");
-    if (!userSession.getUsername().equals(userDTO.getUsername()))
-      throw new AccessingPrivateResourcesException("updateUser.error.accessDenied");
-    User updatedUser = userService.updateUser(userDTO);
-    return ResponseEntity.ok(updatedUser);
-  }
-
   @RequestMapping(method = GET, path = "/api/users")
   public @ResponseBody
   Iterable<User> getAllUsers() {
     return userService.findAll();
+  }
+
+  @RequestMapping(method = GET, path = "/api/users/{username}")
+  public @ResponseBody
+  ResponseEntity<UserDetailsDTO> getUser(@PathVariable("username") String username) {
+    UserDetailsDTO userDetails = this.getUserDetails(username);
+    return ResponseEntity.ok(userDetails);
+  }
+
+  private UserDetailsDTO getUserDetails(String username) {
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new UserException("details.error.userNotFound"));
+    return new UserDetailsDTO(user);
   }
 }
