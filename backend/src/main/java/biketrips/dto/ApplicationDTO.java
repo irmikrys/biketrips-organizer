@@ -15,6 +15,15 @@ public class ApplicationDTO {
   @Email
   private String email;
 
+  public ApplicationDTO () {
+
+  }
+
+  public ApplicationDTO (Application application) {
+    this.setUsername(application.getUsername());
+    this.setEmail(application.getEmail());
+  }
+
   public Application toApplication() {
     Application application = new Application();
     application.setUsername(getUsername());
