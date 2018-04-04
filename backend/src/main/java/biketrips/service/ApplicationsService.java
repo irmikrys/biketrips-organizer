@@ -46,5 +46,15 @@ public class ApplicationsService {
     this.applicationsRepository.deleteByUsername(username);
   }
 
+  public Iterable<ApplicationDTO> findAllActive() {
+    final String sql = "SELECT * FROM applications a WHERE a.isActive = '1'";
+    return this.jdbcTemplate.query(sql, (rs, rowNum) -> {
+      ApplicationDTO applicationDTO = new ApplicationDTO();
+      applicationDTO.setUsername(rs.getString("username"));
+      applicationDTO.setEmail(rs.getString("email"));
+      applicationDTO.setActive(rs.getBoolean("isActive"));
+      return applicationDTO;
+    });
+  }
 }
 

@@ -16,5 +16,4 @@ public interface ApplicationsRepository extends JpaRepository<Application, Long>
 
   @Transactional
   void deleteByUsername(String username);
-
 }

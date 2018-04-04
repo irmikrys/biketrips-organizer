@@ -100,4 +100,10 @@ public class ApplicationsController {
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
+  @RequestMapping(method = GET, path = "/api/activeApplications")
+  public @ResponseBody
+  Iterable<ApplicationDTO> getAllActiveApplications() {
+    return applicationsService.findAllActive();
+  }
+
 }
