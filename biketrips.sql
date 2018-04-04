@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS bike_trips;
+CREATE DATABASE IF NOT EXISTS bikeTrips;
 
-USE bike_trips;
+USE bikeTrips;
 
 DROP TABLE IF EXISTS participants;
 DROP TABLE IF EXISTS applications;
