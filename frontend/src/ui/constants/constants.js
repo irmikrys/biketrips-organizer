@@ -1,6 +1,7 @@
 import { FormFieldBuilder } from "../component/forms/FormFieldBuilder";
 
 export const MENU_FOR_USER = [
+  {label: 'Apply', link: '/apply', icon: ''}
 ];
 
 export const MENU_FOR_GUEST = [

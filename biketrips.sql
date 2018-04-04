@@ -1,8 +1,9 @@
-CREATE DATABASE IF NOT EXISTS bike_trips;
+CREATE DATABASE IF NOT EXISTS bikeTrips;
 
-USE bike_trips;
+USE bikeTrips;
 
 DROP TABLE IF EXISTS participants;
+DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS episodes;
 DROP TABLE IF EXISTS photos;
@@ -14,110 +15,117 @@ DROP TABLE IF EXISTS levels;
 DROP TABLE IF EXISTS statuses;
 
 CREATE TABLE users (
-  username   VARCHAR(30) NOT NULL,
-  password   VARCHAR(60) NOT NULL,
-  email      VARCHAR(50) NOT NULL,
-  first_name VARCHAR(30) NOT NULL,
-  last_name  VARCHAR(30) NOT NULL,
-  role       VARCHAR(30) NOT NULL,
-  photo      MEDIUMBLOB           DEFAULT NULL,
-  points     INTEGER     NOT NULL DEFAULT 0,
+  username  VARCHAR(30) NOT NULL,
+  password  VARCHAR(60) NOT NULL,
+  email     VARCHAR(50) NOT NULL,
+  firstName VARCHAR(30) NOT NULL,
+  lastName  VARCHAR(30) NOT NULL,
+  role      VARCHAR(30) NOT NULL,
+  photo     MEDIUMBLOB           DEFAULT NULL,
+  points    INTEGER     NOT NULL DEFAULT 0,
   PRIMARY KEY (username)
 );
 
+CREATE TABLE applications (
+  username VARCHAR(30) NOT NULL,
+  email    VARCHAR(50) NOT NULL,
+  PRIMARY KEY (username),
+  FOREIGN KEY (username) REFERENCES users (username)
+);
+
 CREATE TABLE levels (
-  id_level INTEGER     NOT NULL,
-  name     VARCHAR(15) NOT NULL,
-  PRIMARY KEY (id_level)
+  idLevel INTEGER     NOT NULL,
+  name    VARCHAR(15) NOT NULL,
+  PRIMARY KEY (idLevel)
 );
 
 CREATE TABLE statuses (
-  id_status INTEGER     NOT NULL,
-  name      VARCHAR(15) NOT NULL,
-  PRIMARY KEY (id_status)
+  idStatus INTEGER     NOT NULL,
+  name     VARCHAR(15) NOT NULL,
+  PRIMARY KEY (idStatus)
 );
 
 CREATE TABLE trips (
-  id_trip     INTEGER      NOT NULL,
+  idTrip      INTEGER      NOT NULL,
   name        VARCHAR(30)  NOT NULL,
-  start_date  DATETIME     NOT NULL,
-  end_date    DATETIME     NOT NULL,
-  id_level    INTEGER      NOT NULL,
-  id_status   INTEGER      NOT NULL,
+  startDate   DATETIME     NOT NULL,
+  endDate     DATETIME     NOT NULL,
+  idLevel     INTEGER      NOT NULL,
+  idStatus    INTEGER      NOT NULL,
   description VARCHAR(255) NOT NULL,
   points      INTEGER      NOT NULL,
-  PRIMARY KEY (id_trip),
-  FOREIGN KEY (id_level) REFERENCES levels (id_level),
-  FOREIGN KEY (id_status) REFERENCES statuses (id_status)
+  PRIMARY KEY (idTrip),
+  FOREIGN KEY (idLevel) REFERENCES levels (idLevel),
+  FOREIGN KEY (idStatus) REFERENCES statuses (idStatus)
 );
 
 CREATE TABLE activities (
-  id_activity INTEGER     NOT NULL,
-  name        VARCHAR(15) NOT NULL,
-  PRIMARY KEY (id_activity)
+  idActivity INTEGER     NOT NULL,
+  name       VARCHAR(15) NOT NULL,
+  PRIMARY KEY (idActivity)
 );
 
 CREATE TABLE participants (
-  username    VARCHAR(30) NOT NULL,
-  id_trip     INTEGER     NOT NULL,
-  id_activity INTEGER,
-  PRIMARY KEY (username, id_trip),
+  username   VARCHAR(30) NOT NULL,
+  idTrip     INTEGER     NOT NULL,
+  idActivity INTEGER,
+  PRIMARY KEY (username, idTrip),
   FOREIGN KEY (username) REFERENCES users (username),
-  FOREIGN KEY (id_trip) REFERENCES trips (id_trip),
-  FOREIGN KEY (id_activity) REFERENCES activities (id_activity)
+  FOREIGN KEY (idTrip) REFERENCES trips (idTrip),
+  FOREIGN KEY (idActivity) REFERENCES activities (idActivity)
 );
 
 CREATE TABLE locations (
-  id_location INTEGER         NOT NULL,
+  idLocation  INTEGER         NOT NULL,
   description VARCHAR(60)     NOT NULL,
   latitude    NUMERIC(18, 14) NOT NULL,
   longitude   NUMERIC(18, 14) NOT NULL,
-  PRIMARY KEY (id_location)
+  PRIMARY KEY (idLocation)
 );
 
 CREATE TABLE episodes (
-  id_episode  INTEGER      NOT NULL,
-  id_trip     INTEGER      NOT NULL,
+  idEpisode   INTEGER      NOT NULL,
+  idTrip      INTEGER      NOT NULL,
   time        DATETIME     NOT NULL,
   description VARCHAR(255) NOT NULL,
-  id_location INTEGER      NOT NULL,
-  PRIMARY KEY (id_episode),
-  FOREIGN KEY (id_trip) REFERENCES trips (id_trip),
-  FOREIGN KEY (id_location) REFERENCES locations (id_location)
+  idLocation  INTEGER      NOT NULL,
+  PRIMARY KEY (idEpisode),
+  FOREIGN KEY (idTrip) REFERENCES trips (idTrip),
+  FOREIGN KEY (idLocation) REFERENCES locations (idLocation)
 );
 
 CREATE TABLE albums (
-  id_album INTEGER NOT NULL,
-  id_trip  INTEGER NOT NULL,
-  PRIMARY KEY (id_album),
-  FOREIGN KEY (id_trip) REFERENCES trips (id_trip)
+  idAlbum INTEGER NOT NULL,
+  idTrip  INTEGER NOT NULL,
+  PRIMARY KEY (idAlbum),
+  FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
 CREATE TABLE photos (
-  id_photo INTEGER     NOT NULL,
-  id_album INTEGER     NOT NULL,
-  url      VARCHAR(40) NOT NULL,
-  PRIMARY KEY (id_photo),
-  FOREIGN KEY (id_album) REFERENCES albums (id_album)
+  idPhoto INTEGER     NOT NULL,
+  idAlbum INTEGER     NOT NULL,
+  url     VARCHAR(40) NOT NULL,
+  PRIMARY KEY (idPhoto),
+  FOREIGN KEY (idAlbum) REFERENCES albums (idAlbum)
 );
 
-INSERT INTO activities (id_activity, name) VALUES
+INSERT INTO activities (idActivity, name) VALUES
   (1, 'invited'),
   (2, 'accepted'),
   (3, 'denied'),
   (4, 'confirmed');
 
-INSERT INTO statuses (id_status, name) VALUES
+INSERT INTO statuses (idStatus, name) VALUES
   (1, 'active'),
   (2, 'in progress'),
   (3, 'archived');
 
-INSERT INTO levels (id_level, name) VALUES
+INSERT INTO levels (idLevel, name) VALUES
   (1, 'easy'),
   (2, 'medium'),
   (3, 'hard');
 
-INSERT INTO users (username, password, email, first_name, last_name, role) VALUES
+INSERT INTO users (username, password, email, firstName, lastName, role) VALUES
   (
     'admin',
     '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',

@@ -1,5 +1,8 @@
 package biketrips.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,17 +13,30 @@ import java.io.Serializable;
 public class User implements Serializable {
 
   @Id
+  @Column(name = "username")
   private String username;
 
+  @Column(name = "password")
   private String password;
 
+  @Column(name = "firstName")
   private String firstName;
 
+  @Column(name = "lastName")
   private String lastName;
 
+  @Column(name = "email")
   private String email;
 
+  @Column(name = "role")
   private String role;
+
+  @Column(name = "photo")
+  private byte[] photo;
+
+  @Column(name = "points")
+  private int points;
+
 
   public String getUsername() {
     return username;
@@ -30,6 +46,7 @@ public class User implements Serializable {
     this.username = username;
   }
 
+  @JsonIgnore
   public String getPassword() {
     return password;
   }
@@ -68,5 +85,21 @@ public class User implements Serializable {
 
   public void setRole(String role) {
     this.role = role;
+  }
+
+  public byte[] getPhoto() {
+    return photo;
+  }
+
+  public void setPhoto(byte[] photo) {
+    this.photo = photo;
+  }
+
+  public int getPoints() {
+    return points;
+  }
+
+  public void setPoints(int points) {
+    this.points = points;
   }
 }
