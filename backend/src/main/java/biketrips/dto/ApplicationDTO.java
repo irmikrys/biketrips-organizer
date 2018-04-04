@@ -15,6 +15,8 @@ public class ApplicationDTO {
   @Email
   private String email;
 
+  private boolean isActive;
+
   public ApplicationDTO () {
 
   }
@@ -22,12 +24,14 @@ public class ApplicationDTO {
   public ApplicationDTO (Application application) {
     this.setUsername(application.getUsername());
     this.setEmail(application.getEmail());
+    this.setActive(application.isActive());
   }
 
-  public Application toApplication() {
+  public Application toApplication(boolean isActive) {
     Application application = new Application();
     application.setUsername(getUsername());
     application.setEmail(getEmail());
+    application.setActive(isActive);
     return application;
   }
 
@@ -45,5 +49,13 @@ public class ApplicationDTO {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public boolean isActive() {
+    return isActive;
+  }
+
+  public void setActive(boolean active) {
+    isActive = active;
   }
 }

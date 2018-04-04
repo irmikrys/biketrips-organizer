@@ -16,7 +16,10 @@ public class Application implements Serializable {
 
   @Column(name = "email")
   private String email;
-  
+
+  @Column(name = "isActive")
+  private boolean isActive;
+
   public String getUsername() {
     return username;
   }
@@ -31,5 +34,13 @@ public class Application implements Serializable {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public boolean isActive() {
+    return isActive;
+  }
+
+  public void setActive(boolean active) {
+    isActive = active;
   }
 }

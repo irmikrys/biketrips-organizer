@@ -29,6 +29,7 @@ CREATE TABLE users (
 CREATE TABLE applications (
   username VARCHAR(30) NOT NULL,
   email    VARCHAR(50) NOT NULL,
+  isActive BOOLEAN     NOT NULL,
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES users (username)
 );

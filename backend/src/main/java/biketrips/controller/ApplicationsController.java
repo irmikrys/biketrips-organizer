@@ -1,6 +1,7 @@
 package biketrips.controller;
 
 import biketrips.dto.ApplicationDTO;
+import biketrips.dto.session.UserSession;
 import biketrips.exceptions.ApplicationException;
 import biketrips.model.Application;
 import biketrips.model.User;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -29,8 +31,11 @@ public class ApplicationsController {
 
   @RequestMapping(method = POST, path = "/api/apply")
   public @ResponseBody
-  ResponseEntity<Application> createApplication(@Valid @RequestBody ApplicationDTO applicationDTO)
+  ResponseEntity<Application> createApplication(@Valid @RequestBody ApplicationDTO applicationDTO, HttpSession session)
     throws ApplicationException {
+
+    UserSession userSession = (UserSession) session.getAttribute("user");
+
     this.applicationsService.findByUsername(applicationDTO.getUsername()).ifPresent(
       application -> {
         throw new ApplicationException("application.error.usernameExists");
@@ -39,10 +44,20 @@ public class ApplicationsController {
       application -> {
         throw new ApplicationException("application.error.emailExists");
       });
-    User appliantName = this.userService.findByUsername(applicationDTO.getUsername()).orElseThrow(
+
+    User applicantByName = this.userService.findByUsername(applicationDTO.getUsername()).orElseThrow(
       () -> new ApplicationException("application.error.userNotFound"));
-    User appliantMail = this.userService.findByEmail(applicationDTO.getEmail()).orElseThrow(
+    User applicantByEmail = this.userService.findByEmail(applicationDTO.getEmail()).orElseThrow(
       () -> new ApplicationException("application.error.emailNotFound"));
+
+    if(!userSession.getUsername().equals(applicantByName.getUsername())) {
+      throw new ApplicationException("application.error.unauthorisedName");
+    }
+
+    if(!applicantByName.getUsername().equals(applicantByEmail.getUsername())) {
+      throw new ApplicationException("application.error.unauthorisedEmail");
+    }
+
     Application application = applicationsService.createApplication(applicationDTO);
     return ResponseEntity.ok(application);
   }
@@ -70,6 +85,18 @@ public class ApplicationsController {
     Application application = this.applicationsService.findByUsername(username).orElseThrow(
       () -> new ApplicationException("getApplication.error.applicationNotFound"));
     this.applicationsService.deleteApplication(application.getUsername());
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = PUT, path = "/api/applications/{username}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus> updateApplication(
+    @PathVariable("username") String username,
+    @Valid @RequestBody ApplicationDTO applicationDTO
+  ) {
+    Application application = this.applicationsService.findByUsername(username).orElseThrow(
+      () -> new ApplicationException("getApplication.error.applicationNotFound"));
+    this.applicationsService.updateApplication(application, applicationDTO);
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
