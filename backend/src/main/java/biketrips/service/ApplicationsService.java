@@ -33,5 +33,9 @@ public class ApplicationsService {
     return applicationsRepository.save(application);
   }
 
+  public void deleteApplication(String username) {
+    this.applicationsRepository.deleteByUsername(username);
+  }
+
 }
 

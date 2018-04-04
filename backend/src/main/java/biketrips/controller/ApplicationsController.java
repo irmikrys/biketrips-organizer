@@ -8,13 +8,13 @@ import biketrips.service.ApplicationsService;
 import biketrips.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 
 @RestController
@@ -62,6 +62,15 @@ public class ApplicationsController {
       () -> new ApplicationException("getApplication.error.userNotFound"));
     ApplicationDTO applicationDTO = new ApplicationDTO(application);
     return ResponseEntity.ok(applicationDTO);
+  }
+
+  @RequestMapping(method = DELETE, path = "/api/applications/{username}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus> deleteApplication(@PathVariable("username") String username) {
+    Application application = this.applicationsService.findByUsername(username).orElseThrow(
+      () -> new ApplicationException("getApplication.error.applicationNotFound"));
+    this.applicationsService.deleteApplication(application.getUsername());
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 
 }
