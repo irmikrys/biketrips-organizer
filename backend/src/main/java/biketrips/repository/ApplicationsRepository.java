@@ -11,4 +11,6 @@ public interface ApplicationsRepository extends JpaRepository<Application, Long>
 
   Optional<Application> findByUsername(String username);
 
+  Optional<Application> findByEmail(String email);
+
 }

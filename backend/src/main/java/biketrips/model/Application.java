@@ -1,5 +1,6 @@
 package biketrips.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -10,10 +11,12 @@ import java.io.Serializable;
 public class Application implements Serializable {
 
   @Id
+  @Column(name = "username")
   private String username;
 
+  @Column(name = "email")
   private String email;
-
+  
   public String getUsername() {
     return username;
   }

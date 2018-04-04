@@ -27,9 +27,14 @@ public class ApplicationsController {
   public @ResponseBody
   ResponseEntity<Application> createApplication(@Valid @RequestBody ApplicationDTO applicationDTO)
     throws ApplicationException {
-    if (applicationsService.findByUsername(applicationDTO.getUsername()) != null) {
-      throw new ApplicationException("application.error.usernameExists");
-    }
+    this.applicationsService.findByUsername(applicationDTO.getUsername()).ifPresent(
+      application -> {
+        throw new ApplicationException("application.error.usernameExists");
+      });
+    this.applicationsService.findByEmail(applicationDTO.getUsername()).ifPresent(
+      application -> {
+        throw new ApplicationException("application.error.emailExists");
+      });
     Application application = applicationsService.createApplication(applicationDTO);
     return ResponseEntity.ok(application);
   }

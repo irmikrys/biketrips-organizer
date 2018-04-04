@@ -20,6 +20,10 @@ public class ApplicationsService {
     return applicationsRepository.findByUsername(username);
   }
 
+  public Optional<Application> findByEmail(String email) {
+    return applicationsRepository.findByEmail(email);
+  }
+
   public Iterable<Application> findAll() {
     return applicationsRepository.findAll();
   }

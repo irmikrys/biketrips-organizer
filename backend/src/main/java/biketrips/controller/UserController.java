@@ -24,13 +24,16 @@ public class UserController {
 
   @RequestMapping(method = POST, path = "/api/register")
   public @ResponseBody
-  ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) throws RegisterException {
-    if (userService.findByUsername(userDTO.getUsername()) != null) {
-      throw new RegisterException("register.error.usernameExists");
-    }
-    if (userService.findByEmail(userDTO.getEmail()) != null) {
-      throw new RegisterException("register.error.emailExists");
-    }
+  ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO)
+    throws RegisterException {
+    this.userService.findByUsername(userDTO.getUsername()).ifPresent(
+      user -> {
+        throw new RegisterException("register.error.usernameExists");
+      });
+    this.userService.findByEmail((userDTO.getEmail())).ifPresent(
+      user -> {
+        throw new RegisterException("register.error.emailExists");
+      });
     User user = userService.createUser(userDTO);
     return ResponseEntity.ok(user);
   }

@@ -1,6 +1,6 @@
 package biketrips.exceptions;
 
-public class ApplicationException extends Exception {
+public class ApplicationException extends RuntimeException {
 
   public ApplicationException() {
     super();

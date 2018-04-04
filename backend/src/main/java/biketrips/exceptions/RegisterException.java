@@ -1,10 +1,6 @@
 package biketrips.exceptions;
 
-public class RegisterException extends Exception {
-
-  public RegisterException() {
-    super();
-  }
+public class RegisterException extends RuntimeException {
 
   public RegisterException(String message) {
     super(message);
