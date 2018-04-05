@@ -5,6 +5,7 @@ import { routerReducer as routing } from 'react-router-redux';
 import user from "./user";
 import apply from "./apply";
 import activeApplications from "./activeApplications";
+import acceptModerator from "./acceptModerator";
 
 export default combineReducers({
   authentication,
@@ -12,5 +13,6 @@ export default combineReducers({
   user,
   apply,
   activeApplications,
+  acceptModerator,
   routing
 });
