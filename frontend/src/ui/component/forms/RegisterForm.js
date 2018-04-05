@@ -6,7 +6,7 @@ import {
   EMAIL,
   USERNAME,
   PASSWORD,
-  getFormField
+  getFormField, ROLE
 } from "../../constants/constants";
 
 export default class RegisterForm extends Component {
@@ -16,7 +16,8 @@ export default class RegisterForm extends Component {
     [LAST_NAME]:  "",
     [EMAIL]:  "",
     [USERNAME]: "",
-    [PASSWORD]: ""
+    [PASSWORD]: "",
+    [ROLE]: "USER"
   };
 
   handleInputChange = event => {

@@ -26,6 +26,8 @@ public class UserDTO {
   @Email
   private String email;
 
+  private String role;
+
   public String getUsername() {
     return username;
   }
@@ -66,14 +68,23 @@ public class UserDTO {
     this.email = email;
   }
 
-  public User toUser(String password, String role) {
+  public String getRole() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
+
+  public User toUser(String password) {
     User user = new User();
     user.setUsername(getUsername());
     user.setFirstName(getFirstName());
     user.setLastName(getLastName());
     user.setEmail(getEmail());
     user.setPassword(password);
-    user.setRole(role);
+    user.setRole(getRole());
     return user;
   }
+
 }
