@@ -8,11 +8,10 @@ import {
   ADMIN_RIGHT_ITEMS,
   GUEST_RIGHT_ITEMS,
   MENU_FOR_ADMIN,
-  MENU_FOR_GUEST,
-  MENU_FOR_USER,
+  MENU_FOR_GUEST, MENU_FOR_MODERATOR,
+  MENU_FOR_USER, MODERATOR_RIGHT_ITEMS,
   USER_RIGHT_ITEMS
 } from "../constants/constants";
-import {fetchUserByUsername} from "../../reducers/user";
 
 const TopMenu = (props) => {
   const mainItems = props.mainItems.map((item, key) => (
@@ -63,12 +62,12 @@ export class App extends Component {
   getUser = () => {
     const {username} = this.props;
     axios.get(`/api/users/${username}`)
-      .then( (response) => {
+      .then((response) => {
         this.setState({
           user: response.data
         });
       })
-      .catch( (error) => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -78,9 +77,9 @@ export class App extends Component {
   }
 
   render() {
-    const {isAuthenticated, username} = this.props;
+    const {isAuthenticated} = this.props;
 
-    if(isAuthenticated) {
+    if (isAuthenticated) {
       this.getUser();
       const {role} = this.state.user.user;
       this.state.role = role;
@@ -88,10 +87,14 @@ export class App extends Component {
 
     const {role} = this.state;
     const menuItems = isAuthenticated ? (
-      role === 'ADMIN' ? MENU_FOR_ADMIN : MENU_FOR_USER
+      role === 'ADMIN' ? MENU_FOR_ADMIN :
+        (role === 'USER' ? MENU_FOR_USER :
+          MENU_FOR_MODERATOR)
     ) : MENU_FOR_GUEST;
     const sideItems = isAuthenticated ? (
-      username === 'admin' ? ADMIN_RIGHT_ITEMS : USER_RIGHT_ITEMS
+      role === 'ADMIN' ? ADMIN_RIGHT_ITEMS :
+        (role === 'USER' ? USER_RIGHT_ITEMS :
+          MODERATOR_RIGHT_ITEMS)
     ) : GUEST_RIGHT_ITEMS;
     return (
       <div id="application">

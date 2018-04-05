@@ -4,6 +4,10 @@ export const MENU_FOR_USER = [
   {label: 'Apply', link: '/apply', icon: ''}
 ];
 
+export const MENU_FOR_MODERATOR = [
+  {label: 'Moderator', link: '#', icon: ''}
+];
+
 export const MENU_FOR_GUEST = [
 ];
 
@@ -12,6 +16,11 @@ export const MENU_FOR_ADMIN = [
 ];
 
 export const USER_RIGHT_ITEMS = [
+  {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
+  {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
+];
+
+export const MODERATOR_RIGHT_ITEMS = [
   {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
   {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
 ];
