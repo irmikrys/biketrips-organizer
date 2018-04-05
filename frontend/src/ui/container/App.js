@@ -1,12 +1,18 @@
-import React, { Component } from "react";
-import { Link } from "react-router";
-import { connect } from "react-redux";
-import { getSession } from "../../reducers/authentication";
+import React, {Component} from "react";
+import {Link} from "react-router";
+import {connect} from "react-redux";
+import {getSession} from "../../reducers/authentication";
 import "stylus/main.styl";
+import axios from 'axios';
 import {
-  MENU_FOR_GUEST, MENU_FOR_USER, MENU_FOR_ADMIN, USER_RIGHT_ITEMS,
-  GUEST_RIGHT_ITEMS, ADMIN_RIGHT_ITEMS
+  ADMIN_RIGHT_ITEMS,
+  GUEST_RIGHT_ITEMS,
+  MENU_FOR_ADMIN,
+  MENU_FOR_GUEST,
+  MENU_FOR_USER,
+  USER_RIGHT_ITEMS
 } from "../constants/constants";
+import {fetchUserByUsername} from "../../reducers/user";
 
 const TopMenu = (props) => {
   const mainItems = props.mainItems.map((item, key) => (
@@ -46,15 +52,44 @@ const TopMenu = (props) => {
 
 export class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+      role: undefined
+    }
+  }
+
+  getUser = () => {
+    const {username} = this.props;
+    axios.get(`/api/users/${username}`)
+      .then( (response) => {
+        this.setState({
+          user: response.data
+        });
+      })
+      .catch( (error) => {
+        console.log(error);
+      });
+  };
+
   componentDidMount() {
     this.props.getSession();
   }
 
   render() {
     const {isAuthenticated, username} = this.props;
+
+    if(isAuthenticated) {
+      this.getUser();
+      const {role} = this.state.user.user;
+      this.state.role = role;
+    }
+
+    const {role} = this.state;
     const menuItems = isAuthenticated ? (
-      username === 'admin' ? MENU_FOR_ADMIN : MENU_FOR_USER
-      ) : MENU_FOR_GUEST;
+      role === 'ADMIN' ? MENU_FOR_ADMIN : MENU_FOR_USER
+    ) : MENU_FOR_GUEST;
     const sideItems = isAuthenticated ? (
       username === 'admin' ? ADMIN_RIGHT_ITEMS : USER_RIGHT_ITEMS
     ) : GUEST_RIGHT_ITEMS;
