@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {fetchActiveApplications} from "../../reducers/activeApplications";
-import {Applications} from "../component/Applications";
+import {ApplicationRow} from "../component/ApplicationRow";
 
 export class ApplicationsPage extends Component {
 
@@ -12,16 +12,35 @@ export class ApplicationsPage extends Component {
 
   render() {
     return (
-      <div className="main">
+      <div className="content">
         <h2>Hello {this.props.username}, you have applications to consider!</h2>
         {
           this.props.updating
             ?
             <div className="loader"/>
             :
-            <Applications applications={this.props.applications}
-                          fetchApplications={this.props.fetchActiveApplications}
-            />
+            <section>
+              <table className="table">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>From</th>
+                  <th>Email</th>
+                  <th/>
+                </tr>
+                </thead>
+                <tbody>
+                {Object.values(this.props.applications)
+                  .filter(row => {
+                    return row.active === true
+                  })
+                  .map(row => {
+                    return <ApplicationRow key={row.username} data={row}/>
+                  })}
+                </tbody>
+              </table>
+            </section>
         }
       </div>
     )

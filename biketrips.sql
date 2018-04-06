@@ -27,9 +27,10 @@ CREATE TABLE users (
 );
 
 CREATE TABLE applications (
-  username VARCHAR(30) NOT NULL,
-  email    VARCHAR(50) NOT NULL,
-  isActive BOOLEAN     NOT NULL,
+  username     VARCHAR(30) NOT NULL,
+  email        VARCHAR(50) NOT NULL,
+  isActive     BOOLEAN     NOT NULL,
+  createDate DATETIME    NOT NULL,
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES users (username)
 );
@@ -134,4 +135,28 @@ INSERT INTO users (username, password, email, firstName, lastName, role) VALUES
     'admin',
     'admin',
     'ADMIN'
+  ),
+  (
+    'kacpkasp',
+    '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',
+    'kacp@kasp',
+    'Kacper',
+    'Kasprzyk',
+    'USER'
+  ),
+  (
+    'irmikrys',
+    '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',
+    'irmi@krys',
+    'Irmina',
+    'Krysiak',
+    'USER'
+  );
+
+INSERT INTO applications (username, email, isActive, createDate) VALUES
+  (
+    'irmikrys',
+    'irmi@krys',
+    true,
+    NOW()
   );

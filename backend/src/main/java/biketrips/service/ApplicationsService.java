@@ -53,6 +53,7 @@ public class ApplicationsService {
       applicationDTO.setUsername(rs.getString("username"));
       applicationDTO.setEmail(rs.getString("email"));
       applicationDTO.setActive(rs.getBoolean("isActive"));
+      applicationDTO.setCreateDate(rs.getDate("createDate"));
       return applicationDTO;
     });
   }

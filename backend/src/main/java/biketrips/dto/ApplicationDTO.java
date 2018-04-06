@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 public class ApplicationDTO {
 
@@ -16,6 +17,8 @@ public class ApplicationDTO {
   private String email;
 
   private boolean isActive;
+
+  private Date createDate;
 
   public ApplicationDTO () {
 
@@ -57,5 +60,13 @@ public class ApplicationDTO {
 
   public void setActive(boolean active) {
     isActive = active;
+  }
+
+  public Date getCreateDate() {
+    return createDate;
+  }
+
+  public void setCreateDate(Date createDate) {
+    this.createDate = createDate;
   }
 }
