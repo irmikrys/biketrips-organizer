@@ -14,12 +14,12 @@ import ApplyPage from "../ui/container/ApplyPage";
 export default (onLogout) => (
   <Route path="/" name="app" component={App}>
     <IndexRoute component={WelcomePage}/>
-    <Route path="profile" component={privateRoute(UserProfilePage)}/>
     <Route path="register" component={RegisterPage}/>
     <Route path="login" component={UserLoginPage}/>
     <Route path="admin_login" component={AdminLoginPage}/>
-    <Route path="applications" component={ApplicationsPage}/>
-    <Route path="apply" component={ApplyPage}/>
+    <Route path="applications" component={privateRoute(ApplicationsPage)}/>
+    <Route path="apply" component={privateRoute(ApplyPage)}/>
+    <Route path="profile" component={privateRoute(UserProfilePage)}/>
     <Route path="logout" onEnter={onLogout}/>
   </Route>
 );
