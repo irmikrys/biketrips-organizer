@@ -10,6 +10,7 @@ import UserLoginPage from '../ui/container/UserLoginPage';
 import WelcomePage from "../ui/container/WelcomePage";
 import ApplicationsPage from "../ui/container/ApplicationsPage";
 import ApplyPage from "../ui/container/ApplyPage";
+import ModeratorPage from "../ui/container/ModeratorPage";
 
 export default (onLogout) => (
   <Route path="/" name="app" component={App}>
@@ -19,7 +20,8 @@ export default (onLogout) => (
     <Route path="admin_login" component={AdminLoginPage}/>
     <Route path="applications" component={privateRoute(ApplicationsPage)}/>
     <Route path="apply" component={privateRoute(ApplyPage)}/>
-    <Route path="profile" component={privateRoute(UserProfilePage)}/>
+    <Route path="profile" component={UserProfilePage}/>
+    <Route path="moderate" component={ModeratorPage}/>
     <Route path="logout" onEnter={onLogout}/>
   </Route>
 );

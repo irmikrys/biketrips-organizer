@@ -5,7 +5,7 @@ export const MENU_FOR_USER = [
 ];
 
 export const MENU_FOR_MODERATOR = [
-  {label: 'Moderator', link: '#', icon: ''}
+  {label: 'Moderator', link: '/moderate', icon: ''}
 ];
 
 export const MENU_FOR_GUEST = [
