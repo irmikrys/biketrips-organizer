@@ -41,8 +41,8 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public void updateUser(User oldUser, UserDTO newUser) {
+  public void updateUserRole(User oldUser, String role) {
     final String sql = "UPDATE users u SET u.role = ? WHERE u.username = ?";
-    this.jdbcTemplate.update(sql, newUser.getRole(), oldUser.getUsername());
+    this.jdbcTemplate.update(sql, role, oldUser.getUsername());
   }
 }

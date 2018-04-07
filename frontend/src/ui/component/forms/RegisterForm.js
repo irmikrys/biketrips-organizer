@@ -1,20 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {ErrorPanel} from "./ErrorPanel";
-import {
-  FIRST_NAME,
-  LAST_NAME,
-  EMAIL,
-  USERNAME,
-  PASSWORD,
-  getFormField, ROLE
-} from "../../constants/constants";
+import {EMAIL, FIRST_NAME, getFormField, LAST_NAME, PASSWORD, ROLE, USERNAME} from "../../constants/constants";
 
 export default class RegisterForm extends Component {
 
   state = {
     [FIRST_NAME]: "",
-    [LAST_NAME]:  "",
-    [EMAIL]:  "",
+    [LAST_NAME]: "",
+    [EMAIL]: "",
     [USERNAME]: "",
     [PASSWORD]: "",
     [ROLE]: "USER"
@@ -56,7 +49,7 @@ export default class RegisterForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { register } = this.props;
+    const {register} = this.props;
     register(this.state);
   }
 }

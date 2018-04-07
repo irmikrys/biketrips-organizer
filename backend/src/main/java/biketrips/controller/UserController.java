@@ -59,13 +59,13 @@ public class UserController {
 
   @RequestMapping(method = PUT, path = "/api/users/{username}")
   public @ResponseBody
-  ResponseEntity<HttpStatus> updateUser(
+  ResponseEntity<HttpStatus> updateUserRole(
     @PathVariable("username") String username,
-    @Valid @RequestBody UserDTO userDTO
+    @Valid @RequestBody String role
   ) {
     User user = this.userService.findByUsername(username).orElseThrow(
       () -> new UserException("getUser.error.userNotFound"));
-    this.userService.updateUser(user, userDTO);
+    this.userService.updateUserRole(user, role);
     return ResponseEntity.ok(HttpStatus.OK);
   }
 }

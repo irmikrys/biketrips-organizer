@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {fetchActiveApplications} from "../../reducers/activeApplications";
 import {ApplicationRow} from "../component/ApplicationRow";
+import {acceptModerator} from "../../reducers/acceptModerator";
 
 export class ApplicationsPage extends Component {
 
@@ -36,7 +37,10 @@ export class ApplicationsPage extends Component {
                     return row.active === true
                   })
                   .map(row => {
-                    return <ApplicationRow key={row.username} data={row}/>
+                    return <ApplicationRow key={row.username}
+                                           data={row}
+                                           acceptModer={this.props.acceptModerator.bind(row, row.username)}
+                    />
                   })}
                 </tbody>
               </table>
@@ -54,5 +58,5 @@ export default connect(
     applications: state.activeApplications.applications,
     updating: state.activeApplications.updating
   }),
-  {fetchActiveApplications}
+  {fetchActiveApplications, acceptModerator}
 )(ApplicationsPage);
