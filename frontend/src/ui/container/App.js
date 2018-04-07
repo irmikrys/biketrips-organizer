@@ -25,6 +25,10 @@ export class App extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.getSession();
+  }
+
   getUser = () => {
     const {username} = this.props;
     axios.get(`/api/users/${username}`)
@@ -38,32 +42,51 @@ export class App extends Component {
       });
   };
 
-  componentDidMount() {
-    this.props.getSession();
-  }
+  getMainMenu = () => {
+    const {role} = this.state;
+    const {isAuthenticated} = this.props;
+    if (isAuthenticated) {
+      switch (role) {
+        case 'ADMIN' :
+          return MENU_FOR_ADMIN;
+        case 'USER' :
+          return MENU_FOR_USER;
+        case 'MODER' :
+          return MENU_FOR_MODERATOR;
+      }
+    }
+    return MENU_FOR_GUEST;
+  };
+
+  getSideMenu = () => {
+    const {role} = this.state;
+    const {isAuthenticated} = this.props;
+    if (isAuthenticated) {
+      switch (role) {
+        case 'ADMIN' :
+          return ADMIN_RIGHT_ITEMS;
+        case 'USER' :
+          return USER_RIGHT_ITEMS;
+        case 'MODER' :
+          return MODERATOR_RIGHT_ITEMS;
+      }
+    }
+    return GUEST_RIGHT_ITEMS;
+  };
 
   render() {
     const {isAuthenticated} = this.props;
 
     if (isAuthenticated) {
       this.getUser();
-      const {role} = this.state.user.user;
-      this.state.role = role;
+      if (this.state.user != null) {
+        const {role} = this.state.user.user;
+        this.state.role = role;
+      }
     }
-    const {role} = this.state;
 
-    const menuItems = isAuthenticated ? (
-      role === 'ADMIN' ? MENU_FOR_ADMIN :
-        (role === 'USER' ? MENU_FOR_USER :
-          MENU_FOR_MODERATOR)
-    ) : MENU_FOR_GUEST;
-
-    const sideItems = isAuthenticated ? (
-      role === 'ADMIN' ? ADMIN_RIGHT_ITEMS :
-        (role === 'USER' ? USER_RIGHT_ITEMS :
-          MODERATOR_RIGHT_ITEMS)
-    ) : GUEST_RIGHT_ITEMS;
-
+    const menuItems = this.getMainMenu();
+    const sideItems = this.getSideMenu();
     return (
       <div id="application">
         <Navbar mainItems={menuItems} rightItems={sideItems}/>

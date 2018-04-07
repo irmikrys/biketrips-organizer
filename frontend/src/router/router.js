@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, IndexRoute } from 'react-router';
+import {IndexRoute, Redirect, Route} from 'react-router';
 
 import privateRoute from './privateRoute';
 import App from '../ui/container/App';
