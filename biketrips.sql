@@ -27,28 +27,28 @@ CREATE TABLE users (
 );
 
 CREATE TABLE applications (
-  username     VARCHAR(30) NOT NULL,
-  email        VARCHAR(50) NOT NULL,
-  isActive     BOOLEAN     NOT NULL,
+  username   VARCHAR(30) NOT NULL,
+  email      VARCHAR(50) NOT NULL,
+  isActive   BOOLEAN     NOT NULL,
   createDate DATETIME    NOT NULL,
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES users (username)
 );
 
 CREATE TABLE levels (
-  idLevel INTEGER     NOT NULL,
+  idLevel INTEGER     NOT NULL AUTO_INCREMENT,
   name    VARCHAR(15) NOT NULL,
   PRIMARY KEY (idLevel)
 );
 
 CREATE TABLE statuses (
-  idStatus INTEGER     NOT NULL,
+  idStatus INTEGER     NOT NULL AUTO_INCREMENT,
   name     VARCHAR(15) NOT NULL,
   PRIMARY KEY (idStatus)
 );
 
 CREATE TABLE trips (
-  idTrip      INTEGER      NOT NULL,
+  idTrip      INTEGER      NOT NULL AUTO_INCREMENT,
   name        VARCHAR(30)  NOT NULL,
   startDate   DATETIME     NOT NULL,
   endDate     DATETIME     NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE trips (
 );
 
 CREATE TABLE activities (
-  idActivity INTEGER     NOT NULL,
+  idActivity INTEGER     NOT NULL AUTO_INCREMENT,
   name       VARCHAR(15) NOT NULL,
   PRIMARY KEY (idActivity)
 );
@@ -78,7 +78,7 @@ CREATE TABLE participants (
 );
 
 CREATE TABLE locations (
-  idLocation  INTEGER         NOT NULL,
+  idLocation  INTEGER         NOT NULL AUTO_INCREMENT,
   description VARCHAR(60)     NOT NULL,
   latitude    NUMERIC(18, 14) NOT NULL,
   longitude   NUMERIC(18, 14) NOT NULL,
@@ -86,7 +86,7 @@ CREATE TABLE locations (
 );
 
 CREATE TABLE episodes (
-  idEpisode   INTEGER      NOT NULL,
+  idEpisode   INTEGER      NOT NULL AUTO_INCREMENT,
   idTrip      INTEGER      NOT NULL,
   time        DATETIME     NOT NULL,
   description VARCHAR(255) NOT NULL,
@@ -97,14 +97,14 @@ CREATE TABLE episodes (
 );
 
 CREATE TABLE albums (
-  idAlbum INTEGER NOT NULL,
+  idAlbum INTEGER NOT NULL AUTO_INCREMENT,
   idTrip  INTEGER NOT NULL,
   PRIMARY KEY (idAlbum),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
 CREATE TABLE photos (
-  idPhoto INTEGER     NOT NULL,
+  idPhoto INTEGER     NOT NULL AUTO_INCREMENT,
   idAlbum INTEGER     NOT NULL,
   url     VARCHAR(40) NOT NULL,
   PRIMARY KEY (idPhoto),
@@ -157,6 +157,6 @@ INSERT INTO applications (username, email, isActive, createDate) VALUES
   (
     'irmikrys',
     'irmi@krys',
-    true,
+    TRUE,
     NOW()
   );
