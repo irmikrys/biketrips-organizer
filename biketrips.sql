@@ -48,7 +48,7 @@ CREATE TABLE statuses (
 );
 
 CREATE TABLE trips (
-  idTrip      INTEGER      NOT NULL AUTO_INCREMENT,
+  idTrip      BIGINT       NOT NULL AUTO_INCREMENT,
   name        VARCHAR(30)  NOT NULL,
   startDate   DATETIME     NOT NULL,
   endDate     DATETIME     NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE activities (
 
 CREATE TABLE participants (
   username   VARCHAR(30) NOT NULL,
-  idTrip     INTEGER     NOT NULL,
+  idTrip     BIGINT      NOT NULL,
   idActivity INTEGER,
   PRIMARY KEY (username, idTrip),
   FOREIGN KEY (username) REFERENCES users (username),
@@ -78,7 +78,7 @@ CREATE TABLE participants (
 );
 
 CREATE TABLE locations (
-  idLocation  INTEGER         NOT NULL AUTO_INCREMENT,
+  idLocation  BIGINT          NOT NULL AUTO_INCREMENT,
   description VARCHAR(60)     NOT NULL,
   latitude    NUMERIC(18, 14) NOT NULL,
   longitude   NUMERIC(18, 14) NOT NULL,
@@ -86,26 +86,26 @@ CREATE TABLE locations (
 );
 
 CREATE TABLE episodes (
-  idEpisode   INTEGER      NOT NULL AUTO_INCREMENT,
-  idTrip      INTEGER      NOT NULL,
+  idEpisode   BIGINT       NOT NULL AUTO_INCREMENT,
+  idTrip      BIGINT       NOT NULL,
   time        DATETIME     NOT NULL,
   description VARCHAR(255) NOT NULL,
-  idLocation  INTEGER      NOT NULL,
+  idLocation  BIGINT       NOT NULL,
   PRIMARY KEY (idEpisode),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip),
   FOREIGN KEY (idLocation) REFERENCES locations (idLocation)
 );
 
 CREATE TABLE albums (
-  idAlbum INTEGER NOT NULL AUTO_INCREMENT,
-  idTrip  INTEGER NOT NULL,
+  idAlbum BIGINT NOT NULL AUTO_INCREMENT,
+  idTrip  BIGINT NOT NULL,
   PRIMARY KEY (idAlbum),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
 CREATE TABLE photos (
-  idPhoto INTEGER     NOT NULL AUTO_INCREMENT,
-  idAlbum INTEGER     NOT NULL,
+  idPhoto BIGINT      NOT NULL AUTO_INCREMENT,
+  idAlbum BIGINT      NOT NULL,
   url     VARCHAR(40) NOT NULL,
   PRIMARY KEY (idPhoto),
   FOREIGN KEY (idAlbum) REFERENCES albums (idAlbum)

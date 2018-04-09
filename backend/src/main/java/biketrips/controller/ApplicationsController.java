@@ -5,7 +5,7 @@ import biketrips.dto.session.UserSession;
 import biketrips.exceptions.ApplicationException;
 import biketrips.model.Application;
 import biketrips.model.User;
-import biketrips.service.ApplicationsService;
+import biketrips.service.ApplicationService;
 import biketrips.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,7 +23,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 public class ApplicationsController {
 
   @Autowired
-  private ApplicationsService applicationsService;
+  private ApplicationService applicationService;
 
   @Autowired
   @Qualifier("userService")
@@ -36,11 +36,11 @@ public class ApplicationsController {
 
     UserSession userSession = (UserSession) session.getAttribute("user");
 
-    this.applicationsService.findByUsername(applicationDTO.getUsername()).ifPresent(
+    this.applicationService.findByUsername(applicationDTO.getUsername()).ifPresent(
       application -> {
         throw new ApplicationException("application.error.usernameExists");
       });
-    this.applicationsService.findByEmail(applicationDTO.getEmail()).ifPresent(
+    this.applicationService.findByEmail(applicationDTO.getEmail()).ifPresent(
       application -> {
         throw new ApplicationException("application.error.emailExists");
       });
@@ -58,20 +58,20 @@ public class ApplicationsController {
       throw new ApplicationException("application.error.unauthorisedEmail");
     }
 
-    Application application = applicationsService.createApplication(applicationDTO);
+    Application application = applicationService.createApplication(applicationDTO);
     return ResponseEntity.ok(application);
   }
 
   @RequestMapping(method = GET, path = "/api/applications")
   public @ResponseBody
   Iterable<Application> getAllApplications() {
-    return applicationsService.findAll();
+    return applicationService.findAll();
   }
 
   @RequestMapping(method = GET, path = "/api/applications/{username}")
   public @ResponseBody
   ResponseEntity<ApplicationDTO> getApplication(@PathVariable("username") String username) {
-    Application application = this.applicationsService.findByUsername(username).orElseThrow(
+    Application application = this.applicationService.findByUsername(username).orElseThrow(
       () -> new ApplicationException("getApplication.error.applicationNotFound"));
     User appliant = this.userService.findByUsername(username).orElseThrow(
       () -> new ApplicationException("getApplication.error.userNotFound"));
@@ -82,9 +82,9 @@ public class ApplicationsController {
   @RequestMapping(method = DELETE, path = "/api/applications/{username}")
   public @ResponseBody
   ResponseEntity<HttpStatus> deleteApplication(@PathVariable("username") String username) {
-    Application application = this.applicationsService.findByUsername(username).orElseThrow(
+    Application application = this.applicationService.findByUsername(username).orElseThrow(
       () -> new ApplicationException("getApplication.error.applicationNotFound"));
-    this.applicationsService.deleteApplication(application.getUsername());
+    this.applicationService.deleteApplication(application.getUsername());
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
@@ -94,16 +94,16 @@ public class ApplicationsController {
     @PathVariable("username") String username,
     @Valid @RequestBody ApplicationDTO applicationDTO
   ) {
-    Application application = this.applicationsService.findByUsername(username).orElseThrow(
+    Application application = this.applicationService.findByUsername(username).orElseThrow(
       () -> new ApplicationException("getApplication.error.applicationNotFound"));
-    this.applicationsService.updateApplication(application, applicationDTO);
+    this.applicationService.updateApplication(application, applicationDTO);
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
   @RequestMapping(method = GET, path = "/api/activeApplications")
   public @ResponseBody
   Iterable<ApplicationDTO> getAllActiveApplications() {
-    return applicationsService.findAllActive();
+    return applicationService.findAllActive();
   }
 
 }

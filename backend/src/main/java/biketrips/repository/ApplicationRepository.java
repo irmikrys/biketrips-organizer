@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository("applicationsRepository")
-public interface ApplicationsRepository extends JpaRepository<Application, Long> {
+public interface ApplicationRepository extends JpaRepository<Application, Long> {
 
   Optional<Application> findByUsername(String username);
 
