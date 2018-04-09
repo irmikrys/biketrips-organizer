@@ -40,6 +40,7 @@ export const FIRST_NAME = "firstName";
 export const LAST_NAME = "lastName";
 export const EMAIL = "email";
 export const ROLE = "role";
+export const ACTIVE = "active";
 
 export const getFormField = fieldKey => FORM_FIELDS.get(fieldKey);
 

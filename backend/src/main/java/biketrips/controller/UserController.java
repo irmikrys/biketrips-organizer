@@ -61,11 +61,11 @@ public class UserController {
   public @ResponseBody
   ResponseEntity<HttpStatus> updateUserRole(
     @PathVariable("username") String username,
-    @Valid @RequestBody String role
+    @Valid @RequestBody UserDTO userDTO
   ) {
     User user = this.userService.findByUsername(username).orElseThrow(
       () -> new UserException("getUser.error.userNotFound"));
-    this.userService.updateUserRole(user, role);
+    this.userService.updateUserRole(user, userDTO);
     return ResponseEntity.ok(HttpStatus.OK);
   }
 }
