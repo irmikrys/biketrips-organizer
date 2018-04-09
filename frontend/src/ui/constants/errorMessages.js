@@ -8,6 +8,8 @@ const APPLICATION_ERROR_USERNAME_EXISTS = "application.error.usernameExists";
 const APPLICATION_ERROR_EMAIL_EXISTS = "application.error.emailExists";
 const APPLICATION_USER_NOT_FOUND = "application.error.userNotFound";
 const APPLICATION_EMAIL_NOT_FOUND = "application.error.emailNotFound";
+const APPLICATION_UNAUTHORISED_NAME = "application.error.unauthorisedName";
+const APPLICATION_UNAUTHORISED_EMAIL = "application.error.unauthorisedEmail";
 
 const ERRORS_MAP = new Map([
   [LOGIN_ERROR_BAD_LOGIN, "Bad login or password!"],
@@ -20,6 +22,8 @@ const ERRORS_MAP = new Map([
   [APPLICATION_ERROR_EMAIL_EXISTS, "This email has already sent an application!"],
   [APPLICATION_USER_NOT_FOUND, "User doesn't exist!"],
   [APPLICATION_EMAIL_NOT_FOUND, "Wrong email!"],
+  [APPLICATION_UNAUTHORISED_NAME, "Bad credentials!"],
+  [APPLICATION_UNAUTHORISED_EMAIL, "Bad credentials!"],
 ]);
 
 export const getTranslatedErrorMessage = messageKey => ERRORS_MAP.get(messageKey);

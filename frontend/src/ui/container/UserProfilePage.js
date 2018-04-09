@@ -5,7 +5,7 @@ export class UserProfilePage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="main">
         <h2>Hello {this.props.username}!</h2>
       </div>
     )
@@ -13,5 +13,8 @@ export class UserProfilePage extends Component {
 }
 
 export default connect(
-  ({authentication}) => ({username: authentication.username})
+  state => ({
+    isAuthenticated: state.authentication.isAuthenticated,
+    username: state.authentication.username
+  })
 )(UserProfilePage);

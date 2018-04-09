@@ -1,6 +1,6 @@
 package biketrips
 
-import org.springframework.boot.test.SpringApplicationContextLoader
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.session.MapSessionRepository
 import org.springframework.session.web.http.HeaderHttpSessionStrategy
 import org.springframework.session.web.http.SessionRepositoryFilter
@@ -14,10 +14,8 @@ import spockmvc.SpockMvcSpec
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 
-@ContextConfiguration(
-  loader = SpringApplicationContextLoader,
-  classes = [BikeTripsManagerApplication]
-)
+@SpringBootTest
+@ContextConfiguration(classes = [BikeTripsManagerApplication])
 @ActiveProfiles("test")
 abstract class AbstractMvcSpec extends SpockMvcSpec {
 
@@ -25,12 +23,12 @@ abstract class AbstractMvcSpec extends SpockMvcSpec {
   private def sessionRepository = new MapSessionRepository()
 
   @Override
-  MockMvc buildMockMvc(WebApplicationContext wac) {
+  MockMvc buildMockMvc(WebApplicationContext webApplicationContext) {
     def sessionFilter = new SessionRepositoryFilter(sessionRepository)
     sessionFilter.httpSessionStrategy = new HeaderHttpSessionStrategy()
 
     MockMvcBuilders
-      .webAppContextSetup(wac)
+      .webAppContextSetup(webApplicationContext)
       .apply(springSecurity())
       .addFilter(sessionFilter)
       .build()

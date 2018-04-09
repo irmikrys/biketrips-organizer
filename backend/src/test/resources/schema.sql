@@ -1,19 +1,8 @@
-CREATE DATABASE IF NOT EXISTS bikeTrips;
+DROP SCHEMA IF EXISTS bikeTripsTest;
+CREATE SCHEMA bikeTripsTest;
+USE bikeTripsTest;
 
-USE bikeTrips;
-
-DROP TABLE IF EXISTS participants;
-DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS episodes;
-DROP TABLE IF EXISTS photos;
-DROP TABLE IF EXISTS albums;
-DROP TABLE IF EXISTS trips;
-DROP TABLE IF EXISTS locations;
-DROP TABLE IF EXISTS activities;
-DROP TABLE IF EXISTS levels;
-DROP TABLE IF EXISTS statuses;
-
 CREATE TABLE users (
   username  VARCHAR(30) NOT NULL,
   password  VARCHAR(60) NOT NULL,
@@ -26,27 +15,30 @@ CREATE TABLE users (
   PRIMARY KEY (username)
 );
 
+DROP TABLE IF EXISTS applications;
 CREATE TABLE applications (
-  username     VARCHAR(30) NOT NULL,
-  email        VARCHAR(50) NOT NULL,
-  isActive     BOOLEAN     NOT NULL,
-  createDate DATETIME    NOT NULL,
+  username VARCHAR(30) NOT NULL,
+  email    VARCHAR(50) NOT NULL,
+  isActive BOOLEAN     NOT NULL,
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES users (username)
 );
 
+DROP TABLE IF EXISTS levels;
 CREATE TABLE levels (
   idLevel INTEGER     NOT NULL,
   name    VARCHAR(15) NOT NULL,
   PRIMARY KEY (idLevel)
 );
 
+DROP TABLE IF EXISTS statuses;
 CREATE TABLE statuses (
   idStatus INTEGER     NOT NULL,
   name     VARCHAR(15) NOT NULL,
   PRIMARY KEY (idStatus)
 );
 
+DROP TABLE IF EXISTS trips;
 CREATE TABLE trips (
   idTrip      INTEGER      NOT NULL,
   name        VARCHAR(30)  NOT NULL,
@@ -61,12 +53,14 @@ CREATE TABLE trips (
   FOREIGN KEY (idStatus) REFERENCES statuses (idStatus)
 );
 
+DROP TABLE IF EXISTS activities;
 CREATE TABLE activities (
   idActivity INTEGER     NOT NULL,
   name       VARCHAR(15) NOT NULL,
   PRIMARY KEY (idActivity)
 );
 
+DROP TABLE IF EXISTS participants;
 CREATE TABLE participants (
   username   VARCHAR(30) NOT NULL,
   idTrip     INTEGER     NOT NULL,
@@ -77,6 +71,7 @@ CREATE TABLE participants (
   FOREIGN KEY (idActivity) REFERENCES activities (idActivity)
 );
 
+DROP TABLE IF EXISTS locations;
 CREATE TABLE locations (
   idLocation  INTEGER         NOT NULL,
   description VARCHAR(60)     NOT NULL,
@@ -85,6 +80,7 @@ CREATE TABLE locations (
   PRIMARY KEY (idLocation)
 );
 
+DROP TABLE IF EXISTS episodes;
 CREATE TABLE episodes (
   idEpisode   INTEGER      NOT NULL,
   idTrip      INTEGER      NOT NULL,
@@ -96,6 +92,7 @@ CREATE TABLE episodes (
   FOREIGN KEY (idLocation) REFERENCES locations (idLocation)
 );
 
+DROP TABLE IF EXISTS albums;
 CREATE TABLE albums (
   idAlbum INTEGER NOT NULL,
   idTrip  INTEGER NOT NULL,
@@ -103,6 +100,7 @@ CREATE TABLE albums (
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
+DROP TABLE IF EXISTS photos;
 CREATE TABLE photos (
   idPhoto INTEGER     NOT NULL,
   idAlbum INTEGER     NOT NULL,
@@ -110,53 +108,3 @@ CREATE TABLE photos (
   PRIMARY KEY (idPhoto),
   FOREIGN KEY (idAlbum) REFERENCES albums (idAlbum)
 );
-
-INSERT INTO activities (idActivity, name) VALUES
-  (1, 'invited'),
-  (2, 'accepted'),
-  (3, 'denied'),
-  (4, 'confirmed');
-
-INSERT INTO statuses (idStatus, name) VALUES
-  (1, 'active'),
-  (2, 'in progress'),
-  (3, 'archived');
-
-INSERT INTO levels (idLevel, name) VALUES
-  (1, 'easy'),
-  (2, 'medium'),
-  (3, 'hard');
-
-INSERT INTO users (username, password, email, firstName, lastName, role) VALUES
-  (
-    'admin',
-    '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',
-    'biketrips.admin@gmail.com',
-    'admin',
-    'admin',
-    'ADMIN'
-  ),
-  (
-    'kacpkasp',
-    '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',
-    'kacp@kasp',
-    'Kacper',
-    'Kasprzyk',
-    'USER'
-  ),
-  (
-    'irmikrys',
-    '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',
-    'irmi@krys',
-    'Irmina',
-    'Krysiak',
-    'USER'
-  );
-
-INSERT INTO applications (username, email, isActive, createDate) VALUES
-  (
-    'irmikrys',
-    'irmi@krys',
-    true,
-    NOW()
-  );

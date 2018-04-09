@@ -1,66 +1,95 @@
-import React, { Component } from "react";
-import { Link } from "react-router";
-import { connect } from "react-redux";
-import { getSession } from "../../reducers/authentication";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {getSession} from "../../reducers/authentication";
 import "stylus/main.styl";
+import axios from 'axios';
 import {
-  MENU_FOR_GUEST, MENU_FOR_USER, MENU_FOR_ADMIN, USER_RIGHT_ITEMS,
-  GUEST_RIGHT_ITEMS, ADMIN_RIGHT_ITEMS
+  ADMIN_RIGHT_ITEMS,
+  GUEST_RIGHT_ITEMS,
+  MENU_FOR_ADMIN,
+  MENU_FOR_GUEST,
+  MENU_FOR_MODERATOR,
+  MENU_FOR_USER,
+  MODERATOR_RIGHT_ITEMS,
+  USER_RIGHT_ITEMS
 } from "../constants/constants";
-
-const TopMenu = (props) => {
-  const mainItems = props.mainItems.map((item, key) => (
-    <li key={key}>
-      <Link to={item.link}>{item.label}</Link>
-    </li>
-  ));
-  const rightItems = props.rightItems.map((item, key) => (
-    <li key={key}>
-      <Link to={item.link}><span className={item.icon}/> {item.label}</Link>
-    </li>
-  ));
-  return (
-    <nav className="navbar navbar-inverse navbar-fixed-top">
-      <div className="container-fluid">
-        <div className="navbar-header">
-          <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span className="icon-bar"/>
-            <span className="icon-bar"/>
-            <span className="icon-bar"/>
-          </button>
-          <a className="navbar-brand" href="/">Bike Trips Organizer</a>
-        </div>
-        <div className="collapse navbar-collapse" id="myNavbar">
-          <ul className="nav navbar-nav">
-            <li className="active"><a href="/">Home</a></li>
-            {mainItems}
-          </ul>
-          <ul className="nav navbar-nav navbar-right">
-            {rightItems}
-          </ul>
-        </div>
-      </div>
-    </nav>
-  );
-};
+import Navbar from "../component/Navbar";
 
 export class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null,
+      role: undefined
+    }
+  }
 
   componentDidMount() {
     this.props.getSession();
   }
 
+  getUser = () => {
+    const {username} = this.props;
+    axios.get(`/api/users/${username}`)
+      .then((response) => {
+        this.setState({
+          user: response.data
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  getMainMenu = () => {
+    const {role} = this.state;
+    const {isAuthenticated} = this.props;
+    if (isAuthenticated) {
+      switch (role) {
+        case 'ADMIN' :
+          return MENU_FOR_ADMIN;
+        case 'USER' :
+          return MENU_FOR_USER;
+        case 'MODER' :
+          return MENU_FOR_MODERATOR;
+      }
+    }
+    return MENU_FOR_GUEST;
+  };
+
+  getSideMenu = () => {
+    const {role} = this.state;
+    const {isAuthenticated} = this.props;
+    if (isAuthenticated) {
+      switch (role) {
+        case 'ADMIN' :
+          return ADMIN_RIGHT_ITEMS;
+        case 'USER' :
+          return USER_RIGHT_ITEMS;
+        case 'MODER' :
+          return MODERATOR_RIGHT_ITEMS;
+      }
+    }
+    return GUEST_RIGHT_ITEMS;
+  };
+
   render() {
-    const {isAuthenticated, username} = this.props;
-    const menuItems = isAuthenticated ? (
-      username === 'admin' ? MENU_FOR_ADMIN : MENU_FOR_USER
-      ) : MENU_FOR_GUEST;
-    const sideItems = isAuthenticated ? (
-      username === 'admin' ? ADMIN_RIGHT_ITEMS : USER_RIGHT_ITEMS
-    ) : GUEST_RIGHT_ITEMS;
+    const {isAuthenticated} = this.props;
+
+    if (isAuthenticated) {
+      this.getUser();
+      if (this.state.user != null) {
+        const {role} = this.state.user.user;
+        this.state.role = role;
+      }
+    }
+
+    const menuItems = this.getMainMenu();
+    const sideItems = this.getSideMenu();
     return (
       <div id="application">
-        <TopMenu mainItems={menuItems} rightItems={sideItems}/>
+        <Navbar mainItems={menuItems} rightItems={sideItems}/>
         {this.props.children}
       </div>
     );

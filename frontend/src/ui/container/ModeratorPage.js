@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-export class WelcomePage extends Component {
+export class ModeratorPage extends Component {
 
   render() {
     return (
       <div className="main">
-        <h2>Welcome {this.props.username}!</h2>
+        <h2>Hello {this.props.username}, you are a moderator!</h2>
       </div>
     )
   }
@@ -17,4 +17,4 @@ export default connect(
     isAuthenticated: state.authentication.isAuthenticated,
     username: state.authentication.username
   })
-)(WelcomePage);
+)(ModeratorPage);
