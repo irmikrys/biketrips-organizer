@@ -1,6 +1,6 @@
 package biketrips.exception_handlers;
 
-import biketrips.controller.ApplicationsController;
+import biketrips.controller.TripController;
 import biketrips.dto.ErrorMessage;
 import biketrips.exceptions.AccessingPrivateResourcesException;
 import biketrips.exceptions.TripException;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice(assignableTypes = ApplicationsController.class)
+@ControllerAdvice(assignableTypes = TripController.class)
 public class TripControllerExceptionHandler {
   private final Log log = LogFactory.getLog(getClass());
 

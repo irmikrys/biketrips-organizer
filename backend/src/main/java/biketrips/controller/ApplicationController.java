@@ -20,7 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 
 @RestController
-public class ApplicationsController {
+public class ApplicationController {
 
   @Autowired
   private ApplicationService applicationService;
@@ -50,11 +50,11 @@ public class ApplicationsController {
     User applicantByEmail = this.userService.findByEmail(applicationDTO.getEmail()).orElseThrow(
       () -> new ApplicationException("application.error.emailNotFound"));
 
-    if(!userSession.getUsername().equals(applicantByName.getUsername())) {
+    if (!userSession.getUsername().equals(applicantByName.getUsername())) {
       throw new ApplicationException("application.error.unauthorisedName");
     }
 
-    if(!applicantByName.getUsername().equals(applicantByEmail.getUsername())) {
+    if (!applicantByName.getUsername().equals(applicantByEmail.getUsername())) {
       throw new ApplicationException("application.error.unauthorisedEmail");
     }
 

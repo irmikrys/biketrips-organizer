@@ -1,9 +1,6 @@
 package biketrips.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,8 +9,12 @@ import java.util.Date;
 public class Trip implements Serializable {
 
   @Id
+  @GeneratedValue(strategy= GenerationType.IDENTITY)
   @Column(name = "idTrip")
-  private int idTrip;
+  private long idTrip;
+
+  @Column(name = "moderator")
+  private String moderator;
 
   @Column(name = "name")
   private String name;
@@ -36,13 +37,20 @@ public class Trip implements Serializable {
   @Column(name = "points")
   private int points;
 
-
-  public int getIdTrip() {
+  public long getIdTrip() {
     return idTrip;
   }
 
-  public void setIdTrip(int idTrip) {
+  public void setIdTrip(long idTrip) {
     this.idTrip = idTrip;
+  }
+
+  public String getModerator() {
+    return moderator;
+  }
+
+  public void setModerator(String moderator) {
+    this.moderator = moderator;
   }
 
   public String getName() {
@@ -100,4 +108,5 @@ public class Trip implements Serializable {
   public void setPoints(int points) {
     this.points = points;
   }
+
 }

@@ -12,6 +12,9 @@ public class TripDTO {
   @NotBlank
   private String name;
 
+  @NotBlank
+  private String moderator;
+
   private Date startDate;
 
   private Date endDate;
@@ -30,6 +33,42 @@ public class TripDTO {
   @DecimalMin(value = "0", inclusive = false)
   @DecimalMax(value = "1000")
   private int points;
+
+  public TripDTO() {
+
+  }
+
+  public TripDTO(Trip trip) {
+    this.moderator = trip.getModerator();
+    this.name = trip.getName();
+    this.startDate = trip.getStartDate();
+    this.endDate = trip.getEndDate();
+    this.idLevel = trip.getIdLevel();
+    this.idStatus = trip.getIdStatus();
+    this.description = trip.getDescription();
+    this.points = trip.getPoints();
+  }
+
+  public Trip toTrip() {
+    Trip trip = new Trip();
+    trip.setModerator(getModerator());
+    trip.setName(getName());
+    trip.setStartDate(getStartDate());
+    trip.setEndDate(getEndDate());
+    trip.setIdLevel(getIdLevel());
+    trip.setIdStatus(getIdStatus());
+    trip.setDescription(getDescription());
+    trip.setPoints(getPoints());
+    return trip;
+  }
+
+  public String getModerator() {
+    return moderator;
+  }
+
+  public void setModerator(String moderator) {
+    this.moderator = moderator;
+  }
 
   public String getName() {
     return name;
@@ -87,15 +126,4 @@ public class TripDTO {
     this.endDate = endDate;
   }
 
-  public Trip toTrip() {
-    Trip trip = new Trip();
-    trip.setName(getName());
-    trip.setStartDate(getStartDate());
-    trip.setEndDate(getEndDate());
-    trip.setIdLevel(getIdLevel());
-    trip.setIdStatus(getIdStatus());
-    trip.setDescription(getDescription());
-    trip.setPoints(getPoints());
-    return trip;
-  }
 }

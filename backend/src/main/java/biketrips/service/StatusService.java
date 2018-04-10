@@ -16,15 +16,15 @@ public class StatusService {
   @Qualifier("statusRepository")
   private StatusRepository statusRepository;
 
-  Iterable<Status> findAll() {
+  public Iterable<Status> findAll() {
     return this.statusRepository.findAll();
   }
 
-  Optional<Status> findByIdStatus(int idStatus) {
+  public Optional<Status> findByIdStatus(int idStatus) {
     return this.statusRepository.findByIdStatus(idStatus);
   }
 
-  Optional<Status> findByName(String name) {
+  public Optional<Status> findByName(String name) {
     return this.statusRepository.findByName(name);
   }
 

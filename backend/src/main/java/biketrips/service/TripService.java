@@ -1,5 +1,6 @@
 package biketrips.service;
 
+import biketrips.dto.TripDTO;
 import biketrips.model.Trip;
 import biketrips.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,10 @@ public class TripService {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
+  public Iterable<Trip> findAll() {
+    return this.tripRepository.findAll();
+  }
+
   public Optional<Trip> findByIdTrip(long idTrip) {
     return this.tripRepository.findByIdTrip(idTrip);
   }
@@ -30,4 +35,10 @@ public class TripService {
   public Iterable<Trip> findAllByIdStatus(int idStatus) {
     return this.tripRepository.findAllByIdStatus(idStatus);
   }
+
+  public Trip createTrip(TripDTO tripDTO) {
+    Trip trip = tripDTO.toTrip();
+    return this.tripRepository.save(trip);
+  }
+
 }
