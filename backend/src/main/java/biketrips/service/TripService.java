@@ -24,6 +24,10 @@ public class TripService {
     return this.tripRepository.findAll();
   }
 
+  public Iterable<Trip> findAllByModerator(String username) {
+    return this.tripRepository.findAllByModerator(username);
+  }
+
   public Optional<Trip> findByIdTrip(long idTrip) {
     return this.tripRepository.findByIdTrip(idTrip);
   }

@@ -12,6 +12,8 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
   Optional<Trip> findByIdTrip(long idTrip);
 
+  Iterable<Trip> findAllByModerator(String moderator);
+
   Iterable<Trip> findAllByIdLevel(int idLevel);
 
   Iterable<Trip> findAllByIdStatus(int idStatus);

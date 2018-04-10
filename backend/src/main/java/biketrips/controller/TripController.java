@@ -94,4 +94,16 @@ public class TripController {
     return ResponseEntity.ok(tripDTO);
   }
 
+  @RequestMapping(method = GET, path = "/api/trips/moderator/{moderator}")
+  public @ResponseBody
+  Iterable<Trip>
+  getTripsByModerator(@PathVariable(name = "moderator") String username) {
+    User userOwner = this.userService.findByUsername(username).orElseThrow(
+      () -> new UserException("getTripsByModerator.error.userNotFound"));
+    if(!userOwner.getRole().equals("MODER")) {
+      throw new TripException("getTripsByModerator.error.unauthorised");
+    }
+    return this.tripService.findAllByModerator(username);
+  }
+
 }
