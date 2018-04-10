@@ -27,28 +27,29 @@ CREATE TABLE users (
 );
 
 CREATE TABLE applications (
-  username     VARCHAR(30) NOT NULL,
-  email        VARCHAR(50) NOT NULL,
-  isActive     BOOLEAN     NOT NULL,
-  createDate DATETIME    NOT NULL,
+  username   VARCHAR(30) NOT NULL,
+  email      VARCHAR(50) NOT NULL,
+  isActive   BOOLEAN     NOT NULL DEFAULT TRUE,
+  createDate DATETIME    NOT NULL DEFAULT NOW(),
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES users (username)
 );
 
 CREATE TABLE levels (
-  idLevel INTEGER     NOT NULL,
+  idLevel INTEGER     NOT NULL AUTO_INCREMENT,
   name    VARCHAR(15) NOT NULL,
   PRIMARY KEY (idLevel)
 );
 
 CREATE TABLE statuses (
-  idStatus INTEGER     NOT NULL,
+  idStatus INTEGER     NOT NULL AUTO_INCREMENT,
   name     VARCHAR(15) NOT NULL,
   PRIMARY KEY (idStatus)
 );
 
 CREATE TABLE trips (
-  idTrip      INTEGER      NOT NULL,
+  idTrip      BIGINT       NOT NULL AUTO_INCREMENT,
+  moderator   VARCHAR(30)  NOT NULL,
   name        VARCHAR(30)  NOT NULL,
   startDate   DATETIME     NOT NULL,
   endDate     DATETIME     NOT NULL,
@@ -57,19 +58,20 @@ CREATE TABLE trips (
   description VARCHAR(255) NOT NULL,
   points      INTEGER      NOT NULL,
   PRIMARY KEY (idTrip),
+  FOREIGN KEY (moderator) REFERENCES users (username),
   FOREIGN KEY (idLevel) REFERENCES levels (idLevel),
   FOREIGN KEY (idStatus) REFERENCES statuses (idStatus)
 );
 
 CREATE TABLE activities (
-  idActivity INTEGER     NOT NULL,
+  idActivity INTEGER     NOT NULL AUTO_INCREMENT,
   name       VARCHAR(15) NOT NULL,
   PRIMARY KEY (idActivity)
 );
 
 CREATE TABLE participants (
   username   VARCHAR(30) NOT NULL,
-  idTrip     INTEGER     NOT NULL,
+  idTrip     BIGINT      NOT NULL,
   idActivity INTEGER,
   PRIMARY KEY (username, idTrip),
   FOREIGN KEY (username) REFERENCES users (username),
@@ -78,7 +80,7 @@ CREATE TABLE participants (
 );
 
 CREATE TABLE locations (
-  idLocation  INTEGER         NOT NULL,
+  idLocation  BIGINT          NOT NULL AUTO_INCREMENT,
   description VARCHAR(60)     NOT NULL,
   latitude    NUMERIC(18, 14) NOT NULL,
   longitude   NUMERIC(18, 14) NOT NULL,
@@ -86,26 +88,26 @@ CREATE TABLE locations (
 );
 
 CREATE TABLE episodes (
-  idEpisode   INTEGER      NOT NULL,
-  idTrip      INTEGER      NOT NULL,
+  idEpisode   BIGINT       NOT NULL AUTO_INCREMENT,
+  idTrip      BIGINT       NOT NULL,
   time        DATETIME     NOT NULL,
   description VARCHAR(255) NOT NULL,
-  idLocation  INTEGER      NOT NULL,
+  idLocation  BIGINT       NOT NULL,
   PRIMARY KEY (idEpisode),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip),
   FOREIGN KEY (idLocation) REFERENCES locations (idLocation)
 );
 
 CREATE TABLE albums (
-  idAlbum INTEGER NOT NULL,
-  idTrip  INTEGER NOT NULL,
+  idAlbum BIGINT NOT NULL AUTO_INCREMENT,
+  idTrip  BIGINT NOT NULL,
   PRIMARY KEY (idAlbum),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
 CREATE TABLE photos (
-  idPhoto INTEGER     NOT NULL,
-  idAlbum INTEGER     NOT NULL,
+  idPhoto BIGINT      NOT NULL AUTO_INCREMENT,
+  idAlbum BIGINT      NOT NULL,
   url     VARCHAR(40) NOT NULL,
   PRIMARY KEY (idPhoto),
   FOREIGN KEY (idAlbum) REFERENCES albums (idAlbum)
@@ -120,7 +122,8 @@ INSERT INTO activities (idActivity, name) VALUES
 INSERT INTO statuses (idStatus, name) VALUES
   (1, 'active'),
   (2, 'in progress'),
-  (3, 'archived');
+  (3, 'archived'),
+  (4, 'cancelled');
 
 INSERT INTO levels (idLevel, name) VALUES
   (1, 'easy'),
@@ -142,7 +145,7 @@ INSERT INTO users (username, password, email, firstName, lastName, role) VALUES
     'kacp@kasp',
     'Kacper',
     'Kasprzyk',
-    'USER'
+    'MODER'
   ),
   (
     'irmikrys',
@@ -153,10 +156,8 @@ INSERT INTO users (username, password, email, firstName, lastName, role) VALUES
     'USER'
   );
 
-INSERT INTO applications (username, email, isActive, createDate) VALUES
+INSERT INTO applications (username, email) VALUES
   (
     'irmikrys',
-    'irmi@krys',
-    true,
-    NOW()
+    'irmi@krys'
   );

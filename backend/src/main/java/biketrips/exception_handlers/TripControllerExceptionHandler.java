@@ -1,9 +1,9 @@
 package biketrips.exception_handlers;
 
-import biketrips.controller.ApplicationController;
+import biketrips.controller.TripController;
 import biketrips.dto.ErrorMessage;
 import biketrips.exceptions.AccessingPrivateResourcesException;
-import biketrips.exceptions.ApplicationException;
+import biketrips.exceptions.TripException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice(assignableTypes = ApplicationController.class)
-public class ApplicationsControllerExceptionHandler {
+@ControllerAdvice(assignableTypes = TripController.class)
+public class TripControllerExceptionHandler {
   private final Log log = LogFactory.getLog(getClass());
 
-  @ExceptionHandler(ApplicationException.class)
+  @ExceptionHandler(TripException.class)
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ErrorMessage handleCreationException(ApplicationException e) {
+  public ErrorMessage handleCreationException(TripException e) {
     log.warn(e.getMessage());
     return new ErrorMessage(e.getMessage());
   }
@@ -38,13 +38,13 @@ public class ApplicationsControllerExceptionHandler {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
     log.warn(e.getMessage());
-    return new ErrorMessage("application.error.badRequest");
+    return new ErrorMessage("trip.error.badRequest");
   }
 
   @ExceptionHandler(Exception.class)
   @ResponseBody
   public ErrorMessage handleUnknownException(Exception e) {
-    return new ErrorMessage("applicationsService.error.unknownError");
+    return new ErrorMessage("tripService.error.unknownError");
   }
 
 }

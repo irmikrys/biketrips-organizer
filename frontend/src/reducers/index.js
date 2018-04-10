@@ -7,6 +7,8 @@ import apply from "./apply";
 import activeApplications from "./activeApplications";
 import acceptModerator from "./acceptModerator";
 import deactivateApplication from "./deactivateApplication";
+import levels from "./levels";
+import tripCreation from "./tripCreation";
 
 export default combineReducers({
   authentication,
@@ -16,5 +18,7 @@ export default combineReducers({
   activeApplications,
   acceptModerator,
   deactivateApplication,
+  levels,
+  tripCreation,
   routing
 });

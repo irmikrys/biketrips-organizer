@@ -6,10 +6,10 @@ export class UserLoginPage extends Component {
 
   render() {
     return (
-      <div className="login-page">
+      <div className="form-page" id="login">
         <div className="form-container">
           <form>
-            <p className="message"><Link to="/admin_login">Log in as administrator</Link></p>
+            <p className="message"><Link to="/admin-login">Log in as administrator</Link></p>
           </form>
         </div>
       </div>

@@ -23,7 +23,7 @@ export default class ApplyForm extends Component {
     const {errorMessage} = this.props;
     const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
     return (
-      <div className="apply-page">
+      <div className="form-page" id="apply">
         <div className="form-container">
           <form onSubmit={this.handleSubmit}>
             {errorPanel}

@@ -20,7 +20,7 @@ export default class LoginForm extends Component {
     const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
     const successPanel = registerSuccess ? <SuccessPanel/> : null;
     return (
-      <div className="login-page">
+      <div className="form-page" id="login">
         <div className="form-container">
           <form onSubmit={this.handleSubmit}>
             {errorPanel}
