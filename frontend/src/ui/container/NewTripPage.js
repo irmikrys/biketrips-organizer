@@ -1,6 +1,7 @@
 import TripCreationForm from '../component/forms/TripCreationForm';
 import {connect} from 'react-redux';
 import {fetchAvailableLevels} from "../../reducers/levels";
+import {createTrip} from "../../reducers/tripCreation";
 
 function mapStateToProps(state) {
   return {
@@ -10,7 +11,8 @@ function mapStateToProps(state) {
 }
 
 const mapActionsToProps = {
-    fetchLevels: fetchAvailableLevels
+  fetchLevels: fetchAvailableLevels,
+  create: createTrip
 };
 
 export default connect(

@@ -31,11 +31,17 @@ export default class TripCreationForm extends Component {
     this.setState({idLevel: value})
   };
 
+  handleSubmit = event => {
+    event.preventDefault();
+    const {create} = this.props;
+    create(this.state);
+  };
+
   render() {
     return (
       <div className="form-page" id="create-trip">
         <div className="form-container">
-          <form>
+          <form onSubmit={this.handleSubmit}>
             <DateRangePicker startDate={this.state.startDate}
                              startDateId="start_date_id"
                              endDate={this.state.endDate}
