@@ -23,7 +23,7 @@ export default class RegisterForm extends Component {
     const {errorMessage} = this.props;
     const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
     return (
-      <div className="register-page">
+      <div className="form-page" id="register">
         <div className="form-container">
           <form onSubmit={this.handleSubmit}>
             {errorPanel}

@@ -1,0 +1,72 @@
+@import 'theme.styl'
+
+.Select
+  position relative
+  text-align left
+  margin-bottom 15px
+
+.Select-control
+  background-color #f2f2f2
+  color #333
+  cursor default
+  border-spacing 0
+  border-collapse separate
+  height 50px !important
+  outline none
+  overflow hidden
+  position relative
+  width 100%
+
+.Select-placeholder,
+.Select-control .Select-value
+  bottom 0
+  padding 15px
+  position absolute
+  left 0
+  right 0
+  top 0
+  max-width 100%
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+
+.Select-placeholder
+  color #757575
+
+.Select-value
+  color #333
+
+.Select-input
+  vertical-align left
+  width 100%
+
+.Select-menu-outer
+  max-height 25em
+  padding 0
+  background #ffffff
+  border 1px solid #f2f2f2
+  position absolute
+  top 100%
+  width 100%
+  z-index 5
+  -webkit-overflow-scrolling: touch
+
+.Select-menu
+  overflow-y auto
+
+.Select-option
+  background-color #fff
+  color #333
+  cursor pointer
+  display block
+  padding 8px 15px
+
+.Select-option.is-focused
+  background-color theme_light
+  color #fff
+
+.Select-noresults
+  color #333
+  cursor default
+  display block
+  padding 8px 15px

@@ -11,17 +11,19 @@ import WelcomePage from "../ui/container/WelcomePage";
 import ApplicationsPage from "../ui/container/ApplicationsPage";
 import ApplyPage from "../ui/container/ApplyPage";
 import ModeratorPage from "../ui/container/ModeratorPage";
+import NewTripPage from "../ui/container/NewTripPage"
 
 export default (onLogout) => (
   <Route path="/" name="app" component={App}>
     <IndexRoute component={WelcomePage}/>
     <Route path="register" component={RegisterPage}/>
     <Route path="login" component={UserLoginPage}/>
-    <Route path="admin_login" component={AdminLoginPage}/>
+    <Route path="admin-login" component={AdminLoginPage}/>
     <Route path="applications" component={privateRoute(ApplicationsPage)}/>
     <Route path="apply" component={privateRoute(ApplyPage)}/>
     <Route path="profile" component={UserProfilePage}/>
     <Route path="moderate" component={ModeratorPage}/>
+    <Route path="moderate/create-trip" component={NewTripPage}/>
     <Route path="logout" onEnter={onLogout}/>
   </Route>
 );
