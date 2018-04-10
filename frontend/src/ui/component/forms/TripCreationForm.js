@@ -1,23 +1,25 @@
 import React, {Component} from "react";
 import Select from "react-select";
+import {DateRangePicker} from "react-dates";
+import 'react-dates/initialize';
 
 export default class TripCreationForm extends Component {
 
   constructor(props) {
     super(props);
     this.props.fetchLevels();
+    this.state = {
+      moderator: this.props.username,
+      name: "",
+      startDate: null,
+      endDate: null,
+      idLevel: "",
+      idStatus: 1,
+      description: "",
+      points: "",
+      focusedInput: null
+    };
   }
-
-  state = {
-    moderator: this.props.username,
-    name: "",
-    startDate: "",
-    endDate: "",
-    idLevel: "",
-    idStatus: 1,
-    description: "",
-    points: ""
-  };
 
   handleInputChange = event => {
     let value = event.target.value;
@@ -34,6 +36,17 @@ export default class TripCreationForm extends Component {
       <div className="form-page" id="create-trip">
         <div className="form-container">
           <form>
+            <DateRangePicker startDate={this.state.startDate}
+                             startDateId="start_date_id"
+                             endDate={this.state.endDate}
+                             endDateId="end_date_id"
+                             onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })}
+                             focusedInput={this.state.focusedInput}
+                             onFocusChange={focusedInput => this.setState({ focusedInput })}
+                             noBorder={true}
+                             startDatePlaceholderText="start date"
+                             endDatePlaceholderText="end date"
+            />
             <input placeholder="name"
                    name="name"
                    onChange={this.handleInputChange}
