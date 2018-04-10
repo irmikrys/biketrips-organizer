@@ -46,6 +46,7 @@ export default class TripCreationForm extends Component {
                              noBorder={true}
                              startDatePlaceholderText="start date"
                              endDatePlaceholderText="end date"
+                             required
             />
             <input placeholder="name"
                    name="name"
@@ -67,9 +68,11 @@ export default class TripCreationForm extends Component {
                     options={this.props.levels.map(item => {
                       return {value: item.idLevel, label: item.name}
                     })}
+                    required
             />
             <input placeholder="points"
                    name="points"
+                   pattern="[1-9].[0-9]{0,3}"
                    onChange={this.handleInputChange}
                    required
             />
