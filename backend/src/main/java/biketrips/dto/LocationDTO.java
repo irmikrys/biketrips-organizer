@@ -21,6 +21,20 @@ public class LocationDTO {
   @DecimalMax(value = "180.0")
   private double longitude;
 
+  public LocationDTO(Location location) {
+    setDescription(location.getDescription());
+    setLatitude(location.getLatitude());
+    setLongitude(location.getLongitude());
+  }
+
+  public Location toLocation() {
+    Location location = new Location();
+    location.setDescription(getDescription());
+    location.setLatitude(getLatitude());
+    location.setLongitude(getLongitude());
+    return location;
+  }
+
   public String getDescription() {
     return description;
   }
@@ -43,14 +57,6 @@ public class LocationDTO {
 
   public void setLongitude(double longitude) {
     this.longitude = longitude;
-  }
-
-  public Location toLocation() {
-    Location location = new Location();
-    location.setDescription(getDescription());
-    location.setLatitude(getLatitude());
-    location.setLongitude(getLongitude());
-    return location;
   }
 
 }
