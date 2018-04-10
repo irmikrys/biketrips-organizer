@@ -28,7 +28,7 @@ public class TripDTO {
   private String description;
 
   @DecimalMin(value = "0", inclusive = false)
-  @DecimalMax(value = "9223372036854775807")
+  @DecimalMax(value = "1000")
   private int points;
 
   public String getName() {
