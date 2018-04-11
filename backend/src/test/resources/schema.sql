@@ -1,8 +1,19 @@
-DROP SCHEMA IF EXISTS bikeTripsTest;
-CREATE SCHEMA bikeTripsTest;
-USE bikeTripsTest;
+DROP SCHEMA IF EXISTS test;
+CREATE SCHEMA test;
+USE test;
 
+DROP TABLE IF EXISTS participants;
+DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS episodes;
+DROP TABLE IF EXISTS photos;
+DROP TABLE IF EXISTS albums;
+DROP TABLE IF EXISTS trips;
+DROP TABLE IF EXISTS locations;
+DROP TABLE IF EXISTS activities;
+DROP TABLE IF EXISTS levels;
+DROP TABLE IF EXISTS statuses;
+
 CREATE TABLE users (
   username  VARCHAR(30) NOT NULL,
   password  VARCHAR(60) NOT NULL,
@@ -15,32 +26,30 @@ CREATE TABLE users (
   PRIMARY KEY (username)
 );
 
-DROP TABLE IF EXISTS applications;
 CREATE TABLE applications (
-  username VARCHAR(30) NOT NULL,
-  email    VARCHAR(50) NOT NULL,
-  isActive BOOLEAN     NOT NULL,
+  username   VARCHAR(30) NOT NULL,
+  email      VARCHAR(50) NOT NULL,
+  isActive   BOOLEAN     NOT NULL DEFAULT TRUE,
+  createDate DATETIME    NOT NULL DEFAULT NOW(),
   PRIMARY KEY (username),
   FOREIGN KEY (username) REFERENCES users (username)
 );
 
-DROP TABLE IF EXISTS levels;
 CREATE TABLE levels (
-  idLevel INTEGER     NOT NULL,
+  idLevel INTEGER     NOT NULL AUTO_INCREMENT,
   name    VARCHAR(15) NOT NULL,
   PRIMARY KEY (idLevel)
 );
 
-DROP TABLE IF EXISTS statuses;
 CREATE TABLE statuses (
-  idStatus INTEGER     NOT NULL,
+  idStatus INTEGER     NOT NULL AUTO_INCREMENT,
   name     VARCHAR(15) NOT NULL,
   PRIMARY KEY (idStatus)
 );
 
-DROP TABLE IF EXISTS trips;
 CREATE TABLE trips (
-  idTrip      INTEGER      NOT NULL,
+  idTrip      BIGINT       NOT NULL AUTO_INCREMENT,
+  moderator   VARCHAR(30)  NOT NULL,
   name        VARCHAR(30)  NOT NULL,
   startDate   DATETIME     NOT NULL,
   endDate     DATETIME     NOT NULL,
@@ -49,21 +58,20 @@ CREATE TABLE trips (
   description VARCHAR(255) NOT NULL,
   points      INTEGER      NOT NULL,
   PRIMARY KEY (idTrip),
+  FOREIGN KEY (moderator) REFERENCES users (username),
   FOREIGN KEY (idLevel) REFERENCES levels (idLevel),
   FOREIGN KEY (idStatus) REFERENCES statuses (idStatus)
 );
 
-DROP TABLE IF EXISTS activities;
 CREATE TABLE activities (
-  idActivity INTEGER     NOT NULL,
+  idActivity INTEGER     NOT NULL AUTO_INCREMENT,
   name       VARCHAR(15) NOT NULL,
   PRIMARY KEY (idActivity)
 );
 
-DROP TABLE IF EXISTS participants;
 CREATE TABLE participants (
   username   VARCHAR(30) NOT NULL,
-  idTrip     INTEGER     NOT NULL,
+  idTrip     BIGINT      NOT NULL,
   idActivity INTEGER,
   PRIMARY KEY (username, idTrip),
   FOREIGN KEY (username) REFERENCES users (username),
@@ -71,39 +79,35 @@ CREATE TABLE participants (
   FOREIGN KEY (idActivity) REFERENCES activities (idActivity)
 );
 
-DROP TABLE IF EXISTS locations;
 CREATE TABLE locations (
-  idLocation  INTEGER         NOT NULL,
+  idLocation  BIGINT          NOT NULL AUTO_INCREMENT,
   description VARCHAR(60)     NOT NULL,
   latitude    NUMERIC(18, 14) NOT NULL,
   longitude   NUMERIC(18, 14) NOT NULL,
   PRIMARY KEY (idLocation)
 );
 
-DROP TABLE IF EXISTS episodes;
 CREATE TABLE episodes (
-  idEpisode   INTEGER      NOT NULL,
-  idTrip      INTEGER      NOT NULL,
+  idEpisode   BIGINT       NOT NULL AUTO_INCREMENT,
+  idTrip      BIGINT       NOT NULL,
   time        DATETIME     NOT NULL,
   description VARCHAR(255) NOT NULL,
-  idLocation  INTEGER      NOT NULL,
+  idLocation  BIGINT       NOT NULL,
   PRIMARY KEY (idEpisode),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip),
   FOREIGN KEY (idLocation) REFERENCES locations (idLocation)
 );
 
-DROP TABLE IF EXISTS albums;
 CREATE TABLE albums (
-  idAlbum INTEGER NOT NULL,
-  idTrip  INTEGER NOT NULL,
+  idAlbum BIGINT NOT NULL AUTO_INCREMENT,
+  idTrip  BIGINT NOT NULL,
   PRIMARY KEY (idAlbum),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
-DROP TABLE IF EXISTS photos;
 CREATE TABLE photos (
-  idPhoto INTEGER     NOT NULL,
-  idAlbum INTEGER     NOT NULL,
+  idPhoto BIGINT      NOT NULL AUTO_INCREMENT,
+  idAlbum BIGINT      NOT NULL,
   url     VARCHAR(40) NOT NULL,
   PRIMARY KEY (idPhoto),
   FOREIGN KEY (idAlbum) REFERENCES albums (idAlbum)

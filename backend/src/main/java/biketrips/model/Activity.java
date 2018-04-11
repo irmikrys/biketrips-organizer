@@ -1,10 +1,11 @@
 package biketrips.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "activities")
-public class Activity {
+public class Activity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
