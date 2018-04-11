@@ -35,3 +35,10 @@ export function fetchUserTrips(username) {
     promise: client => client.get(`/api/trips/moderator/${username}`)
   };
 }
+
+export function fetchAllTrips() {
+  return  {
+    types: [FETCH_TRIPS, FETCH_TRIPS_SUCCESS, FETCH_TRIPS_FAIL],
+    promise: client => client.get(`/api/trips`)
+  };
+}

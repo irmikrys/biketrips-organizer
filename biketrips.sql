@@ -161,3 +161,7 @@ INSERT INTO applications (username, email) VALUES
     'irmikrys',
     'irmi@krys'
   );
+
+INSERT INTO `biketrips`.`trips` (`idTrip`, `name`, `startDate`, `endDate`, `idLevel`, `idStatus`, `description`, `points`, `moderator`) VALUES
+('2', 'Druga', '2018-07-08', '2018-09-09', '1', '2', 'Super wycieczka w nieznane', '12', 'Doma'),
+('3', 'Trzecia', '2017-09-01', '2018-01-01', '2', '1', 'Wyjazd', '111', 'kacpkasp');
