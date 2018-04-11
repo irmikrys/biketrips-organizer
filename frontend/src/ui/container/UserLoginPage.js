@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from "react-router";
 import {GoogleLogin} from 'react-google-login';
-import {PostData} from '../PostData';
-import {Redirect} from "react-router-dom";
 
 export class UserLoginPage extends Component {
 
