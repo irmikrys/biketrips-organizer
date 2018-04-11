@@ -1,6 +1,7 @@
 package biketrips.controller;
 
 import biketrips.dto.EpisodeDTO;
+import biketrips.dto.ParticipantDTO;
 import biketrips.dto.TripDTO;
 import biketrips.dto.session.UserSession;
 import biketrips.exceptions.TripException;
@@ -44,6 +45,13 @@ public class TripController {
   @Autowired
   @Qualifier("locationService")
   private LocationService locationService;
+
+  @Autowired
+  @Qualifier("participantService")
+  private ParticipantService participantService;
+
+
+  // trips
 
 
   @RequestMapping(method = GET, path = "/api/statuses")
@@ -99,6 +107,10 @@ public class TripController {
     }
     return this.tripService.findAllByModerator(username);
   }
+
+
+  //episodes
+
 
   @RequestMapping(method = POST, path = "/api/trips/{idTrip}/episodes")
   public @ResponseBody
@@ -178,6 +190,55 @@ public class TripController {
   }
 
 
+  //participants
+
+
+  @RequestMapping(method = POST, path = "/api/trips/{idTrip}/participants")
+  public @ResponseBody
+  ResponseEntity<Participant>
+  addParticipant(@PathVariable(name = "idTrip") long idTrip,
+                @Valid @RequestBody ParticipantDTO participantDTO,
+                HttpSession session) {
+    String action = "addParticipant";
+    if(idTrip != participantDTO.getIdTrip()) {
+      throw new TripException(action + ".error.wrongTrip");
+    }
+    Trip trip = getTripAndCheck(idTrip, action);
+    User user = getModeratorAndCheck(session, action);
+    checkIfModeratorIsOwner(user, trip, action);
+    Iterable<Participant> tripParticipants = getTripParticipants(idTrip, action);
+    for (Participant participant :
+      tripParticipants) {
+      if (participant.getUsername().equals(participantDTO.getUsername())) {
+        throw new TripException(action + ".error.userAlreadyAdded");
+      }
+    }
+    Participant participant = this.participantService.createParticipant(participantDTO);
+    return ResponseEntity.ok(participant);
+  }
+
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/participants")
+  public @ResponseBody
+  Iterable<Participant>
+  getParticipantsByIdTrip(@PathVariable(name = "idTrip") long idTrip) {
+    return getTripParticipants(idTrip, "getTripParticipants");
+  }
+
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/participants/{username}")
+  public ResponseEntity<ParticipantDTO>
+  getParticipant(@PathVariable(name = "idTrip") long idTrip,
+             @PathVariable(name = "username") String username) {
+    String action = "getParticipant";
+    Trip trip = getTripAndCheck(idTrip, action);
+    Participant participant = getParticipantAndCheck(username, idTrip, action);
+    ParticipantDTO participantDTO = new ParticipantDTO(participant);
+    return ResponseEntity.ok(participantDTO);
+  }
+
+
+  //helpers
+
+
   private User getModeratorAndCheck(HttpSession session, String action) {
     UserSession userSession = (UserSession) session.getAttribute("user");
     String username = userSession.getUsername();
@@ -194,6 +255,11 @@ public class TripController {
     return this.episodeService.findAllByIdTrip(idTrip);
   }
 
+  private Iterable<Participant> getTripParticipants(long idTrip, String action) {
+    getTripAndCheck(idTrip, action);
+    return this.participantService.findAllByIdTrip(idTrip);
+  }
+
   private Trip getTripAndCheck(long idTrip, String action) {
     return this.tripService.findByIdTrip(idTrip).orElseThrow(
       () -> new TripException(action + ".error.tripNotFound"));
@@ -202,6 +268,11 @@ public class TripController {
   private Episode getEpisodeAndCheck(long idEpisode, long idTrip, String action) {
     return this.episodeService.findByIdEpisodeAndIdTrip(idEpisode, idTrip).orElseThrow(
       () -> new TripException(action + ".error.episodeNotFound"));
+  }
+
+  private Participant getParticipantAndCheck(String username, long idTrip, String action) {
+    return this.participantService.findByUsernameAndIdTrip(username, idTrip).orElseThrow(
+      () -> new TripException(action + ".error.participantNotFound"));
   }
 
   private Location getLocationAndCheck(Episode episode, String action) {
