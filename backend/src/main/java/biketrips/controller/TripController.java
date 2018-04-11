@@ -134,6 +134,18 @@ public class TripController {
     return getTripEpisodes(idTrip, "getTripEpisodes");
   }
 
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/episodes/{idEpisode}")
+  public ResponseEntity<EpisodeDTO>
+  getEpisode(@PathVariable(name = "idTrip") long idTrip,
+             @PathVariable(name = "idEpisode") long idEpisode) {
+    String action = "getEpisode";
+    Trip trip = getTripAndCheck(idTrip, action);
+    Episode episode = getEpisodeAndCheck(idEpisode, idTrip, action);
+    Location location = getLocationAndCheck(episode, action);
+    EpisodeDTO episodeDTO = new EpisodeDTO(episode, location);
+    return ResponseEntity.ok(episodeDTO);
+  }
+
   @RequestMapping(method = PUT, path = "/api/trips/{idTrip}/episodes/{idEpisode}")
   public @ResponseBody ResponseEntity<HttpStatus>
   updateEpisode(@PathVariable(name = "idTrip") long idTrip,
@@ -144,10 +156,8 @@ public class TripController {
     User user = getModeratorAndCheck(session, action);
     Trip trip = getTripAndCheck(idTrip, action);
     checkIfModeratorIsOwner(user, trip, action);
-    Episode episode = this.episodeService.findByIdEpisode(idEpisode).orElseThrow(
-      () -> new TripException(action + ".error.episodeNotFound"));
-    Location location = this.locationService.findByIdLocation(episode.getIdLocation()).orElseThrow(
-      () -> new TripException(action + ".error.locationNotFound"));
+    Episode episode = getEpisodeAndCheck(idEpisode, idTrip, action);
+    Location location = getLocationAndCheck(episode, action);
     this.episodeService.updateEpisode(episode, location, episodeDTO);
     return ResponseEntity.ok(HttpStatus.OK);
   }
@@ -162,8 +172,7 @@ public class TripController {
     User user = getModeratorAndCheck(session, action);
     Trip trip = getTripAndCheck(idTrip, action);
     checkIfModeratorIsOwner(user, trip, action);
-    Episode episode = this.episodeService.findByIdEpisodeAndIdTrip(idEpisode, idTrip).orElseThrow(
-      () -> new TripException(action + ".error.episodeNotFound"));
+    Episode episode = getEpisodeAndCheck(idEpisode, idTrip, action);
     this.episodeService.deleteEpisode(episode.getIdEpisode(), episode.getIdLocation());
     return ResponseEntity.ok(HttpStatus.OK);
   }
@@ -188,6 +197,16 @@ public class TripController {
   private Trip getTripAndCheck(long idTrip, String action) {
     return this.tripService.findByIdTrip(idTrip).orElseThrow(
       () -> new TripException(action + ".error.tripNotFound"));
+  }
+
+  private Episode getEpisodeAndCheck(long idEpisode, long idTrip, String action) {
+    return this.episodeService.findByIdEpisodeAndIdTrip(idEpisode, idTrip).orElseThrow(
+      () -> new TripException(action + ".error.episodeNotFound"));
+  }
+
+  private Location getLocationAndCheck(Episode episode, String action) {
+    return this.locationService.findByIdLocation(episode.getIdLocation()).orElseThrow(
+      () -> new TripException(action + ".error.locationNotFound"));
   }
 
   private void checkIfModeratorIsOwner(User user, Trip trip, String action) {
