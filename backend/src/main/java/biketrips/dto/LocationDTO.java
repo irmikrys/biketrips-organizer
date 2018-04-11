@@ -21,6 +21,10 @@ public class LocationDTO {
   @DecimalMax(value = "180.0")
   private double longitude;
 
+  public LocationDTO() {
+
+  }
+
   public LocationDTO(Location location) {
     setDescription(location.getDescription());
     setLatitude(location.getLatitude());

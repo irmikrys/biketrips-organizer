@@ -29,6 +29,10 @@ public class EpisodeService {
     return this.episodeRepository.findByIdEpisode(idEpisode);
   }
 
+  public Optional<Episode> findByIdEpisodeAndIdTrip(long idEpisode, long idTrip) {
+    return this.episodeRepository.findByIdEpisodeAndIdTrip(idEpisode, idTrip);
+  }
+
   public Iterable<Episode> findAllByIdTrip(long idTrip) {
     return this.episodeRepository.findAllByIdTrip(idTrip);
   }
@@ -40,8 +44,8 @@ public class EpisodeService {
   }
 
   public void deleteEpisode(long idEpisode, long idLocation) {
-    this.locationService.deleteLocation(idLocation);
     this.episodeRepository.deleteByIdEpisode(idEpisode);
+    this.locationService.deleteLocation(idLocation);
   }
 
   public void updateEpisode(Episode oldEpisode, Location oldLocation, EpisodeDTO newEpisode) {

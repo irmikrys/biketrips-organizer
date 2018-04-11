@@ -107,13 +107,19 @@ public class TripController {
                 @Valid @RequestBody EpisodeDTO episodeDTO,
                 HttpSession session) {
     String action = "createEpisode";
+    if(idTrip != episodeDTO.getIdTrip()) {
+      throw new TripException(action + ".error.wrongTrip");
+    }
     Trip trip = getTripAndCheck(idTrip, action);
     User user = getModeratorAndCheck(session, action);
     checkIfModeratorIsOwner(user, trip, action);
     Iterable<Episode> tripEpisodes = getTripEpisodes(idTrip, action);
     for (Episode episode :
       tripEpisodes) {
-      if (episode.getTime() == episodeDTO.getTime()) {
+      //fixme different formats
+      System.out.println("Episode time: " + episode.getTime());
+      System.out.println("EpisodeDTO time: " + episodeDTO.getTime());
+      if (episode.getTime().equals(episodeDTO.getTime())) {
         throw new TripException(action + ".error.ambiguousTime");
       }
     }
@@ -156,7 +162,7 @@ public class TripController {
     User user = getModeratorAndCheck(session, action);
     Trip trip = getTripAndCheck(idTrip, action);
     checkIfModeratorIsOwner(user, trip, action);
-    Episode episode = this.episodeService.findByIdEpisode(idEpisode).orElseThrow(
+    Episode episode = this.episodeService.findByIdEpisodeAndIdTrip(idEpisode, idTrip).orElseThrow(
       () -> new TripException(action + ".error.episodeNotFound"));
     this.episodeService.deleteEpisode(episode.getIdEpisode(), episode.getIdLocation());
     return ResponseEntity.ok(HttpStatus.OK);

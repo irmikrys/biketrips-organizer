@@ -9,11 +9,13 @@ import java.util.Optional;
 
 @Repository("episodeRepository")
 public interface EpisodeRepository extends JpaRepository<Episode, Long> {
-  
+
   Optional<Episode> findByIdEpisode(long idEpisode);
-  
+
+  Optional<Episode> findByIdEpisodeAndIdTrip(long idEpisode, long idTrip);
+
   Iterable<Episode> findAllByIdTrip(long idTrip);
-  
+
   @Transactional
   void deleteByIdEpisode(long idEpisode);
 }
