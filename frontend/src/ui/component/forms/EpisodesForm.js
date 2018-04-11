@@ -27,6 +27,7 @@ export default class EpisodesForm extends Component {
       .catch((error) => {
         console.log(error);
       });
+    this.render();
   };
 
   handleSubmit = event => {
@@ -34,10 +35,11 @@ export default class EpisodesForm extends Component {
   };
 
   render() {
+    const {tripSelected} = this.state;
     return (
       <div className="form-page">
         <div className="episodes-form-container">
-          <form onSubmit={this.handleSubmit}>
+          <div>
             <Select simpleValue
                     placeholder="trip"
                     clearable={false}
@@ -52,7 +54,9 @@ export default class EpisodesForm extends Component {
                 Object.values(this.state.episodes)
                   .map(episode => {
                     return <EpisodeRow episode={episode}
-                                       tripSelected={this.state.tripSelected}
+                                       tripSelected={tripSelected}
+                                       glyphicon="glyphicon glyphicon-pencil"
+                                       fieldsDisabled={true}
                     />
                   })
               }
@@ -60,7 +64,11 @@ export default class EpisodesForm extends Component {
                 idTrip: this.state.idTrip,
                 time: null,
                 description: ""
-              }}/>
+              }}
+                          tripSelected={tripSelected}
+                          glyphicon="glyphicon glyphicon-floppy-disk"
+                          fieldsDisabled={false}
+              />
             </div>
             <div className="add-btn">
               <button type="button" disabled={!this.state.tripSelected}>
@@ -74,7 +82,7 @@ export default class EpisodesForm extends Component {
                 </Link>
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     );
