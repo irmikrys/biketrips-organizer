@@ -9,6 +9,8 @@ import acceptModerator from "./acceptModerator";
 import deactivateApplication from "./deactivateApplication";
 import levels from "./levels";
 import tripCreation from "./tripCreation";
+import episodes from "./episodes";
+import trips from "./trips";
 
 export default combineReducers({
   authentication,
@@ -20,5 +22,7 @@ export default combineReducers({
   deactivateApplication,
   levels,
   tripCreation,
+  episodes,
+  trips,
   routing
 });

@@ -11,7 +11,7 @@ export class ModeratorPage extends Component {
         <div>
           <ul>
             <li><Link to={'/moderate/create-trip'}>Create a trip</Link></li>
-            <li><Link to={'/moderate'}>Edit a trip</Link></li>
+            <li><Link to={'/moderate/edit-episodes'}>Edit trip episodes</Link></li>
             <li><Link to={'/moderate'}>See created trips</Link></li>
           </ul>
         </div>

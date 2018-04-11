@@ -60,6 +60,8 @@
     "file-loader": "^1.1.6",
     "lodash": "^4.17.4",
     "react": "^15.0.0",
+    "react-bootstrap-daterangepicker": "latest",
+    "react-dates": "latest",
     "react-dom": "^15.0.0",
     "react-dropzone": "^4.2.3",
     "react-geosuggest": "^2.6.0",
@@ -72,9 +74,8 @@
     "react-select": "^1.0.1",
     "react-translate-component": "^0.10.0",
     "redux": "^3.3.1",
+    "redux-form": "^7.3.0",
     "underscore": "^1.8.3",
-    "url-loader": "^0.6.2",
-    "react-dates": "latest",
-    "react-bootstrap-daterangepicker": "latest"
+    "url-loader": "^0.6.2"
   }
 }

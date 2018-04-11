@@ -1,5 +1,5 @@
 import React from 'react';
-import {IndexRoute, Redirect, Route} from 'react-router';
+import {IndexRoute, Route} from 'react-router';
 
 import privateRoute from './privateRoute';
 import App from '../ui/container/App';
@@ -12,6 +12,7 @@ import ApplicationsPage from "../ui/container/ApplicationsPage";
 import ApplyPage from "../ui/container/ApplyPage";
 import ModeratorPage from "../ui/container/ModeratorPage";
 import NewTripPage from "../ui/container/NewTripPage"
+import EpisodesFormPage from "../ui/container/EpisodesFormPage";
 
 export default (onLogout) => (
   <Route path="/" name="app" component={App}>
@@ -24,6 +25,7 @@ export default (onLogout) => (
     <Route path="profile" component={UserProfilePage}/>
     <Route path="moderate" component={ModeratorPage}/>
     <Route path="moderate/create-trip" component={NewTripPage}/>
+    <Route path="moderate/edit-episodes" component={EpisodesFormPage}/>
     <Route path="logout" onEnter={onLogout}/>
   </Route>
 );
