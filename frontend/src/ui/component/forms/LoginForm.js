@@ -41,7 +41,7 @@ export default class LoginForm extends Component {
             }
             <button type="submit">Login</button>
           </form>
-          <p className="message"><Link to="/register">Not registered? Sign up</Link></p>
+          <p className="message"><Link to="/register" onClick={this.props.onClick}>Not registered? Sign up</Link></p>
         </div>
       </div>
     );

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {getSession} from "../../reducers/authentication";
+import {getSession, setRegisterSuccess, displayAuthError} from "../../reducers/authentication";
 import "stylus/main.styl";
 import axios from 'axios';
 import {
@@ -74,6 +74,11 @@ export class App extends Component {
     return GUEST_RIGHT_ITEMS;
   };
 
+  clearErrorMessages = () => {
+    this.props.displayAuthError(null);
+    this.props.setRegisterSuccess(false);
+  };
+
   render() {
     const {isAuthenticated} = this.props;
 
@@ -89,7 +94,7 @@ export class App extends Component {
     const sideItems = this.getSideMenu();
     return (
       <div id="application">
-        <Navbar mainItems={menuItems} rightItems={sideItems}/>
+        <Navbar onClick={this.clearErrorMessages.bind(this)} mainItems={menuItems} rightItems={sideItems}/>
         {this.props.children}
       </div>
     );
@@ -101,5 +106,5 @@ export default connect(
     isAuthenticated: state.authentication.isAuthenticated,
     username: state.authentication.username
   }),
-  {getSession}
+  {getSession, setRegisterSuccess, displayAuthError}
 )(App);

@@ -6,12 +6,12 @@ class Navbar extends Component {
   render() {
     const mainItems = this.props.mainItems.map((item, key) => (
       <li key={key}>
-        <Link to={item.link}>{item.label}</Link>
+        <Link to={item.link} onClick={this.props.onClick}>{item.label}</Link>
       </li>
     ));
     const rightItems = this.props.rightItems.map((item, key) => (
       <li key={key}>
-        <Link to={item.link}><span className={item.icon}/> {item.label}</Link>
+        <Link to={item.link} onClick={this.props.onClick}><span className={item.icon}/> {item.label}</Link>
       </li>
     ));
     return (
