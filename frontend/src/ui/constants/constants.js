@@ -26,12 +26,18 @@ export const MODERATOR_RIGHT_ITEMS = [
 ];
 
 export const GUEST_RIGHT_ITEMS = [
-  {label: 'Login', link: '/login', icon: 'glyphicon glyphicon-log-in'}
+  {label: 'Sign up', link: '/register', icon: 'glyphicon glyphicon-user'},
+  {label: 'Sign in', link: '/login', icon: 'glyphicon glyphicon-log-in'}
 ];
 
 export const ADMIN_RIGHT_ITEMS = [
   {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
 ];
+
+
+export const CREATE_MODE = "create";
+export const UPDATE_MODE = "update";
+export const READ_MODE = "read";
 
 
 export const USERNAME = "username";

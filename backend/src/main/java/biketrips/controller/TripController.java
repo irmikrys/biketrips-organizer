@@ -102,6 +102,7 @@ public class TripController {
   Iterable<Trip>
   getTripsByModerator(@PathVariable(name = "moderator") String username, HttpSession session) {
     User user = getModeratorAndCheck(session, "getTripsByModerator");
+    System.out.println("User moderator: " + username);
     if (!user.getUsername().equals(username)) {
       throw new TripException("getTripsByModerator.error.unauthorisedNotOwner");
     }
