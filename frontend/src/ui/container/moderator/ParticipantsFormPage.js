@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {fetchUserTrips} from "../../../reducers/trips";
 import ParticipantsForm from "../../component/forms/ParticipantsForm";
+import {createParticipant} from "../../../reducers/participant";
 
 class ParticipantsFormPage extends Component {
 
@@ -11,7 +12,8 @@ class ParticipantsFormPage extends Component {
 
   render() {
     return (
-      <ParticipantsForm trips={this.props.trips}/>
+      <ParticipantsForm trips={this.props.trips}
+                        createParticipant={this.props.create.bind(this)}/>
     );
   }
 }
@@ -25,7 +27,8 @@ function mapStateToProps(state) {
 }
 
 const mapActionsToProps = {
-  fetchTrips: fetchUserTrips
+  fetchTrips: fetchUserTrips,
+  create: createParticipant
 };
 
 export default connect(

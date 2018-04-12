@@ -10,7 +10,7 @@ export default class ParticipantsForm extends Component {
     super(props);
     this.state = {
       participants: [],
-      idTrip: "",
+      idTrip: 0,
       tripSelected: false
     };
   }
@@ -32,6 +32,8 @@ export default class ParticipantsForm extends Component {
 
   render() {
     const {tripSelected} = this.state;
+    console.log('Participants form');
+    console.log(this.props);
     return (
       <div className="form-page">
         <div className="participants-form-container">
@@ -53,6 +55,7 @@ export default class ParticipantsForm extends Component {
                                            tripSelected={tripSelected}
                                            glyphicon="glyphicon glyphicon-pencil"
                                            fieldsDisabled={true}
+                                           create={this.props.createParticipant.bind(this)}
                     />
                   })
               }
@@ -64,6 +67,7 @@ export default class ParticipantsForm extends Component {
                               tripSelected={tripSelected}
                               glyphicon="glyphicon glyphicon-floppy-disk"
                               fieldsDisabled={false}
+                              create={this.props.createParticipant.bind(this)}
               />
             </div>
             <div className="add-btn">

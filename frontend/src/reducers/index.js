@@ -12,6 +12,7 @@ import tripCreation from "./tripCreation";
 import episodes from "./episodes";
 import trips from "./trips";
 import episode from "./episode";
+import participant from "./participant";
 
 export default combineReducers({
   authentication,
@@ -26,5 +27,6 @@ export default combineReducers({
   episodes,
   trips,
   episode,
+  participant,
   routing
 });
