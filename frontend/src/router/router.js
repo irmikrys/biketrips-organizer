@@ -13,6 +13,7 @@ import ApplyPage from "../ui/container/ApplyPage";
 import ModeratorPage from "../ui/container/ModeratorPage";
 import NewTripPage from "../ui/container/NewTripPage"
 import EpisodesFormPage from "../ui/container/EpisodesFormPage";
+import ModeratorTripsPage from "../ui/container/ModeratorTripsPage";
 
 export default (onLogout) => (
   <Route path="/" name="app" component={App}>
@@ -26,6 +27,7 @@ export default (onLogout) => (
     <Route path="moderate" component={ModeratorPage}/>
     <Route path="moderate/create-trip" component={NewTripPage}/>
     <Route path="moderate/edit-episodes" component={EpisodesFormPage}/>
+    <Route path="moderate/my-trips" component={ModeratorTripsPage}/>
     <Route path="logout" onEnter={onLogout}/>
   </Route>
 );
