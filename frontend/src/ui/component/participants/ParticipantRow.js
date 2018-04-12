@@ -6,7 +6,7 @@ class ParticipantRow extends Component {
     super(props);
     this.state = {
       email: "",
-      currentParticipant: {},
+      currentParticipant: null,
     }
   }
 
@@ -27,8 +27,7 @@ class ParticipantRow extends Component {
   render() {
     const {participant} = this.props;
     const {currentParticipant} = this.state;
-    let participantData = currentParticipant == null ? participant : currentParticipant;
-    console.log(this.state);
+    let participantData = currentParticipant === null ? participant : currentParticipant;
     return (
       <form onSubmit={this.handleSubmit}>
         <div className="participant-row">

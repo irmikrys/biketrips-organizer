@@ -32,8 +32,6 @@ export default class ParticipantsForm extends Component {
 
   render() {
     const {tripSelected} = this.state;
-    console.log('Participants form');
-    console.log(this.props);
     return (
       <div className="form-page">
         <div className="participants-form-container">
