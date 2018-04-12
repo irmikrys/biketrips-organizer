@@ -1,29 +1,20 @@
-import { FormFieldBuilder } from "../component/forms/FormFieldBuilder";
+import {FormFieldBuilder} from "../component/forms/FormFieldBuilder";
 
 export const MENU_FOR_USER = [
   {label: 'Apply', link: '/apply', icon: ''}
 ];
 
-export const MENU_FOR_MODERATOR = [
-  {label: 'Moderator', link: '/moderate', icon: ''}
-];
+export const MENU_FOR_MODERATOR = [];
 
-export const MENU_FOR_GUEST = [
-];
+export const MENU_FOR_GUEST = [];
 
 export const MENU_FOR_ADMIN = [
   {label: 'Applications', link: '/applications', icon: ''}
 ];
 
-export const USER_RIGHT_ITEMS = [
-  {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
-  {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
-];
+export const USER_RIGHT_ITEMS = [];
 
-export const MODERATOR_RIGHT_ITEMS = [
-  {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
-  {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
-];
+export const MODERATOR_RIGHT_ITEMS = [];
 
 export const GUEST_RIGHT_ITEMS = [
   {label: 'Sign up', link: '/register', icon: 'glyphicon glyphicon-user'},
@@ -34,11 +25,38 @@ export const ADMIN_RIGHT_ITEMS = [
   {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
 ];
 
+export const LEFT_DROPDOWN_GUEST = null;
+export const LEFT_DROPDOWN_USER = null;
+export const LEFT_DROPDOWN_ADMIN = null;
+
+export const LEFT_DROPDOWN_MODER = {
+  label: 'Moderator', link: '#', children: [
+    {label: 'Create Trip', link: '/moderate/create-trip', icon: 'glyphicon glyphicon-leaf'},
+    {label: 'Add/Edit episodes', link: '/moderate/edit-episodes', icon: ''},
+    {label: 'Add/Edit participants', link: 'moderate/edit-participants', icon: ''}
+  ]
+};
+
+export const RIGHT_DROPDOWN_GUEST = null;
+export const RIGHT_DROPDOWN_ADMIN = null;
+
+export const RIGHT_DROPDOWN_MODER = {
+  label: 'User', link: '#', children: [
+    {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
+    {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
+  ]
+};
+
+export const RIGHT_DROPDOWN_USER = {
+  label: 'User', link: '#', children: [
+    {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
+    {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
+  ]
+};
 
 export const CREATE_MODE = "create";
 export const UPDATE_MODE = "update";
 export const READ_MODE = "read";
-
 
 export const USERNAME = "username";
 export const PASSWORD = "password";
