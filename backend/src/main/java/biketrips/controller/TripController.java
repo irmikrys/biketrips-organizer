@@ -235,6 +235,21 @@ public class TripController {
     return ResponseEntity.ok(participantDTO);
   }
 
+  @RequestMapping(method = DELETE, path = "/api/trips/{idTrip}/participants/{username}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
+  deleteParticipant(@PathVariable(name = "idTrip") long idTrip,
+                @PathVariable(name = "username") String username,
+                HttpSession session) {
+    String action = "deleteParticipant";
+    User user = getModeratorAndCheck(session, action);
+    Trip trip = getTripAndCheck(idTrip, action);
+    checkIfModeratorIsOwner(user, trip, action);
+    Participant participant = getParticipantAndCheck(username, idTrip, action);
+    this.participantService.deleteParticipant(participant.getUsername(), idTrip);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
 
   //helpers
 
