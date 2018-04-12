@@ -1,31 +1,28 @@
 import React, {Component} from "react";
-import axios from "axios";
 
 class ParticipantRow extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      idActivity: 1,
-      currentParticipant: {}
+      email: "",
+      currentParticipant: {},
     }
   }
 
   componentDidMount() {
     console.log(this.props);
-    const {idTrip, username} = this.props.participant;
-    if (idTrip !== undefined && idTrip !== null && username !== undefined && username !== null) {
-      axios.get(`/api/trips/${idTrip}/participants/${username}`)
-        .then((response) => {
-          this.setState({
-            currentParticipant: response.data,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
   }
+
+  handleInputChange = event => {
+    let value = event.target.value;
+    let inputName = event.target.name;
+    this.setState({[inputName]: value});
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+  };
 
   render() {
     const {participant} = this.props;
@@ -33,17 +30,19 @@ class ParticipantRow extends Component {
     let participantData = currentParticipant == null ? participant : currentParticipant;
     console.log(this.state);
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <div className="participant-row">
           <div id="description">
-            <input placeholder="email"
+            <input onChange={this.handleInputChange}
+                   placeholder="email"
                    type="email"
+                   name="email"
                    value={participantData.email == null ? participantData.username : participantData.email}
                    disabled={this.props.fieldsDisabled}
                    required
             />
           </div>
-          <button type="button" disabled={!this.props.tripSelected}>
+          <button type="submit" disabled={!this.props.tripSelected}>
             <span className={this.props.glyphicon}/>
           </button>
         </div>
