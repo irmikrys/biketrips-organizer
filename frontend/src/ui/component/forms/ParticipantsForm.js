@@ -2,24 +2,24 @@ import React, {Component} from "react";
 import Select from "react-select";
 import axios from 'axios';
 import {Link} from "react-router";
-import EpisodeRow from "../episodes/EpisodeRow";
+import ParticipantRow from "../participants/ParticipantRow";
 
-export default class EpisodesForm extends Component {
+export default class ParticipantsForm extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      episodes: [],
+      participants: [],
       idTrip: "",
       tripSelected: false
     };
   }
 
   handleTripChange = value => {
-    axios.get(`/api/trips/${value}/episodes`)
+    axios.get(`/api/trips/${value}/participants`)
       .then((response) => {
         this.setState({
-          episodes: response.data,
+          participants: response.data,
           idTrip: value,
           tripSelected: true
         });
@@ -34,7 +34,7 @@ export default class EpisodesForm extends Component {
     const {tripSelected} = this.state;
     return (
       <div className="form-page">
-        <div className="episodes-form-container">
+        <div className="participants-form-container">
           <div>
             <Select simpleValue
                     placeholder="trip"
@@ -47,23 +47,23 @@ export default class EpisodesForm extends Component {
             />
             <div>
               {
-                Object.values(this.state.episodes)
-                  .map(episode => {
-                    return <EpisodeRow episode={episode}
-                                       tripSelected={tripSelected}
-                                       glyphicon="glyphicon glyphicon-pencil"
-                                       fieldsDisabled={true}
+                Object.values(this.state.participants)
+                  .map(participant => {
+                    return <ParticipantRow participant={participant}
+                                           tripSelected={tripSelected}
+                                           glyphicon="glyphicon glyphicon-pencil"
+                                           fieldsDisabled={true}
                     />
                   })
               }
-              <EpisodeRow episode={{
+              <ParticipantRow participant={{
                 idTrip: this.state.idTrip,
-                time: null,
-                description: ""
+                username: "",
+                idActivity: 1
               }}
-                          tripSelected={tripSelected}
-                          glyphicon="glyphicon glyphicon-floppy-disk"
-                          fieldsDisabled={false}
+                              tripSelected={tripSelected}
+                              glyphicon="glyphicon glyphicon-floppy-disk"
+                              fieldsDisabled={false}
               />
             </div>
             <div className="add-btn">
@@ -72,6 +72,9 @@ export default class EpisodesForm extends Component {
               </button>
             </div>
             <div className="save-btn">
+              <button type="button">
+                <span className="glyphicon glyphicon-file"/> FROM FILE
+              </button>
               <button type="submit">
                 <Link to={'/moderate'}>
                   <span className="glyphicon glyphicon-ok"/> OK

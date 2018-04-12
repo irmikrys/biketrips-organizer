@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import EpisodesForm from "../../component/forms/EpisodesForm";
 import {fetchUserTrips} from "../../../reducers/trips";
+import ParticipantsForm from "../../component/forms/ParticipantsForm";
 
-class EpisodesFormPage extends Component {
+class ParticipantsFormPage extends Component {
 
   componentDidMount() {
     this.props.fetchTrips(this.props.username);
@@ -11,9 +11,7 @@ class EpisodesFormPage extends Component {
 
   render() {
     return (
-      !this.props.updating ?
-        <EpisodesForm trips={this.props.trips}/> :
-        <div className="loader"/>
+      <ParticipantsForm trips={this.props.trips}/>
     );
   }
 }
@@ -33,4 +31,4 @@ const mapActionsToProps = {
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(EpisodesFormPage);
+)(ParticipantsFormPage);
