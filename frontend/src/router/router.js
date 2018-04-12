@@ -4,9 +4,8 @@ import {IndexRoute, Route} from 'react-router';
 import privateRoute from './privateRoute';
 import App from '../ui/container/App';
 import UserProfilePage from '../ui/container/user/UserProfilePage';
-import AdminLoginPage from '../ui/container/administrator/AdminLoginPage';
 import RegisterPage from '../ui/container/RegisterPage';
-import UserLoginPage from '../ui/container/UserLoginPage';
+import LoginPage from '../ui/container/LoginPage';
 import WelcomePage from "../ui/container/WelcomePage";
 import ApplicationsPage from "../ui/container/administrator/ApplicationsPage";
 import ApplyPage from "../ui/container/user/ApplyPage";
@@ -20,8 +19,7 @@ export default (onLogout) => (
   <Route path="/" name="app" component={App}>
     <IndexRoute component={WelcomePage}/>
     <Route path="register" component={RegisterPage}/>
-    <Route path="login" component={UserLoginPage}/>
-    <Route path="admin-login" component={AdminLoginPage}/>
+    <Route path="login" component={LoginPage}/>
     <Route path="applications" component={privateRoute(ApplicationsPage)}/>
     <Route path="apply" component={privateRoute(ApplyPage)}/>
     <Route path="profile" component={UserProfilePage}/>
