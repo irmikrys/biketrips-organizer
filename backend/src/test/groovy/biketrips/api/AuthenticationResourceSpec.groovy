@@ -25,7 +25,7 @@ class AuthenticationResourceSpec extends AbstractMvcSpec {
 
   def "good authentication"() {
     given:
-    def credentials = [username: 'admin', password: 'Admin123']
+    def credentials = [username: 'admin', password: 'F7zKwGg2']
 
     when:
     def res = post('/api/session', credentials)

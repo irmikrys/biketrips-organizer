@@ -51,12 +51,6 @@ public class UserController {
     return ResponseEntity.ok(userDetails);
   }
 
-  private UserDetailsDTO getUserDetails(String username) {
-    User user = this.userService.findByUsername(username).orElseThrow(
-      () -> new UserException("details.error.userNotFound"));
-    return new UserDetailsDTO(user);
-  }
-
   @RequestMapping(method = PUT, path = "/api/users/{username}")
   public @ResponseBody
   ResponseEntity<HttpStatus> updateUserRole(
@@ -67,5 +61,11 @@ public class UserController {
       () -> new UserException("getUser.error.userNotFound"));
     this.userService.updateUserRole(user, userDTO);
     return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  private UserDetailsDTO getUserDetails(String username) {
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new UserException("details.error.userNotFound"));
+    return new UserDetailsDTO(user);
   }
 }

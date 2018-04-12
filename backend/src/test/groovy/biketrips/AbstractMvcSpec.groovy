@@ -14,6 +14,8 @@ import spockmvc.SpockMvcSpec
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 
+//before launching, make sure that the schema and imports are already created
+
 @SpringBootTest
 @ContextConfiguration(classes = [BikeTripsManagerApplication])
 @ActiveProfiles("test")

@@ -1,3 +1,14 @@
+input, textarea
+  font-family "Roboto", sans-serif
+  outline 0
+  background #f2f2f2
+  width 100%
+  border 0
+  margin 0 0 15px
+  padding 15px
+  box-sizing border-box
+  font-size 14px
+
 .form-page
   padding 8% 0 0
 
@@ -10,17 +21,6 @@
   padding 45px
   text-align center
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
-
-  input, textarea
-    font-family "Roboto", sans-serif
-    outline 0
-    background #f2f2f2
-    width 100%
-    border 0
-    margin 0 0 15px
-    padding 15px
-    box-sizing border-box
-    font-size 14px
 
   button
     width 100%
@@ -44,7 +44,105 @@
   .success-message
     color #4f8a10
 
-
 #create-trip
   .form-container
     max-width 600px
+
+.episodes-form-container
+  position relative
+  z-index 1
+  background #ffffff
+  width: 865px
+  margin 0 auto 100px
+  padding 45px
+  text-align center
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
+
+  input
+    width 765px
+
+  button
+    margin-left 15px
+    height 50px
+
+  a
+    color #fff
+    text-decoration none
+
+  .save-btn, .add-btn
+    text-align right
+    margin-right 0
+
+  .add-btn
+    margin-bottom 15px
+
+    span
+      color #fff
+
+  .episodeRow
+    display flex
+    width 100%
+
+    input
+      width 200px
+      margin-right 15px
+
+.input-error
+  background-color theme_dark
+  margin 5px
+  margin-top -5px
+  color #fff
+  padding 2px
+  font-weight 700
+
+.name-error
+  width 765px
+
+.episode-error
+  width 200px
+
+#description
+  flex 1
+
+  input
+    width 100%
+
+
+.participants-form-container
+  position relative
+  z-index 1
+  background #ffffff
+  width: 565px
+  margin 0 auto 100px
+  padding 45px
+  text-align center
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
+
+  input
+    width 765px
+
+  button
+    margin-left 15px
+    height 50px
+
+  a
+    color #fff
+    text-decoration none
+
+  .save-btn, .add-btn
+    text-align right
+    margin-right 0
+
+  .add-btn
+    margin-bottom 15px
+
+    span
+      color #fff
+
+  .participant-row
+    display flex
+    width 100%
+
+    input
+      width 200px
+      margin-right 15px
