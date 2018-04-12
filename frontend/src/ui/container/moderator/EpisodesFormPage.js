@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import EpisodesForm from "../component/forms/EpisodesForm";
-import {fetchUserTrips} from "../../reducers/trips";
+import EpisodesForm from "../../component/forms/EpisodesForm";
+import {fetchUserTrips} from "../../../reducers/trips";
 
 class EpisodesFormPage extends Component {
 

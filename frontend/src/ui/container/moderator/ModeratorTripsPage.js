@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchUserTrips} from "../../reducers/trips";
-import TripsGrid from "../component/trips/TripsGrid"
+import {fetchUserTrips} from "../../../reducers/trips";
+import TripsGrid from "../../component/trips/TripsGrid"
 
 export class ModeratorTripsPage extends Component {
 

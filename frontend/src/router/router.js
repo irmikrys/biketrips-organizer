@@ -3,17 +3,17 @@ import {IndexRoute, Route} from 'react-router';
 
 import privateRoute from './privateRoute';
 import App from '../ui/container/App';
-import UserProfilePage from '../ui/container/UserProfilePage';
-import AdminLoginPage from '../ui/container/AdminLoginPage';
+import UserProfilePage from '../ui/container/user/UserProfilePage';
+import AdminLoginPage from '../ui/container/administrator/AdminLoginPage';
 import RegisterPage from '../ui/container/RegisterPage';
 import UserLoginPage from '../ui/container/UserLoginPage';
 import WelcomePage from "../ui/container/WelcomePage";
-import ApplicationsPage from "../ui/container/ApplicationsPage";
-import ApplyPage from "../ui/container/ApplyPage";
-import ModeratorPage from "../ui/container/ModeratorPage";
-import NewTripPage from "../ui/container/NewTripPage"
-import EpisodesFormPage from "../ui/container/EpisodesFormPage";
-import ModeratorTripsPage from "../ui/container/ModeratorTripsPage";
+import ApplicationsPage from "../ui/container/administrator/ApplicationsPage";
+import ApplyPage from "../ui/container/user/ApplyPage";
+import ModeratorPage from "../ui/container/moderator/ModeratorPage";
+import NewTripPage from "../ui/container/moderator/NewTripPage"
+import EpisodesFormPage from "../ui/container/moderator/EpisodesFormPage";
+import ModeratorTripsPage from "../ui/container/moderator/ModeratorTripsPage";
 
 export default (onLogout) => (
   <Route path="/" name="app" component={App}>
