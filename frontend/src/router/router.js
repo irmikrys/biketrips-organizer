@@ -9,7 +9,6 @@ import LoginPage from '../ui/container/LoginPage';
 import WelcomePage from "../ui/container/WelcomePage";
 import ApplicationsPage from "../ui/container/administrator/ApplicationsPage";
 import ApplyPage from "../ui/container/user/ApplyPage";
-import ModeratorPage from "../ui/container/moderator/ModeratorPage";
 import NewTripPage from "../ui/container/moderator/NewTripPage"
 import EpisodesFormPage from "../ui/container/moderator/EpisodesFormPage";
 import ModeratorTripsPage from "../ui/container/moderator/ModeratorTripsPage";
@@ -23,7 +22,6 @@ export default (onLogout) => (
     <Route path="applications" component={privateRoute(ApplicationsPage)}/>
     <Route path="apply" component={privateRoute(ApplyPage)}/>
     <Route path="profile" component={UserProfilePage}/>
-    <Route path="moderate" component={ModeratorPage}/>
     <Route path="moderate/create-trip" component={NewTripPage}/>
     <Route path="moderate/edit-episodes" component={EpisodesFormPage}/>
     <Route path="moderate/edit-participants" component={ParticipantsFormPage}/>
