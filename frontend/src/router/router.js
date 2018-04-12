@@ -22,10 +22,10 @@ export default (onLogout) => (
     <Route path="applications" component={privateRoute(ApplicationsPage)}/>
     <Route path="apply" component={privateRoute(ApplyPage)}/>
     <Route path="profile" component={UserProfilePage}/>
-    <Route path="moderate/create-trip" component={NewTripPage}/>
-    <Route path="moderate/edit-episodes" component={EpisodesFormPage}/>
-    <Route path="moderate/edit-participants" component={ParticipantsFormPage}/>
-    <Route path="moderate/my-trips" component={ModeratorTripsPage}/>
+    <Route path="create-trip" component={NewTripPage}/>
+    <Route path="edit-episodes" component={EpisodesFormPage}/>
+    <Route path="edit-participants" component={ParticipantsFormPage}/>
+    <Route path="moderator-trips" component={ModeratorTripsPage}/>
     <Route path="logout" onEnter={onLogout}/>
   </Route>
 );
