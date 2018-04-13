@@ -5,8 +5,7 @@ class TripsGrid extends Component {
 
   render() {
     return(
-      <div>
-        <h2>Hello, these are your Trips!</h2>
+      <div className="tile-wrapper">
         {
           Object.values(this.props.trips)
             .map(trip => {

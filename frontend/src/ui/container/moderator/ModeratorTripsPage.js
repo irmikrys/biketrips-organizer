@@ -13,7 +13,10 @@ export class ModeratorTripsPage extends Component {
   render() {
     return (
       <div className="main">
-        <TripsGrid trips={this.props.trips}/>
+        <h2>Hello, these are your Trips!</h2>
+        <div className="trip-grid">
+          <TripsGrid trips={this.props.trips}/>
+        </div>
       </div>
     )
   }
