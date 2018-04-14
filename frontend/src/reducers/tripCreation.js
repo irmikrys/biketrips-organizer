@@ -34,7 +34,7 @@ export function createTrip(tripInfo) {
     types: [CREATE_TRIP, CREATE_TRIP_SUCCESS, CREATE_TRIP_FAIL],
     promise: (client) => client.post('/api/trips', tripInfo),
     afterSuccess: () => {
-      browserHistory.push('/moderate');
+      browserHistory.push('/moderator-trips');
     }
   };
 }

@@ -78,7 +78,7 @@ export default class TripCreationForm extends Component {
             />
             <input placeholder="points"
                    name="points"
-                   pattern="[1-9].[0-9]{0,3}"
+                   pattern="[1-9].[0-9]{0,2}"
                    onChange={this.handleInputChange}
                    required
             />

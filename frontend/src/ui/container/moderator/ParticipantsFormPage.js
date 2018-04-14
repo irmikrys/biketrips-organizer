@@ -12,8 +12,15 @@ class ParticipantsFormPage extends Component {
 
   render() {
     return (
-      <ParticipantsForm trips={this.props.trips}
-                        createParticipant={this.props.create.bind(this)}/>
+      <div>
+        {
+          !this.props.updating && <ParticipantsForm trips={this.props.trips}
+                                                    createParticipant={this.props.create.bind(this)}/>
+        }
+        {
+          this.props.updating && <div className="loader margin-top"/>
+        }
+      </div>
     );
   }
 }
@@ -22,7 +29,8 @@ function mapStateToProps(state) {
   return {
     trips: state.trips.trips,
     updating: state.trips.updating,
-    username: state.authentication.username
+    username: state.authentication.username,
+    isAuthenticated: state.authentication.isAuthenticated
   };
 }
 

@@ -34,7 +34,7 @@ const privateRoute = (Wrapped) => connect(mapStateToProps, mapDispatchToProps)
       if (loading || !isAuthenticated) {
         return (
           <div>
-            <div className="loader"/>
+            <div className="loader margin-top"/>
           </div>
         );
       }

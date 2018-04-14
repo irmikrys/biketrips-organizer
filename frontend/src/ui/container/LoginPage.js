@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {login} from "../../reducers/authentication";
+import {displayAuthError, login, setRegisterSuccess} from "../../reducers/authentication";
 import LoginForm from "../component/forms/LoginForm";
 
 export class LoginPage extends Component {
+
+  clearErrorMessages = () => {
+    this.props.displayAuthError(null);
+    this.props.setRegisterSuccess(false);
+  };
 
   render() {
     return (
@@ -11,6 +16,7 @@ export class LoginPage extends Component {
           <LoginForm errorMessage={this.props.errorMessage}
                      registerSuccess={this.props.registerSuccess}
                      login={this.props.login.bind(this)}
+                     onClick={this.clearErrorMessages.bind(this)}
           />
       </div>
     )
@@ -20,12 +26,14 @@ export class LoginPage extends Component {
 function mapStateToProps(state) {
   return {
     errorMessage: state.authentication.errorMessage,
-    registerSuccess: state.register.registerSuccess
+    registerSuccess: state.authentication.registerSuccess
   };
 }
 
 const mapActionsToProps = {
-  login
+  login,
+  displayAuthError,
+  setRegisterSuccess
 };
 
 export default connect(

@@ -5,7 +5,6 @@ import biketrips.dto.ParticipantDTO;
 import biketrips.dto.TripDTO;
 import biketrips.dto.session.UserSession;
 import biketrips.exceptions.TripException;
-import biketrips.exceptions.UserException;
 import biketrips.model.*;
 import biketrips.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +94,19 @@ public class TripController {
     Trip trip = getTripAndCheck(idTrip, "getTrip");
     TripDTO tripDTO = new TripDTO(trip);
     return ResponseEntity.ok(tripDTO);
+  }
+
+  @RequestMapping(method = PUT, path = "/api/trips/{idTrip}")
+  public @ResponseBody ResponseEntity<HttpStatus>
+  updateTrip(@PathVariable(name = "idTrip") long idTrip,
+                @Valid @RequestBody TripDTO tripDTO,
+                HttpSession session) {
+    String action = "updateTrip";
+    User user = getModeratorAndCheck(session, action);
+    Trip trip = getTripAndCheck(idTrip, action);
+    checkIfModeratorIsOwner(user, trip, action);
+    this.tripService.updateTrip(trip, tripDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 
   @RequestMapping(method = GET, path = "/api/trips/moderator/{moderator}")
@@ -207,6 +219,9 @@ public class TripController {
     Trip trip = getTripAndCheck(idTrip, action);
     User user = getModeratorAndCheck(session, action);
     checkIfModeratorIsOwner(user, trip, action);
+    User participantUser = this.userService.findByUsername(participantDTO.getUsername()).orElseThrow(
+      () -> new TripException(action + ".error.userNotFound")
+    );
     Iterable<Participant> tripParticipants = getTripParticipants(idTrip, action);
     for (Participant participant :
       tripParticipants) {
@@ -259,7 +274,7 @@ public class TripController {
     UserSession userSession = (UserSession) session.getAttribute("user");
     String username = userSession.getUsername();
     User user = this.userService.findByUsername(username).orElseThrow(
-      () -> new UserException(action + ".error.userNotFound"));
+      () -> new TripException(action + ".error.userNotFound"));
     if (!user.getRole().equals("MODER")) {
       throw new TripException(action + ".error.unauthorised");
     }

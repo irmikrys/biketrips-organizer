@@ -45,4 +45,15 @@ public class TripService {
     return this.tripRepository.save(trip);
   }
 
+  public void updateTrip(Trip oldTrip, TripDTO newTripDTO) {
+    final String sql = "" +
+      "UPDATE trips t " +
+      "SET t.name = ?, t.description = ?, t.idLevel = ?, t.points = ?, t.idStatus = ? " +
+      "WHERE t.idTrip = ?";
+    this.jdbcTemplate.update(
+      sql, newTripDTO.getName(), newTripDTO.getDescription(),
+      newTripDTO.getIdLevel(), newTripDTO.getPoints(), newTripDTO.getIdStatus(),
+      oldTrip.getIdTrip()
+    );
+  }
 }

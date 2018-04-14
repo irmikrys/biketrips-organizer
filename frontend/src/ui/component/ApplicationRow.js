@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {dateFormatter} from "./utils";
+import {datetimeFormatter} from "./utils";
 import {ACTIVE, EMAIL, USERNAME} from "../constants/constants";
 import axios from "axios";
 
@@ -59,7 +59,7 @@ export class ApplicationRow extends Component {
     return (
       <tr className="application">
         <td/>
-        <td id="date">{dateFormatter(new Date(application.createDate))}</td>
+        <td id="date">{datetimeFormatter(new Date(application.createDate))}</td>
         <td id="username">{application.username}</td>
         <td id="email">{application.email}</td>
         <td id="action">
@@ -74,7 +74,7 @@ export class ApplicationRow extends Component {
                     className="btn btn-group btn-xs btn-default"
                     onClick={this.handleAcceptation}
             >
-              <span className="glyphicon glyphicon-eye-open" aria-hidden="true"/>
+              <span className="glyphicon glyphicon-ok" aria-hidden="true"/>
             </button>
           </div>
         </td>
