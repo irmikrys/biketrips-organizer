@@ -21,6 +21,14 @@ public class ParticipantService {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
+  public Iterable<Participant> findAll() {
+    return this.participantRepository.findAll();
+  }
+
+  public Iterable<Participant> findAllByUsername(String username) {
+    return this.participantRepository.findAllByUsername(username);
+  }
+
   public Iterable<Participant> findAllByIdActivity(int idActivity) {
     return this.participantRepository.findAllByIdActivity(idActivity);
   }

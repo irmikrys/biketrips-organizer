@@ -14,8 +14,11 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
 
   Iterable<Participant> findAllByIdTrip(long idTrip);
 
+  Iterable<Participant> findAllByUsername(String username);
+
   Optional<Participant> findByUsernameAndIdTrip(String username, long idTrip);
 
   @Transactional
   void deleteByUsernameAndIdTrip(String username, long idTrip);
+
 }

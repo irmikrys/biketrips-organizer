@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -97,10 +99,11 @@ public class TripController {
   }
 
   @RequestMapping(method = PUT, path = "/api/trips/{idTrip}")
-  public @ResponseBody ResponseEntity<HttpStatus>
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
   updateTrip(@PathVariable(name = "idTrip") long idTrip,
-                @Valid @RequestBody TripDTO tripDTO,
-                HttpSession session) {
+             @Valid @RequestBody TripDTO tripDTO,
+             HttpSession session) {
     String action = "updateTrip";
     User user = getModeratorAndCheck(session, action);
     Trip trip = getTripAndCheck(idTrip, action);
@@ -132,7 +135,7 @@ public class TripController {
                 @Valid @RequestBody EpisodeDTO episodeDTO,
                 HttpSession session) {
     String action = "createEpisode";
-    if(idTrip != episodeDTO.getIdTrip()) {
+    if (idTrip != episodeDTO.getIdTrip()) {
       throw new TripException(action + ".error.wrongTrip");
     }
     Trip trip = getTripAndCheck(idTrip, action);
@@ -172,7 +175,8 @@ public class TripController {
   }
 
   @RequestMapping(method = PUT, path = "/api/trips/{idTrip}/episodes/{idEpisode}")
-  public @ResponseBody ResponseEntity<HttpStatus>
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
   updateEpisode(@PathVariable(name = "idTrip") long idTrip,
                 @PathVariable(name = "idEpisode") long idEpisode,
                 @Valid @RequestBody EpisodeDTO episodeDTO,
@@ -210,10 +214,10 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<Participant>
   addParticipant(@PathVariable(name = "idTrip") long idTrip,
-                @Valid @RequestBody ParticipantDTO participantDTO,
-                HttpSession session) {
+                 @Valid @RequestBody ParticipantDTO participantDTO,
+                 HttpSession session) {
     String action = "addParticipant";
-    if(idTrip != participantDTO.getIdTrip()) {
+    if (idTrip != participantDTO.getIdTrip()) {
       throw new TripException(action + ".error.wrongTrip");
     }
     Trip trip = getTripAndCheck(idTrip, action);
@@ -243,7 +247,7 @@ public class TripController {
   @RequestMapping(method = GET, path = "/api/trips/{idTrip}/participants/{username}")
   public ResponseEntity<ParticipantDTO>
   getParticipant(@PathVariable(name = "idTrip") long idTrip,
-             @PathVariable(name = "username") String username) {
+                 @PathVariable(name = "username") String username) {
     String action = "getParticipant";
     Trip trip = getTripAndCheck(idTrip, action);
     Participant participant = getParticipantAndCheck(username, idTrip, action);
@@ -255,8 +259,8 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<HttpStatus>
   deleteParticipant(@PathVariable(name = "idTrip") long idTrip,
-                @PathVariable(name = "username") String username,
-                HttpSession session) {
+                    @PathVariable(name = "username") String username,
+                    HttpSession session) {
     String action = "deleteParticipant";
     User user = getModeratorAndCheck(session, action);
     Trip trip = getTripAndCheck(idTrip, action);
@@ -264,6 +268,45 @@ public class TripController {
     Participant participant = getParticipantAndCheck(username, idTrip, action);
     this.participantService.deleteParticipant(participant.getUsername(), idTrip);
     return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = GET, path = "/api/participants")
+  public @ResponseBody
+  Iterable<Participant>
+  getAllParticipants() {
+    return this.participantService.findAll();
+  }
+
+
+  //participant trips
+
+
+  @RequestMapping(method = GET, path = "/api/trips/participant/{username}")
+  public @ResponseBody
+  Iterable<Trip>
+  getTripsByParticipant(@PathVariable(name = "username") String username,
+                        HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String usernameSession = userSession.getUsername();
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new TripException("getParticipantTrips.error.userNotFound")
+    );
+    if(usernameSession != null && !username.equals(usernameSession)) {
+      throw new TripException("getParticipantTrips.error.unauthorized");
+    }
+    Iterable<Participant> participants = this.participantService.findAllByUsername(username);
+    List<Long> tripIds = new ArrayList<>();
+    for (Participant p: participants) {
+      tripIds.add(p.getIdTrip());
+    }
+    List<Trip> trips = new ArrayList<>();
+    for (Long id: tripIds) {
+      Trip trip = this.tripService.findByIdTrip(id).orElseThrow(
+        () -> new TripException("getParticipantTrips.error.tripNotFound")
+      );
+      trips.add(trip);
+    }
+    return trips;
   }
 
 
@@ -312,7 +355,7 @@ public class TripController {
   }
 
   private void checkIfModeratorIsOwner(User user, Trip trip, String action) {
-    if(!trip.getModerator().equals(user.getUsername())) {
+    if (!trip.getModerator().equals(user.getUsername())) {
       throw new TripException(action + ".error.unauthorisedNotOwner");
     }
   }
