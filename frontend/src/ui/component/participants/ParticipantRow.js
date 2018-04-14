@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {ErrorPanel} from "../forms/ErrorPanel";
 
 class ParticipantRow extends Component {
 
@@ -26,10 +27,13 @@ class ParticipantRow extends Component {
 
   render() {
     const {participant} = this.props;
+    const {errorMessage} = this.props;
+    const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
     const {currentParticipant} = this.state;
     let participantData = currentParticipant === null ? participant : currentParticipant;
     return (
       <form onSubmit={this.handleSubmit}>
+        {errorPanel}
         <div className="participant-row">
           <div id="description">
             <input onChange={this.handleInputChange}

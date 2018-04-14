@@ -10,6 +10,7 @@ const APPLICATION_USER_NOT_FOUND = "application.error.userNotFound";
 const APPLICATION_EMAIL_NOT_FOUND = "application.error.emailNotFound";
 const APPLICATION_UNAUTHORISED_NAME = "application.error.unauthorisedName";
 const APPLICATION_UNAUTHORISED_EMAIL = "application.error.unauthorisedEmail";
+const PARTICIPANT_ALREADY_ADDED = "addParticipant.error.userAlreadyAdded";
 
 const ERRORS_MAP = new Map([
   [LOGIN_ERROR_BAD_LOGIN, "Bad login or password!"],
@@ -24,6 +25,7 @@ const ERRORS_MAP = new Map([
   [APPLICATION_EMAIL_NOT_FOUND, "Wrong email!"],
   [APPLICATION_UNAUTHORISED_NAME, "Bad credentials!"],
   [APPLICATION_UNAUTHORISED_EMAIL, "Bad credentials!"],
+  [PARTICIPANT_ALREADY_ADDED], "Participant already added to trip!"
 ]);
 
 export const getTranslatedErrorMessage = messageKey => ERRORS_MAP.get(messageKey);
