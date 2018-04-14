@@ -96,6 +96,19 @@ public class TripController {
     return ResponseEntity.ok(tripDTO);
   }
 
+  @RequestMapping(method = PUT, path = "/api/trips/{idTrip}")
+  public @ResponseBody ResponseEntity<HttpStatus>
+  updateTrip(@PathVariable(name = "idTrip") long idTrip,
+                @Valid @RequestBody TripDTO tripDTO,
+                HttpSession session) {
+    String action = "updateTrip";
+    User user = getModeratorAndCheck(session, action);
+    Trip trip = getTripAndCheck(idTrip, action);
+    checkIfModeratorIsOwner(user, trip, action);
+    this.tripService.updateTrip(trip, tripDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
   @RequestMapping(method = GET, path = "/api/trips/moderator/{moderator}")
   public @ResponseBody
   Iterable<Trip>
