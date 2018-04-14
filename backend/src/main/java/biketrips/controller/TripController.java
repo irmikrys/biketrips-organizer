@@ -5,7 +5,6 @@ import biketrips.dto.ParticipantDTO;
 import biketrips.dto.TripDTO;
 import biketrips.dto.session.UserSession;
 import biketrips.exceptions.TripException;
-import biketrips.exceptions.UserException;
 import biketrips.model.*;
 import biketrips.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -208,7 +207,7 @@ public class TripController {
     User user = getModeratorAndCheck(session, action);
     checkIfModeratorIsOwner(user, trip, action);
     User participantUser = this.userService.findByUsername(participantDTO.getUsername()).orElseThrow(
-      () -> new UserException(action + ".error.userNotFound")
+      () -> new TripException(action + ".error.userNotFound")
     );
     Iterable<Participant> tripParticipants = getTripParticipants(idTrip, action);
     for (Participant participant :
@@ -262,7 +261,7 @@ public class TripController {
     UserSession userSession = (UserSession) session.getAttribute("user");
     String username = userSession.getUsername();
     User user = this.userService.findByUsername(username).orElseThrow(
-      () -> new UserException(action + ".error.userNotFound"));
+      () -> new TripException(action + ".error.userNotFound"));
     if (!user.getRole().equals("MODER")) {
       throw new TripException(action + ".error.unauthorised");
     }
