@@ -73,7 +73,7 @@ export default class EpisodesForm extends Component {
             </div>
             <div className="save-btn">
               <button type="submit">
-                <Link to={'/moderate'}>
+                <Link to={'/moderator-trips'}>
                   <span className="glyphicon glyphicon-ok"/> OK
                 </Link>
               </button>

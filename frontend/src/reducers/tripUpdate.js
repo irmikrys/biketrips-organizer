@@ -1,3 +1,5 @@
+import { browserHistory } from 'react-router';
+
 const UPDATE_TRIP = 'trips/UPDATE_TRIP';
 const UPDATE_TRIP_SUCCESS = 'trips/UPDATE_TRIP_SUCCESS';
 const UPDATE_TRIP_FAIL = 'trips/UPDATE_TRIP_FAIL';
@@ -33,6 +35,7 @@ export function updateTrip(idTrip, tripInfo, fetchTrip) {
     promise: (client) => client.put(`/api/trips/${idTrip}`, tripInfo),
     afterSuccess: (dispatch, getState, response) => {
       fetchTrip(idTrip);
+      browserHistory.push('/moderator-trips');
     }
   };
 }

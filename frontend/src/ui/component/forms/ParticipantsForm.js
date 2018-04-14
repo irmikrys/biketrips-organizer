@@ -78,7 +78,7 @@ export default class ParticipantsForm extends Component {
                 <span className="glyphicon glyphicon-file"/> FROM FILE
               </button>
               <button type="submit">
-                <Link to={'/moderate'}>
+                <Link to={'/moderator-trips'}>
                   <span className="glyphicon glyphicon-ok"/> OK
                 </Link>
               </button>
