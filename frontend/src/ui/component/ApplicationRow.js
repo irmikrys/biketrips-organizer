@@ -74,7 +74,7 @@ export class ApplicationRow extends Component {
                     className="btn btn-group btn-xs btn-default"
                     onClick={this.handleAcceptation}
             >
-              <span className="glyphicon glyphicon-eye-open" aria-hidden="true"/>
+              <span className="glyphicon glyphicon-ok" aria-hidden="true"/>
             </button>
           </div>
         </td>

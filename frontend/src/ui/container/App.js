@@ -141,10 +141,20 @@ export class App extends Component {
   }
 }
 
-export default connect(
-  state => ({
+function mapStateToProps(state) {
+  return {
     isAuthenticated: state.authentication.isAuthenticated,
     username: state.authentication.username
-  }),
-  {getSession, setRegisterSuccess, displayAuthError}
+  };
+}
+
+const mapActionsToProps = {
+  getSession,
+  setRegisterSuccess,
+  displayAuthError
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
 )(App);
