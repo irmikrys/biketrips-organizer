@@ -207,6 +207,9 @@ public class TripController {
     Trip trip = getTripAndCheck(idTrip, action);
     User user = getModeratorAndCheck(session, action);
     checkIfModeratorIsOwner(user, trip, action);
+    User participantUser = this.userService.findByUsername(participantDTO.getUsername()).orElseThrow(
+      () -> new UserException(action + ".error.userNotFound")
+    );
     Iterable<Participant> tripParticipants = getTripParticipants(idTrip, action);
     for (Participant participant :
       tripParticipants) {
