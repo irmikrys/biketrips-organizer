@@ -10,6 +10,8 @@ class TripsGrid extends Component {
           Object.values(this.props.trips)
             .map(trip => {
               return <TripTile trip={trip}
+                               fetchTrip={this.props.fetchTrip}
+                               editTrip={this.props.editTrip}
               />
             })
         }

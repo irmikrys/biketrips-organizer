@@ -27,12 +27,11 @@ export default function updateTripReducer(state = initialState, action) {
 
 // Actions
 
-export function updateTrip(idTrip, tripInfo, closeModal, fetchTrip) {
+export function updateTrip(idTrip, tripInfo, fetchTrip) {
   return  {
     types: [UPDATE_TRIP, UPDATE_TRIP_SUCCESS, UPDATE_TRIP_FAIL],
     promise: (client) => client.put(`/api/trips/${idTrip}`, tripInfo),
     afterSuccess: (dispatch, getState, response) => {
-      closeModal();
       fetchTrip(idTrip);
     }
   };

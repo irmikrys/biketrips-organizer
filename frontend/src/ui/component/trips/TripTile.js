@@ -5,7 +5,7 @@ class TripTile extends Component {
 
   render() {
     const {trip} = this.props;
-    return(
+    return (
       <div className="trip-tile">
         <h3>{trip.name}</h3>
         <div className="tile-content">

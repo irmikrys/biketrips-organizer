@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchUserTrips} from "../../../reducers/trips";
 import TripsGrid from "../../component/trips/TripsGrid"
+import {fetchUserTrips} from "../../../reducers/trips";
+import {fetchTripById} from "../../../reducers/trip";
+import {updateTrip} from "../../../reducers/tripUpdate";
 
 export class ModeratorTripsPage extends Component {
 
@@ -15,7 +17,10 @@ export class ModeratorTripsPage extends Component {
       <div className="main">
         <h2>Hello, these are your Trips!</h2>
         <div className="trip-grid">
-          <TripsGrid trips={this.props.trips}/>
+          <TripsGrid trips={this.props.trips}
+                     fetchTrip={this.props.fetchTrip}
+                     editTrip={this.props.editTrip}
+          />
         </div>
       </div>
     )
@@ -32,7 +37,9 @@ function mapStateToProps(state) {
 }
 
 const mapActionsToProps = {
-  fetchTrips: fetchUserTrips
+  fetchTrips: fetchUserTrips,
+  fetchTrip: fetchTripById,
+  editTrip: updateTrip
 };
 
 export default connect(
