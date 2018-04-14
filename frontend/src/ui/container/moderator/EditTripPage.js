@@ -14,10 +14,14 @@ export class EditTripPage extends Component {
   render() {
     return (
       <div>
-        <EditTripForm trip={this.props.trip}
-                      fetchTrip={this.props.fetchTrip}
-                      editTrip={this.props.editTrip}
+        {!this.props.updating && <EditTripForm idTrip={this.props.params.idTrip}
+                                               trip={this.props.trip}
+                                               username={this.props.username}
+                                               fetchTrip={this.props.fetchTrip}
+                                               editTrip={this.props.editTrip}
         />
+        }
+        {this.props.updating && <div className="loader margin-top"/>}
       </div>
     )
   }
@@ -25,6 +29,7 @@ export class EditTripPage extends Component {
 
 function mapStateToProps(state) {
   return {
+    username: state.authentication.username,
     trip: state.trip.trip,
     updating: state.trip.updating
   };

@@ -7,6 +7,8 @@ export default class EditTripForm extends Component {
     super(props);
 
     const trip = props.trip;
+    console.log(trip);
+
     this.state = {
       name: trip.name,
       description: trip.description,
@@ -27,47 +29,41 @@ export default class EditTripForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const {editTrip, trip, fetchTrip} = this.props;
-    editTrip(trip.idTrip, this.state, fetchTrip);
+    const {editTrip, fetchTrip} = this.props;
+    editTrip(this.props.idTrip, this.state, fetchTrip);
   };
 
   render() {
     return (
-      <div>
-        <div className="container edit-modal edit-trip-modal">
-          <div className="details">
-            <div className="paragraph">
-              <div className="paragraph-title trip-form">
-                <h3>Edit Trip</h3>
-                <div>
-                  <input placeholder="name"
-                         name="name"
-                         value={this.state.name}
-                         onChange={this.handleInputChange}
-                         required
-                  />
-                  <textarea placeholder="description..."
-                            name="description"
-                            value={this.state.description}
-                            onChange={this.handleInputChange}
-                            cols="40"
-                            rows="5"
-                            required
-                  />
-                  <input placeholder="points"
-                         name="points"
-                         pattern="[1-9].[0-9]{0,2}"
-                         value={this.state.points}
-                         onChange={this.handleInputChange}
-                         required
-                  />
-                  <Select
-                  />
-                  <button type="button" onClick={this.handleSubmit.bind(this)}>Save</button>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="form-page" id="create-trip">
+        <div className="form-container">
+          <h3 className="paragraph-title">Edit Trip</h3>
+          <form onSubmit={this.handleSubmit}>
+            <input placeholder="name"
+                   name="name"
+                   value={this.state.name}
+                   onChange={this.handleInputChange}
+                   required
+            />
+            <textarea placeholder="description..."
+                      name="description"
+                      value={this.state.description}
+                      onChange={this.handleInputChange}
+                      cols="40"
+                      rows="5"
+                      required
+            />
+            <input placeholder="points"
+                   name="points"
+                   pattern="[1-9].[0-9]{0,2}"
+                   value={this.state.points}
+                   onChange={this.handleInputChange}
+                   required
+            />
+            <Select
+            />
+            <button type="submit">Save</button>
+          </form>
         </div>
       </div>
     )
