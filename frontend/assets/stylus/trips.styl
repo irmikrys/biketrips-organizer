@@ -1,3 +1,5 @@
+@import 'theme.styl'
+
 .trip-grid
   text-align left
 
@@ -40,3 +42,63 @@
       -o-transform rotate(-1deg)
       -ms-transform rotate(-1deg)
       transform rotate(-1deg)
+
+.user-trip-grid
+  text-align left
+  margin 50px auto 50px
+
+  .card-wrapper
+    display -webkit-flex
+    -webkit-flex-wrap wrap
+    display flex
+    flex-wrap wrap
+
+    .trip-card
+      position relative
+      width 350px
+      min-width 350px
+      margin 5%
+      box-shadow 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
+      justify-content left
+      align-items left
+      background-color #fff
+      transition 0.30s
+      -webkit-transition 0.30s
+      -moz-transition 0.30s
+      -ms-transition 0.30s
+      -o-transition 0.30s
+
+      h2, h3, h4
+        color #fff
+        background theme_dark
+        text-align center
+        padding-top 15px
+        padding-bottom 10px
+        width 100%
+        margin-top 0
+        font-weight 300
+
+      .trip-details
+        width 100%
+        text-align left
+        padding-left 20px
+        padding-right 20px
+        padding-bottom 20px
+
+        label
+          margin-top 10px
+          font-weight 700
+
+    .trip-card:hover
+      box-shadow 0 0 20px 0 antiquewhite, 0 5px 5px 0 white
+      cursor pointer
+      transition 0.30s
+      -webkit-transition 0.30s
+      -moz-transition 0.30s
+      -ms-transition 0.30s
+      -o-transition 0.30s
+      -webkit-transform rotate(1deg)
+      -moz-transform rotate(1deg)
+      -o-transform rotate(1deg)
+      -ms-transform rotate(1deg)
+      transform rotate(1deg)

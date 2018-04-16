@@ -12,14 +12,15 @@ class TripsUser extends Component {
   render() {
     console.log(this.props.trips);
     return (
-      <div>
-        <h2 className="main">Trips</h2>
+      <div className="main-color-none">
         {
-          !this.props.updating && <TripsUserGrid trips={this.props.trips}
-                                                 username={this.props.username}
-                                                 fetchTrip={this.props.fetchTrip}
-                                                 levels={this.props.levels}
-          />
+          !this.props.updating && <div className="user-trip-grid">
+            <TripsUserGrid trips={this.props.trips}
+                           username={this.props.username}
+                           fetchTrip={this.props.fetchTrip}
+                           levels={this.props.levels}
+            />
+          </div>
         }
 
         {
