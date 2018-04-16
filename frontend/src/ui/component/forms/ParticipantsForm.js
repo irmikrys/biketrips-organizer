@@ -11,7 +11,8 @@ export default class ParticipantsForm extends Component {
     this.state = {
       participants: [],
       idTrip: 0,
-      tripSelected: false
+      tripSelected: false,
+      currentUsername: ""
     };
   }
 
@@ -28,6 +29,12 @@ export default class ParticipantsForm extends Component {
         console.log(error);
       });
     this.render();
+  };
+
+  handleInputChange = event => {
+    let value = event.target.value;
+    let inputName = event.target.name;
+    this.setState({[inputName]: value});
   };
 
   render() {
@@ -51,21 +58,23 @@ export default class ParticipantsForm extends Component {
                   .map(participant => {
                     return <ParticipantRow participant={participant}
                                            tripSelected={tripSelected}
-                                           glyphicon="glyphicon glyphicon-pencil"
+                                           glyphicon="glyphicon glyphicon-trash"
                                            fieldsDisabled={true}
                                            create={this.props.createParticipant.bind(this)}
+                                           handleInputChange={this.handleInputChange.bind(this)}
                     />
                   })
               }
               <ParticipantRow participant={{
                 idTrip: this.state.idTrip,
-                username: "",
+                username: this.state.currentUsername,
                 idActivity: 1
               }}
                               tripSelected={tripSelected}
                               glyphicon="glyphicon glyphicon-floppy-disk"
                               fieldsDisabled={false}
                               create={this.props.createParticipant.bind(this)}
+                              handleInputChange={this.handleInputChange.bind(this)}
               />
             </div>
             <div className="add-btn">

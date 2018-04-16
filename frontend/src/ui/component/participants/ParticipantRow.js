@@ -6,20 +6,13 @@ class ParticipantRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      currentParticipant: null,
-    }
+      currentUsername: this.props.participant.username
+    };
   }
 
   componentDidMount() {
     console.log(this.props);
   }
-
-  handleInputChange = event => {
-    let value = event.target.value;
-    let inputName = event.target.name;
-    this.setState({[inputName]: value});
-  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -29,19 +22,16 @@ class ParticipantRow extends Component {
     const {participant} = this.props;
     const {errorMessage} = this.props;
     const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
-    const {currentParticipant} = this.state;
-    let participantData = currentParticipant === null ? participant : currentParticipant;
     return (
       <form onSubmit={this.handleSubmit}>
         {errorPanel}
         <div className="participant-row">
           <div id="description">
-            <input onChange={this.handleInputChange}
-                   placeholder="email"
-                   type="email"
-                   name="email"
-                   value={participantData.email == null ? participantData.username : participantData.email}
+            <input placeholder="username"
+                   name="currentUsername"
+                   value={participant.username}
                    disabled={this.props.fieldsDisabled}
+                   onChange={this.props.handleInputChange}
                    required
             />
           </div>
