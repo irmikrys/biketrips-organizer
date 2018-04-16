@@ -31,7 +31,7 @@ export default function participantReducer(state = initialState, action) {
 // Actions
 
 export function createParticipant(idTrip, participantInfo) {
-  return  {
+  return {
     types: [CREATE_PARTICIPANT, CREATE_PARTICIPANT_SUCCESS, CREATE_PARTICIPANT_FAIL],
     promise: (client) => client.post(`/api/trips/${idTrip}/participants`, participantInfo)
   };

@@ -35,6 +35,7 @@ export default class ParticipantsForm extends Component {
     let value = event.target.value;
     let inputName = event.target.name;
     this.setState({[inputName]: value});
+    this.render();
   };
 
   render() {
@@ -72,7 +73,7 @@ export default class ParticipantsForm extends Component {
               }}
                               tripSelected={tripSelected}
                               glyphicon="glyphicon glyphicon-floppy-disk"
-                              fieldsDisabled={false}
+                              fieldsDisabled={!this.state.tripSelected}
                               create={this.props.createParticipant.bind(this)}
                               handleInputChange={this.handleInputChange.bind(this)}
               />

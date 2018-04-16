@@ -3,19 +3,24 @@ import {ErrorPanel} from "../forms/ErrorPanel";
 
 class ParticipantRow extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentUsername: this.props.participant.username
-    };
-  }
-
   componentDidMount() {
     console.log(this.props);
   }
 
   handleSubmit = event => {
     event.preventDefault();
+    const {create} = this.props;
+    const username = this.props.participant.username;
+    const idTrip = this.props.participant.idTrip;
+    const idActivity = 1;
+    const participantInfo = {
+      username,
+      idTrip,
+      idActivity
+    };
+    console.log("Adding participant...");
+    console.log(participantInfo);
+    create(idTrip, participantInfo);
   };
 
   render() {
@@ -35,7 +40,8 @@ class ParticipantRow extends Component {
                    required
             />
           </div>
-          <button type="submit" disabled={!this.props.tripSelected}>
+          <button type="submit"
+                  disabled={!this.props.tripSelected}>
             <span className={this.props.glyphicon}/>
           </button>
         </div>
