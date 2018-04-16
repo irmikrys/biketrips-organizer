@@ -53,7 +53,7 @@ export default class ParticipantsForm extends Component {
                       return {value: item.idTrip, label: item.name}
                     })}
             />
-            <div>
+            <div id="participants-rows">
               {
                 Object.values(this.state.participants)
                   .map(participant => {

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import EpisodesForm from "../../component/forms/EpisodesForm";
-import {fetchUserTrips} from "../../../reducers/trips";
+import {fetchModeratorTrips} from "../../../reducers/trips";
 
 class EpisodesFormPage extends Component {
 
@@ -27,7 +27,7 @@ function mapStateToProps(state) {
 }
 
 const mapActionsToProps = {
-  fetchTrips: fetchUserTrips
+  fetchTrips: fetchModeratorTrips
 };
 
 export default connect(

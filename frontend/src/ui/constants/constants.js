@@ -1,10 +1,13 @@
 import {FormFieldBuilder} from "../component/forms/FormFieldBuilder";
 
 export const MENU_FOR_USER = [
+  {label: 'Trips', link: '/trips', icon: ''},
   {label: 'Apply', link: '/apply', icon: ''}
 ];
 
-export const MENU_FOR_MODERATOR = [];
+export const MENU_FOR_MODERATOR = [
+  {label: 'Trips', link: '/trips', icon: ''},
+];
 
 export const MENU_FOR_GUEST = [];
 

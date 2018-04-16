@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import TripsGrid from "../../component/trips/TripsGrid"
-import {fetchUserTrips} from "../../../reducers/trips";
+import {fetchModeratorTrips} from "../../../reducers/trips";
 import {fetchTripById} from "../../../reducers/trip";
 import {updateTrip} from "../../../reducers/tripUpdate";
 
@@ -37,7 +37,7 @@ function mapStateToProps(state) {
 }
 
 const mapActionsToProps = {
-  fetchTrips: fetchUserTrips,
+  fetchTrips: fetchModeratorTrips,
   fetchTrip: fetchTripById,
   editTrip: updateTrip
 };

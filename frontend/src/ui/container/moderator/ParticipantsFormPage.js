@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchUserTrips} from "../../../reducers/trips";
+import {fetchModeratorTrips} from "../../../reducers/trips";
 import ParticipantsForm from "../../component/forms/ParticipantsForm";
 import {createParticipant} from "../../../reducers/participant";
 
@@ -35,7 +35,7 @@ function mapStateToProps(state) {
 }
 
 const mapActionsToProps = {
-  fetchTrips: fetchUserTrips,
+  fetchTrips: fetchModeratorTrips,
   create: createParticipant
 };
 
