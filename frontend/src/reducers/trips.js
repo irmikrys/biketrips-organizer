@@ -42,3 +42,10 @@ export function fetchUserTrips(username) {
     promise: client => client.get(`/api/trips/participant/${username}`)
   };
 }
+
+export function fetchAllCreatedTrips() {
+  return  {
+    types: [FETCH_TRIPS, FETCH_TRIPS_SUCCESS, FETCH_TRIPS_FAIL],
+    promise: client => client.get(`/api/trips/`)
+  };
+}
