@@ -29,7 +29,6 @@ class ParticipantRow extends Component {
     const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
     return (
       <form onSubmit={this.handleSubmit}>
-        {errorPanel}
         <div className="participant-row">
           <div id="description">
             <input placeholder="username"
@@ -45,6 +44,7 @@ class ParticipantRow extends Component {
             <span className={this.props.glyphicon}/>
           </button>
         </div>
+        {errorPanel}
       </form>
     )
   }

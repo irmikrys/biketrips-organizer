@@ -57,25 +57,26 @@ export default class ParticipantsForm extends Component {
               {
                 Object.values(this.state.participants)
                   .map(participant => {
-                    return <ParticipantRow participant={participant}
-                                           tripSelected={tripSelected}
+                    return <ParticipantRow tripSelected={tripSelected}
                                            glyphicon="glyphicon glyphicon-trash"
                                            fieldsDisabled={true}
                                            create={this.props.createParticipant.bind(this)}
                                            handleInputChange={this.handleInputChange.bind(this)}
+                                           participant={participant}
                     />
                   })
               }
-              <ParticipantRow participant={{
-                idTrip: this.state.idTrip,
-                username: this.state.currentUsername,
-                idActivity: 1
-              }}
+              <ParticipantRow errorMessage={this.props.errorMessage}
                               tripSelected={tripSelected}
                               glyphicon="glyphicon glyphicon-floppy-disk"
                               fieldsDisabled={!this.state.tripSelected}
                               create={this.props.createParticipant.bind(this)}
                               handleInputChange={this.handleInputChange.bind(this)}
+                              participant={{
+                                idTrip: this.state.idTrip,
+                                username: this.state.currentUsername,
+                                idActivity: 1
+                              }}
               />
             </div>
             <div className="add-btn">
