@@ -8,8 +8,9 @@ class TripsUserGrid extends Component {
       <div className="card-wrapper">
         {
           Object.values(this.props.trips)
-            .map(trip => {
-              return <TripCard trip={trip}
+            .map((trip, key) => {
+              return <TripCard key={key}
+                               trip={trip}
                                levels={this.props.levels}/>
             })
         }

@@ -3,8 +3,11 @@ import {ErrorPanel} from "../forms/ErrorPanel";
 
 class ParticipantRow extends Component {
 
-  componentDidMount() {
-    console.log(this.props);
+  constructor(props) {
+    super(props);
+    this.state = {
+      submitted: this.props.submitted
+    };
   }
 
   handleSubmit = event => {
@@ -18,9 +21,10 @@ class ParticipantRow extends Component {
       idTrip,
       idActivity
     };
-    console.log("Adding participant...");
-    console.log(participantInfo);
     create(idTrip, participantInfo);
+    this.setState({
+      submitted: true
+    });
   };
 
   render() {
@@ -28,24 +32,54 @@ class ParticipantRow extends Component {
     const {errorMessage} = this.props;
     const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="participant-row">
-          <div id="description">
-            <input placeholder="username"
-                   name="currentUsername"
-                   value={participant.username}
-                   disabled={this.props.fieldsDisabled}
-                   onChange={this.props.handleInputChange}
-                   required
-            />
+      <div>
+        {
+          this.state.submitted && !errorPanel &&
+          <div>
+            <div className="participant-row">
+              <div id="description">
+                <input placeholder="username"
+                       value={participant.username}
+                       disabled={true}
+                />
+              </div>
+              <button
+                onClick={this.props.deleteRow}
+                disabled={!this.props.tripSelected}
+                style={{background: "red"}}
+              >
+                <span className="glyphicon glyphicon-trash"/>
+              </button>
+
+            </div>
+            {errorPanel}
           </div>
-          <button type="submit"
-                  disabled={!this.props.tripSelected}>
-            <span className={this.props.glyphicon}/>
-          </button>
-        </div>
-        {errorPanel}
-      </form>
+        }
+        {
+          (!this.state.submitted || (this.state.submitted && errorPanel)) &&
+          <form onSubmit={this.handleSubmit}>
+            <div className="participant-row">
+              <div id="description">
+                <input placeholder="username"
+                       name="currentUsername"
+                       value={participant.username}
+                       disabled={false}
+                       onChange={this.props.handleInputChange}
+                       required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={!this.props.tripSelected}
+                style={{background: "#088A29"}}
+              >
+                <span className="glyphicon glyphicon-floppy-disk"/>
+              </button>
+            </div>
+            {errorPanel}
+          </form>
+        }
+      </div>
     )
   }
 

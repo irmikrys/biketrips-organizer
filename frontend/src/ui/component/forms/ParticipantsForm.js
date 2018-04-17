@@ -12,30 +12,38 @@ export default class ParticipantsForm extends Component {
       participants: [],
       idTrip: 0,
       tripSelected: false,
-      currentUsername: ""
+      currentUsername: "",
     };
   }
 
-  handleTripChange = value => {
-    axios.get(`/api/trips/${value}/participants`)
+  getTripParticipants = idTrip => {
+    axios.get(`/api/trips/${idTrip}/participants`)
       .then((response) => {
         this.setState({
           participants: response.data,
-          idTrip: value,
-          tripSelected: true
         });
       })
       .catch((error) => {
         console.log(error);
       });
-    this.render();
+  };
+
+  handleTripChange = value => {
+    this.getTripParticipants(value);
+    this.setState({
+      idTrip: value,
+      tripSelected: true,
+    });
   };
 
   handleInputChange = event => {
     let value = event.target.value;
     let inputName = event.target.name;
     this.setState({[inputName]: value});
-    this.render();
+  };
+
+  deleteRow = () => {
+
   };
 
   render() {
@@ -56,22 +64,24 @@ export default class ParticipantsForm extends Component {
             <div id="participants-rows">
               {
                 Object.values(this.state.participants)
-                  .map(participant => {
-                    return <ParticipantRow tripSelected={tripSelected}
-                                           glyphicon="glyphicon glyphicon-trash"
-                                           fieldsDisabled={true}
+                  .map((participant, key) => {
+                    return <ParticipantRow key={key}
+                                           tripSelected={tripSelected}
+                                           submitted={true}
                                            create={this.props.createParticipant.bind(this)}
                                            handleInputChange={this.handleInputChange.bind(this)}
+                                           deleteRow={this.deleteRow.bind(this)}
                                            participant={participant}
                     />
                   })
               }
-              <ParticipantRow errorMessage={this.props.errorMessage}
+              <ParticipantRow handleCreation={this.handleParticipantCreation.bind(this)}
+                              errorMessage={this.props.errorMessage}
                               tripSelected={tripSelected}
-                              glyphicon="glyphicon glyphicon-floppy-disk"
-                              fieldsDisabled={!this.state.tripSelected}
+                              submitted={false}
                               create={this.props.createParticipant.bind(this)}
                               handleInputChange={this.handleInputChange.bind(this)}
+                              deleteRow={this.deleteRow.bind(this)}
                               participant={{
                                 idTrip: this.state.idTrip,
                                 username: this.state.currentUsername,
