@@ -42,12 +42,21 @@ export default class ParticipantsForm extends Component {
     this.setState({[inputName]: value});
   };
 
-  deleteRow = () => {
-
-  };
-
   addRow = () => {
-
+    return (
+      <ParticipantRow errorMessage={this.props.errorMessage}
+                      tripSelected={tripSelected}
+                      submitted={false}
+                      deleted={false}
+                      create={this.props.createParticipant.bind(this)}
+                      handleInputChange={this.handleInputChange.bind(this)}
+                      participant={{
+                        idTrip: this.state.idTrip,
+                        username: this.state.currentUsername,
+                        idActivity: 1
+                      }}
+      />
+    )
   };
 
   render() {
@@ -72,25 +81,13 @@ export default class ParticipantsForm extends Component {
                     return <ParticipantRow key={key}
                                            tripSelected={tripSelected}
                                            submitted={true}
+                                           deleted={false}
                                            create={this.props.createParticipant.bind(this)}
                                            handleInputChange={this.handleInputChange.bind(this)}
-                                           deleteRow={this.deleteRow.bind(this)}
                                            participant={participant}
                     />
                   })
               }
-              <ParticipantRow errorMessage={this.props.errorMessage}
-                              tripSelected={tripSelected}
-                              submitted={false}
-                              create={this.props.createParticipant.bind(this)}
-                              handleInputChange={this.handleInputChange.bind(this)}
-                              deleteRow={this.deleteRow.bind(this)}
-                              participant={{
-                                idTrip: this.state.idTrip,
-                                username: this.state.currentUsername,
-                                idActivity: 1
-                              }}
-              />
             </div>
             <div className="add-btn">
               <button type="button"

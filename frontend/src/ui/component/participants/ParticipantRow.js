@@ -1,12 +1,14 @@
 import React, {Component} from "react";
 import {ErrorPanel} from "../forms/ErrorPanel";
+import axios from 'axios';
 
 class ParticipantRow extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      submitted: this.props.submitted
+      submitted: this.props.submitted,
+      deleted: this.props.deleted
     };
   }
 
@@ -27,14 +29,27 @@ class ParticipantRow extends Component {
     });
   };
 
+  handleDelete = event => {
+    event.preventDefault();
+    const {username, idTrip} = this.props.participant;
+    axios.delete(`/api/trips/${idTrip}/participants/${username}`);
+    this.setState({
+      deleted: true
+    })
+  };
+
   render() {
     const {participant} = this.props;
     const {errorMessage} = this.props;
+    const {deleted, submitted} = this.state;
     const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
     return (
       <div>
         {
-          this.state.submitted && !errorPanel &&
+          deleted && null
+        }
+        {
+          !deleted && submitted && !errorPanel &&
           <div>
             <div className="participant-row">
               <div id="description">
@@ -44,7 +59,7 @@ class ParticipantRow extends Component {
                 />
               </div>
               <button
-                onClick={this.props.deleteRow}
+                onClick={this.handleDelete}
                 disabled={!this.props.tripSelected}
                 style={{background: "red"}}
               >
@@ -56,7 +71,7 @@ class ParticipantRow extends Component {
           </div>
         }
         {
-          (!this.state.submitted || (this.state.submitted && errorPanel)) &&
+          !deleted && (!submitted || (submitted && errorPanel)) &&
           <form onSubmit={this.handleSubmit}>
             <div className="participant-row">
               <div id="description">
