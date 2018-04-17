@@ -3,7 +3,7 @@ const FETCH_TRIPS_SUCCESS = 'trips/FETCH_TRIPS_SUCCESS';
 const FETCH_TRIPS_FAIL = 'trips/FETCH_TRIPS_FAIL';
 
 const initialState = {
-  updating: false,
+  updating: true,
   trips: []
 };
 

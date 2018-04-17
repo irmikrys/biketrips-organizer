@@ -2,10 +2,15 @@ import React, {Component} from 'react';
 import {dateFormatter} from "../utils";
 
 class TripCard extends Component {
+
+  handleClick = () => {
+    window.location = '/trips/' + this.props.trip.idTrip;
+  };
+
   render() {
     const {trip} = this.props;
     return (
-      <div className="trip-card">
+      <div className="trip-card" onClick={this.handleClick}>
         <h3>{trip.name}</h3>
         <div className="trip-details">
           <div><b>Moderator: </b>{trip.moderator}</div>
