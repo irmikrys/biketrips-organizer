@@ -40,6 +40,7 @@ class ParticipantRow extends Component {
     })
   };
 
+  //fixme add error message only to at-the-moment submitting rows
   render() {
     const {participant} = this.props;
     const {errorMessage} = this.props;

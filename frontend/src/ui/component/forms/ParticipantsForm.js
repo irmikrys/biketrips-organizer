@@ -46,6 +46,7 @@ export default class ParticipantsForm extends Component {
     console.log('input' + value);
   };
 
+  //fixme handling input change not working in children
   addRow = () => {
     this.setState({
       children: this.state.children.concat([
