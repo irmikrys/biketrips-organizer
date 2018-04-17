@@ -44,7 +44,7 @@ class ParticipantRow extends Component {
     const {participant} = this.props;
     const {errorMessage} = this.props;
     const {deleted, submitted} = this.state;
-    const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
+    const errorPanel = errorMessage && submitted ? <ErrorPanel messageKey={errorMessage}/> : null;
     return (
       <div>
         {
