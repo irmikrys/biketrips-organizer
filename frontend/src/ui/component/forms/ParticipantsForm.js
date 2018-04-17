@@ -13,6 +13,7 @@ export default class ParticipantsForm extends Component {
       idTrip: 0,
       tripSelected: false,
       currentUsername: "",
+      children: []
     };
   }
 
@@ -43,20 +44,21 @@ export default class ParticipantsForm extends Component {
   };
 
   addRow = () => {
-    return (
-      <ParticipantRow errorMessage={this.props.errorMessage}
-                      tripSelected={tripSelected}
-                      submitted={false}
-                      deleted={false}
-                      create={this.props.createParticipant.bind(this)}
-                      handleInputChange={this.handleInputChange.bind(this)}
-                      participant={{
-                        idTrip: this.state.idTrip,
-                        username: this.state.currentUsername,
-                        idActivity: 1
-                      }}
-      />
-    )
+    this.setState({
+      children: this.state.children.concat([
+        {
+          tripSelected: this.state.tripSelected,
+          submitted: false,
+          deleted: false,
+          errorMessage: this.props.errorMessage,
+          participant: {
+            idTrip: this.state.idTrip,
+            username: "",
+            idActivity: 1
+          }
+        }
+      ])
+    });
   };
 
   render() {
@@ -85,6 +87,19 @@ export default class ParticipantsForm extends Component {
                                            create={this.props.createParticipant.bind(this)}
                                            handleInputChange={this.handleInputChange.bind(this)}
                                            participant={participant}
+                    />
+                  })
+              }
+              {
+                Object.values(this.state.children)
+                  .map((child, key) => {
+                    return <ParticipantRow key={key}
+                                           tripSelected={child.tripSelected}
+                                           submitted={child.submitted}
+                                           deleted={child.deleted}
+                                           create={this.props.createParticipant.bind(this)}
+                                           handleInputChange={this.handleInputChange.bind(this)}
+                                           participant={child.participant}
                     />
                   })
               }

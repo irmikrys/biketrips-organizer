@@ -32,7 +32,9 @@ class ParticipantRow extends Component {
   handleDelete = event => {
     event.preventDefault();
     const {username, idTrip} = this.props.participant;
-    axios.delete(`/api/trips/${idTrip}/participants/${username}`);
+    if(this.state.submitted) {
+      axios.delete(`/api/trips/${idTrip}/participants/${username}`);
+    }
     this.setState({
       deleted: true
     })
@@ -89,6 +91,13 @@ class ParticipantRow extends Component {
                 style={{background: "#088A29"}}
               >
                 <span className="glyphicon glyphicon-floppy-disk"/>
+              </button>
+              <button
+                onClick={this.handleDelete}
+                disabled={!this.props.tripSelected}
+                style={{background: "red"}}
+              >
+                <span className="glyphicon glyphicon-trash"/>
               </button>
             </div>
             {errorPanel}
