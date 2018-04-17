@@ -4,6 +4,7 @@ import TripView from "../../component/trips/TripView";
 import {fetchTripById} from "../../../reducers/trip";
 import {fetchAvailableLevels} from "../../../reducers/levels";
 import {fetchAvailableStatuses} from "../../../reducers/statuses";
+import {fetchEpisodesByIdTrip} from "../../../reducers/episodes";
 
 export class TripViewPage extends Component {
 
@@ -12,6 +13,7 @@ export class TripViewPage extends Component {
     props.fetchTrip(props.params.idTrip);
     props.fetchLevels();
     props.fetchStatuses();
+    props.fetchEpisodes(props.params.idTrip);
   }
 
   render() {
@@ -21,6 +23,7 @@ export class TripViewPage extends Component {
         {!this.props.updating && <TripView trip={this.props.trip}
                                            levels={this.props.levels}
                                            statuses={this.props.statuses}
+                                           episodes={this.props.episodes}
                                            username={this.props.username}
                                            fetchTrip={this.props.fetchTrip}
         />
@@ -37,14 +40,16 @@ function mapStateToProps(state) {
     trip: state.trip.trip,
     updating: state.trip.updating,
     levels: state.levels.levels,
-    statuses: state.statuses.statuses
+    statuses: state.statuses.statuses,
+    episodes: state.episodes.episodes
   };
 }
 
 const mapActionsToProps = {
   fetchTrip: fetchTripById,
   fetchLevels: fetchAvailableLevels,
-  fetchStatuses: fetchAvailableStatuses
+  fetchStatuses: fetchAvailableStatuses,
+  fetchEpisodes: fetchEpisodesByIdTrip
 };
 
 export default connect(

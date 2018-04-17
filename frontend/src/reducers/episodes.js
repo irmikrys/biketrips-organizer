@@ -4,7 +4,7 @@ const FETCH_EPISODES_FAIL = 'episodes/FETCH_EPISODES_FAIL';
 
 const initialState = {
   loading: false,
-  items: []
+  episodes: []
 };
 
 // Reducer
@@ -19,7 +19,7 @@ export default function episodesReducer(state = initialState, action) {
     case FETCH_EPISODES_SUCCESS:
       return {
         ...state,
-        items: action.result.data,
+        episodes: action.result.data,
         loading: false
       };
     default:
@@ -29,7 +29,7 @@ export default function episodesReducer(state = initialState, action) {
 
 // Actions
 
-export function fetchEpisodes(idTrip) {
+export function fetchEpisodesByIdTrip(idTrip) {
   return  {
     types: [FETCH_EPISODES, FETCH_EPISODES_SUCCESS, FETCH_EPISODES_FAIL],
     promise: client => client.get(`/api/trips/${idTrip}/episodes`)
