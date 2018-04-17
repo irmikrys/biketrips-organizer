@@ -46,6 +46,10 @@ export default class ParticipantsForm extends Component {
 
   };
 
+  addRow = () => {
+
+  };
+
   render() {
     const {tripSelected} = this.state;
     return (
@@ -75,8 +79,7 @@ export default class ParticipantsForm extends Component {
                     />
                   })
               }
-              <ParticipantRow handleCreation={this.handleParticipantCreation.bind(this)}
-                              errorMessage={this.props.errorMessage}
+              <ParticipantRow errorMessage={this.props.errorMessage}
                               tripSelected={tripSelected}
                               submitted={false}
                               create={this.props.createParticipant.bind(this)}
@@ -90,7 +93,10 @@ export default class ParticipantsForm extends Component {
               />
             </div>
             <div className="add-btn">
-              <button type="button" disabled={!this.state.tripSelected}>
+              <button type="button"
+                      disabled={!this.state.tripSelected}
+                      onClick={this.addRow}
+              >
                 <span className="glyphicon glyphicon-plus"/>
               </button>
             </div>
