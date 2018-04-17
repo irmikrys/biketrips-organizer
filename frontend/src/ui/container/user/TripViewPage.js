@@ -14,7 +14,6 @@ export class TripViewPage extends Component {
 
     return (
       <div className="main">
-        <h1>Trip</h1>
         {!this.props.updating && <TripView trip={this.props.trip}
                                            levels={this.props.levels}
                                            username={this.props.username}
