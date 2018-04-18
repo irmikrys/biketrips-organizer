@@ -8,6 +8,7 @@ import {fetchEpisodesByIdTrip} from "../../../reducers/episodes";
 import {fetchParticipantsByIdTrip} from "../../../reducers/participants";
 import {getSession} from "../../../reducers/authentication";
 import {fetchActivitiesForUser} from "../../../reducers/activities";
+import {updateParticipant} from "../../../reducers/participantUpdate";
 
 export class TripViewPage extends Component {
 
@@ -37,6 +38,8 @@ export class TripViewPage extends Component {
                   participants={this.props.participants}
                   username={this.props.username}
                   fetchTrip={this.props.fetchTrip}
+                  fetchParticipants={this.props.fetchParticipants}
+                  updateParticipant={this.props.updateParticipant}
         />
         }
         {(this.props.updatingTrip || this.props.updatingEpisodes ||
@@ -70,7 +73,8 @@ const mapActionsToProps = {
   fetchStatuses: fetchAvailableStatuses,
   fetchEpisodes: fetchEpisodesByIdTrip,
   fetchParticipants: fetchParticipantsByIdTrip,
-  getCurrentSession: getSession
+  getCurrentSession: getSession,
+  updateParticipant
 };
 
 export default connect(
