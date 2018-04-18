@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {dateFormatter} from "../utils";
 import Select from "react-select";
+import axios from 'axios';
 
 class TripView extends Component {
 
@@ -53,7 +54,15 @@ class TripView extends Component {
   }
 
   handleActivityChange = value => {
-    this.setState({idActivity: value})
+    const {idTrip, username} = this.props;
+    const participantInfo = {
+      username: username,
+      idTrip: idTrip,
+      idActivity: value
+    };
+    console.log(participantInfo);
+    axios.put(`/api/trips/${idTrip}/participants/${username}`, participantInfo);
+    this.setState({idActivity: value});
   };
 
   render() {

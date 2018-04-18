@@ -29,6 +29,7 @@ export class TripViewPage extends Component {
         {!this.props.updatingTrip && !this.props.updatingEpisodes &&
         !this.props.updatingParticipants && !this.props.sessionUpdating &&
         <TripView trip={this.props.trip}
+                  idTrip={this.props.params.idTrip}
                   levels={this.props.levels}
                   statuses={this.props.statuses}
                   activities={this.props.activities}
