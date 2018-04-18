@@ -12,6 +12,7 @@ class TripView extends Component {
       isUserParticipant: participants.filter(
         item => item.username === props.username
       ).length === 1,
+      idActivity: 0,
     };
   }
 
@@ -51,8 +52,8 @@ class TripView extends Component {
     this.initializeMapWithMarkers(50.0645191000000000, 19.923639699999967);
   }
 
-  handleActivityChange = event => {
-    event.preventDefault();
+  handleActivityChange = value => {
+    this.setState({idActivity: value})
   };
 
   render() {
@@ -119,7 +120,11 @@ class TripView extends Component {
                             return <Select simpleValue
                                            placeholder="your status..."
                                            clearable={false}
-                                           value={participant.idActivity}
+                                           value={
+                                             this.state.idActivity === 0 ?
+                                               participant.idActivity :
+                                               this.state.idActivity
+                                           }
                                            onChange={this.handleActivityChange}
                                            options={this.props.activities.map(item => {
                                              return {value: item.idActivity, label: item.name}
