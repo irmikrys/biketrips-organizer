@@ -157,9 +157,18 @@ public class TripController {
 
   @RequestMapping(method = GET, path = "/api/trips/{idTrip}/episodes")
   public @ResponseBody
-  Iterable<Episode>
+  Iterable<EpisodeDTO>
   getEpisodesByIdTrip(@PathVariable(name = "idTrip") long idTrip) {
-    return getTripEpisodes(idTrip, "getTripEpisodes");
+    Iterable<Episode> episodes = getTripEpisodes(idTrip, "getTripEpisodes");
+    List<EpisodeDTO> episodesDTO = new ArrayList<>();
+    for (Episode episode :
+      episodes) {
+      Location location = this.locationService.findByIdLocation(episode.getIdLocation()).orElseThrow(
+        () -> new TripException("getTripEpisodes.error.locationNotFound")
+      );
+      episodesDTO.add(new EpisodeDTO(episode, location));
+    }
+    return episodesDTO;
   }
 
   @RequestMapping(method = GET, path = "/api/trips/{idTrip}/episodes/{idEpisode}")

@@ -3,7 +3,7 @@ const FETCH_EPISODES_SUCCESS = 'episodes/FETCH_EPISODES_SUCCESS';
 const FETCH_EPISODES_FAIL = 'episodes/FETCH_EPISODES_FAIL';
 
 const initialState = {
-  loading: false,
+  updating: true,
   episodes: []
 };
 
@@ -14,13 +14,13 @@ export default function episodesReducer(state = initialState, action) {
     case FETCH_EPISODES:
       return {
         ...state,
-        loading: true
+        updating: true
       };
     case FETCH_EPISODES_SUCCESS:
       return {
         ...state,
         episodes: action.result.data,
-        loading: false
+        updating: false
       };
     default:
       return state;
