@@ -7,6 +7,7 @@ import {updateTrip} from "../../../reducers/tripUpdate";
 import {fetchAvailableLevels} from "../../../reducers/levels";
 import {fetchAvailableStatuses} from "../../../reducers/statuses";
 import {getSession} from "../../../reducers/authentication";
+import {fetchAvailableActivities} from "../../../reducers/activities";
 
 export class ModeratorTripsPage extends Component {
 
@@ -29,6 +30,9 @@ export class ModeratorTripsPage extends Component {
           !this.props.updating && !this.props.userUpdating &&
           <div className="trip-grid">
             <TripsGrid trips={this.props.trips}
+                       levels={this.props.levels}
+                       statuses={this.props.statuses}
+                       activities={this.props.activities}
                        fetchTrip={this.props.fetchTrip}
                        editTrip={this.props.editTrip}
             />
@@ -47,7 +51,8 @@ function mapStateToProps(state) {
     trips: state.trips.trips,
     updating: state.trips.updating,
     levels: state.levels.levels,
-    statuses: state.statuses.statuses
+    statuses: state.statuses.statuses,
+    activities: state.activities.activities
   };
 }
 
@@ -57,6 +62,7 @@ const mapActionsToProps = {
   editTrip: updateTrip,
   fetchLevels: fetchAvailableLevels,
   fetchStatuses: fetchAvailableStatuses,
+  fetchActivities: fetchAvailableActivities,
   getCurrentSession: getSession
 };
 

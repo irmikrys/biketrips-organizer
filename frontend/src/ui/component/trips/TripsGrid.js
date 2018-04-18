@@ -4,12 +4,16 @@ import TripTile from "./TripTile";
 class TripsGrid extends Component {
 
   render() {
-    return(
+    return (
       <div className="tile-wrapper">
         {
           Object.values(this.props.trips)
-            .map(trip => {
-              return <TripTile trip={trip}
+            .map((trip, key) => {
+              return <TripTile key={key}
+                               trip={trip}
+                               levels={this.props.levels}
+                               statuses={this.props.statuses}
+                               activities={this.props.activities}
                                fetchTrip={this.props.fetchTrip}
                                editTrip={this.props.editTrip}
               />
