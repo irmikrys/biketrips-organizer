@@ -6,7 +6,7 @@ import {fetchModeratorTrips} from "../../../reducers/trips";
 class EpisodesFormPage extends Component {
 
   componentDidMount() {
-    this.props.fetchTrips(this.props.username);
+    this.props.fetchTrips();
   }
 
   render() {

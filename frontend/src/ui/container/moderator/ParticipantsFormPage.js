@@ -7,7 +7,7 @@ import {createParticipant} from "../../../reducers/participant";
 class ParticipantsFormPage extends Component {
 
   componentDidMount() {
-    this.props.fetchTrips(this.props.username);
+    this.props.fetchTrips();
   }
 
   render() {
