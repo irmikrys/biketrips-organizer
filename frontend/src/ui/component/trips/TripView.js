@@ -20,10 +20,11 @@ class TripView extends Component {
     const {episodes} = this.props;
     let latitude = lat;
     let longitude = lng;
-    if (episodes) {
+    if (episodes.length !== 0) {
       latitude = episodes[0].locationDTO.latitude;
       longitude = episodes[0].locationDTO.longitude;
     }
+    console.log(latitude + " " + longitude);
     let map = new window.google.maps.Map(document.getElementById('map'), {
       center: {
         lat: latitude,
@@ -32,7 +33,7 @@ class TripView extends Component {
       zoom: 12,
       mapTypeId: 'roadmap',
     });
-    if (episodes) {
+    if (episodes.length !== 0) {
       const markers = [];
       episodes.map(episode => {
         const marker = new window.google.maps.Marker({
@@ -45,7 +46,7 @@ class TripView extends Component {
         });
         const content =
           `<p>${dateFormatter(new Date(episode.time))}</p>` +
-          `<p>${episode.description}</p>`+
+          `<p>${episode.description}</p>` +
           `<p class="map-popup-paragraph" id=episode${episode.idLocation}/>`;
         const infoWindow = new window.google.maps.InfoWindow({content: content});
         markers.push(marker);
