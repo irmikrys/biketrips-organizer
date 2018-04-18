@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {dateFormatter} from "../utils";
+import Select from "react-select";
 
 class TripView extends Component {
 
   constructor(props) {
     super(props);
-
+    console.log(props);
     const {participants} = this.props;
     this.state = {
       isUserParticipant: participants.filter(
@@ -49,6 +50,10 @@ class TripView extends Component {
   componentDidMount() {
     this.initializeMapWithMarkers(50.0645191000000000, 19.923639699999967);
   }
+
+  handleActivityChange = event => {
+    event.preventDefault();
+  };
 
   render() {
     console.log(this.props);
@@ -99,10 +104,33 @@ class TripView extends Component {
             <div className="trip-actions">
               {
                 this.state.isUserParticipant &&
-                <button type="button">
-                  <span className='glyphicon glyphicon-ok'/>
-                  You are participant!
-                </button>
+                <div className="margin-top-2">
+                  <div className="column margin-top-1 left-content">
+                    <b>Change your status:</b>
+                  </div>
+                  <div className="column">
+                    {
+                      Object.values(this.props.participants)
+                        .filter(participant => {
+                            return participant.username === this.props.username
+                          }
+                        )
+                        .map(participant => {
+                            return <Select simpleValue
+                                           placeholder="your status..."
+                                           clearable={false}
+                                           value={participant.idActivity}
+                                           onChange={this.handleActivityChange}
+                                           options={this.props.activities.map(item => {
+                                             return {value: item.idActivity, label: item.name}
+                                           })}
+                                           required
+                            />
+                          }
+                        )
+                    }
+                  </div>
+                </div>
               }
               {
                 !this.state.isUserParticipant &&

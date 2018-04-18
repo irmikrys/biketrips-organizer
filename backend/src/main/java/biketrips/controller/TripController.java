@@ -66,6 +66,20 @@ public class TripController {
     return this.activityService.findAll();
   }
 
+  @RequestMapping(method = GET, path = "/api/activities/user")
+  public @ResponseBody
+  Iterable<Activity>
+  getActivitiesForUser() {
+    List<Activity> activitiesForUser = new ArrayList<>();
+    Iterable<Activity> activities = this.getAllActivities();
+    for (Activity a :
+      activities) {
+      if (a.getIdActivity() == 4) continue;
+      activitiesForUser.add(a);
+    }
+    return activitiesForUser;
+  }
+
   @RequestMapping(method = GET, path = "/api/statuses")
   public @ResponseBody
   Iterable<Status>

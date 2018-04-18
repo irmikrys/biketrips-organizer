@@ -35,3 +35,10 @@ export function fetchAvailableActivities() {
     promise: client => client.get(`/api/activities`)
   };
 }
+
+export function fetchActivitiesForUser() {
+  return  {
+    types: [FETCH_ACTIVITIES, FETCH_ACTIVITIES_SUCCESS, FETCH_ACTIVITIES_FAIL],
+    promise: client => client.get(`/api/activities/user`)
+  };
+}
