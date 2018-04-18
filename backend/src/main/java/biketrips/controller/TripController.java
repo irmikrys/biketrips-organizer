@@ -137,16 +137,12 @@ public class TripController {
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
-  @RequestMapping(method = GET, path = "/api/trips/moderator/{moderator}")
+  @RequestMapping(method = GET, path = "/api/trips/moderator")
   public @ResponseBody
   Iterable<Trip>
-  getTripsByModerator(@PathVariable(name = "moderator") String username, HttpSession session) {
+  getTripsByModerator(HttpSession session) {
     User user = getModeratorAndCheck(session, "getTripsByModerator");
-    System.out.println("User moderator: " + username);
-    if (!user.getUsername().equals(username)) {
-      throw new TripException("getTripsByModerator.error.unauthorisedNotOwner");
-    }
-    return this.tripService.findAllByModerator(username);
+    return this.tripService.findAllByModerator(user.getUsername());
   }
 
 
