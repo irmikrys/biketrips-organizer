@@ -40,6 +40,10 @@ public class TripController {
   private LevelService levelService;
 
   @Autowired
+  @Qualifier("activityService")
+  private ActivityService activityService;
+
+  @Autowired
   @Qualifier("episodeService")
   private EpisodeService episodeService;
 
@@ -54,6 +58,13 @@ public class TripController {
 
   // trips
 
+
+  @RequestMapping(method = GET, path = "/api/activities")
+  public @ResponseBody
+  Iterable<Activity>
+  getAllActivities() {
+    return this.activityService.findAll();
+  }
 
   @RequestMapping(method = GET, path = "/api/statuses")
   public @ResponseBody
