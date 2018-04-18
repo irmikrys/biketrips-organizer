@@ -7,6 +7,10 @@ class TripsUserGrid extends Component {
     return (
       <div className="card-wrapper">
         {
+          this.props.trips.length === 0 &&
+          <h2 className="main">No trips found...</h2>
+        }
+        {
           Object.values(this.props.trips)
             .map((trip, key) => {
               return <TripCard key={key}
