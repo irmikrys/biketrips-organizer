@@ -10,8 +10,11 @@ class TripTile extends Component {
   render() {
     const {trip, levels, statuses, activities} = this.props;
     return (
-      <div className="trip-tile" onClick={this.handleClick}>
-        <h3>{trip.name}</h3>
+      <div className="trip-tile">
+        <h3>{trip.name}
+          <span className='glyphicon glyphicon-pencil'
+                onClick={this.handleClick}/>
+        </h3>
         <div className="tile-content">
           <div className="column">
             <div>{trip.description}</div>
@@ -20,6 +23,24 @@ class TripTile extends Component {
             <div>Level: {levels.filter(e => e.idLevel === trip.idLevel)[0].name}</div>
             <div>Points: {trip.points}</div>
             <div>Status: {statuses.filter(e => e.idStatus === trip.idStatus)[0].name}</div>
+          </div>
+          <div className="column">
+            <div className="dropdown">
+              <button className="btn btn-default dropdown-toggle"
+                      type="button"
+                      data-toggle="dropdown"
+              > Participants
+                <span className="caret"/></button>
+              <ul className="dropdown-menu">
+                <li className="dropdown-header">Invited</li>
+                <li className="divider"/>
+                <li className="dropdown-header">Accepted</li>
+                <li className="divider"/>
+                <li className="dropdown-header">Denied</li>
+                <li className="divider"/>
+                <li className="dropdown-header">Confirmed</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
