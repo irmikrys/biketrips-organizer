@@ -53,7 +53,7 @@ public class ParticipantService {
   public void updateParticipant(Participant oldParticipant, ParticipantDTO newParticipant) {
     final String sql = "" +
       "UPDATE participants p " +
-      "SET p.idActivity = ?" +
+      "SET p.idActivity = ? " +
       "WHERE p.username = ? AND p.idTrip = ?";
     this.jdbcTemplate.update(sql, newParticipant.getIdActivity(), oldParticipant.getUsername(), oldParticipant.getIdTrip());
   }

@@ -279,6 +279,28 @@ public class TripController {
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
+  @RequestMapping(method = PUT, path = "/api/trips/{idTrip}/participants/{username}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
+  updateParticipant(@PathVariable(name = "idTrip") long idTrip,
+                    @PathVariable(name = "username") String username,
+                    @Valid @RequestBody ParticipantDTO participantDTO,
+                    HttpSession session) {
+    String action = "updateParticipant";
+    Trip trip = getTripAndCheck(idTrip, action);
+    Participant participant = getParticipantAndCheck(username, idTrip, action);
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String usernameSession = userSession.getUsername();
+    User user = this.userService.findByUsername(usernameSession).orElseThrow(
+      () -> new TripException(action + ".error.userNotFound"));
+    if (!user.getUsername().equals(trip.getModerator()) &&
+      !participant.getUsername().equals(user.getUsername())) {
+      throw new TripException(action + ".error.unauthorized");
+    }
+    this.participantService.updateParticipant(participant, participantDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
   @RequestMapping(method = GET, path = "/api/participants")
   public @ResponseBody
   Iterable<Participant>
@@ -300,16 +322,16 @@ public class TripController {
     User user = this.userService.findByUsername(username).orElseThrow(
       () -> new TripException("getParticipantTrips.error.userNotFound")
     );
-    if(usernameSession != null && !username.equals(usernameSession)) {
+    if (usernameSession != null && !username.equals(usernameSession)) {
       throw new TripException("getParticipantTrips.error.unauthorized");
     }
     Iterable<Participant> participants = this.participantService.findAllByUsername(username);
     List<Long> tripIds = new ArrayList<>();
-    for (Participant p: participants) {
+    for (Participant p : participants) {
       tripIds.add(p.getIdTrip());
     }
     List<Trip> trips = new ArrayList<>();
-    for (Long id: tripIds) {
+    for (Long id : tripIds) {
       Trip trip = this.tripService.findByIdTrip(id).orElseThrow(
         () -> new TripException("getParticipantTrips.error.tripNotFound")
       );
