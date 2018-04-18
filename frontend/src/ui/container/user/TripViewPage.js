@@ -6,6 +6,7 @@ import {fetchAvailableLevels} from "../../../reducers/levels";
 import {fetchAvailableStatuses} from "../../../reducers/statuses";
 import {fetchEpisodesByIdTrip} from "../../../reducers/episodes";
 import {fetchParticipantsByIdTrip} from "../../../reducers/participants";
+import {getSession} from "../../../reducers/authentication";
 
 export class TripViewPage extends Component {
 
@@ -16,6 +17,7 @@ export class TripViewPage extends Component {
     props.fetchTrip(props.params.idTrip);
     props.fetchEpisodes(props.params.idTrip);
     props.fetchParticipants(props.params.idTrip);
+    props.getCurrentSession(props.username);
   }
 
   render() {
@@ -23,17 +25,18 @@ export class TripViewPage extends Component {
     return (
       <div className="main">
         {!this.props.updatingTrip && !this.props.updatingEpisodes &&
-        !this.props.updatingParticipants && <TripView trip={this.props.trip}
-                                                      levels={this.props.levels}
-                                                      statuses={this.props.statuses}
-                                                      episodes={this.props.episodes}
-                                                      participants={this.props.participants}
-                                                      username={this.props.username}
-                                                      fetchTrip={this.props.fetchTrip}
+        !this.props.updatingParticipants && !this.props.sessionUpdating &&
+        <TripView trip={this.props.trip}
+                  levels={this.props.levels}
+                  statuses={this.props.statuses}
+                  episodes={this.props.episodes}
+                  participants={this.props.participants}
+                  username={this.props.username}
+                  fetchTrip={this.props.fetchTrip}
         />
         }
         {(this.props.updatingTrip || this.props.updatingEpisodes ||
-          this.props.updatingParticipants) &&
+          this.props.updatingParticipants || this.props.sessionUpdating) &&
         <div className="loader margin-top"/>}
       </div>
     )
@@ -43,6 +46,7 @@ export class TripViewPage extends Component {
 function mapStateToProps(state) {
   return {
     username: state.authentication.username,
+    sessionUpdating: state.authentication.loading,
     trip: state.trip.trip,
     updatingTrip: state.trip.updating,
     levels: state.levels.levels,
@@ -59,7 +63,8 @@ const mapActionsToProps = {
   fetchLevels: fetchAvailableLevels,
   fetchStatuses: fetchAvailableStatuses,
   fetchEpisodes: fetchEpisodesByIdTrip,
-  fetchParticipants: fetchParticipantsByIdTrip
+  fetchParticipants: fetchParticipantsByIdTrip,
+  getCurrentSession: getSession
 };
 
 export default connect(

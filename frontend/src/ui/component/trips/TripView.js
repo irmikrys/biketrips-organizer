@@ -3,6 +3,17 @@ import {dateFormatter} from "../utils";
 
 class TripView extends Component {
 
+  constructor(props) {
+    super(props);
+
+    const {participants} = this.props;
+    this.state = {
+      isUserParticipant: participants.filter(
+        item => item.username === props.username
+      ).length === 1,
+    };
+  }
+
   initializeMapWithMarkers(lat, lng) {
     const {episodes} = this.props;
     let latitude = lat;
@@ -70,8 +81,8 @@ class TripView extends Component {
               <div>{dateFormatter(new Date(trip.startDate))}</div>
               <label className="margin-top-2">End date:</label>
               <div>{dateFormatter(new Date(trip.endDate))}</div>
-              <label className="margin-top-2">Participants:</label>
-              <div>number of participants</div>
+              <label className="margin-top-2">Watching user:</label>
+              <div>{this.props.username}</div>
             </div>
             <div className="column">
               <label className="margin-top-2">Participants:</label>
@@ -85,6 +96,22 @@ class TripView extends Component {
           </div>
           <div className="column">
             <div id="map"/>
+            <div className="trip-actions">
+              {
+                this.state.isUserParticipant &&
+                <button type="button">
+                  <span className='glyphicon glyphicon-ok'/>
+                  You are participant!
+                </button>
+              }
+              {
+                !this.state.isUserParticipant &&
+                <button type="button">
+                  <span className='glyphicon glyphicon-ok'/>
+                  You are not participant!
+                </button>
+              }
+            </div>
           </div>
         </div>
       </div>
