@@ -137,7 +137,7 @@ public class TripController {
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
-  @RequestMapping(method = GET, path = "/api/trips/moderator")
+  @RequestMapping(method = GET, path = "/api/moderator/trips")
   public @ResponseBody
   Iterable<Trip>
   getTripsByModerator(HttpSession session) {
@@ -333,27 +333,16 @@ public class TripController {
   //participant trips
 
 
-  @RequestMapping(method = GET, path = "/api/trips/participant/{username}")
+  @RequestMapping(method = GET, path = "/api/user/trips")
   public @ResponseBody
   Iterable<Trip>
-  getTripsByParticipant(@PathVariable(name = "username") String username,
-                        HttpSession session) {
+  getTripsByParticipant(HttpSession session) {
     UserSession userSession = (UserSession) session.getAttribute("user");
-    String usernameSession = userSession.getUsername();
-    User user = this.userService.findByUsername(username).orElseThrow(
-      () -> new TripException("getParticipantTrips.error.userNotFound")
-    );
-    if (usernameSession != null && !username.equals(usernameSession)) {
-      throw new TripException("getParticipantTrips.error.unauthorized");
-    }
+    String username = userSession.getUsername();
     Iterable<Participant> participants = this.participantService.findAllByUsername(username);
-    List<Long> tripIds = new ArrayList<>();
-    for (Participant p : participants) {
-      tripIds.add(p.getIdTrip());
-    }
     List<Trip> trips = new ArrayList<>();
-    for (Long id : tripIds) {
-      Trip trip = this.tripService.findByIdTrip(id).orElseThrow(
+    for (Participant p : participants) {
+      Trip trip = this.tripService.findByIdTrip(p.getIdTrip()).orElseThrow(
         () -> new TripException("getParticipantTrips.error.tripNotFound")
       );
       trips.add(trip);

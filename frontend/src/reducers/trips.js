@@ -32,14 +32,14 @@ export default function tripsReducer(state = initialState, action) {
 export function fetchModeratorTrips() {
   return  {
     types: [FETCH_TRIPS, FETCH_TRIPS_SUCCESS, FETCH_TRIPS_FAIL],
-    promise: client => client.get(`/api/trips/moderator`)
+    promise: client => client.get(`/api/moderator/trips`)
   };
 }
 
-export function fetchUserTrips(username) {
+export function fetchUserTrips() {
   return  {
     types: [FETCH_TRIPS, FETCH_TRIPS_SUCCESS, FETCH_TRIPS_FAIL],
-    promise: client => client.get(`/api/trips/participant/${username}`)
+    promise: client => client.get(`/api/user/trips`)
   };
 }
 

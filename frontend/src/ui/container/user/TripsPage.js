@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import React from 'react';
 import {fetchAllCreatedTrips, fetchUserTrips} from '../../../reducers/trips';
 import {fetchTripById} from "../../../reducers/trip";
 import TripsUser from "../../component/trips/TripsUser";
