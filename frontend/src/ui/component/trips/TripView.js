@@ -43,7 +43,15 @@ class TripView extends Component {
           },
           zIndex: 1
         });
+        const content =
+          `<p>${dateFormatter(new Date(episode.time))}</p>` +
+          `<p>${episode.description}</p>`+
+          `<p class="map-popup-paragraph" id=episode${episode.idLocation}/>`;
+        const infoWindow = new window.google.maps.InfoWindow({content: content});
         markers.push(marker);
+        marker.addListener('click', () => {
+          infoWindow.open(map, marker);
+        });
       });
     }
   }
