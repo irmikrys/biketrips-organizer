@@ -7,7 +7,7 @@ class TripView extends Component {
     const {episodes} = this.props;
     let latitude = lat;
     let longitude = lng;
-    if(episodes) {
+    if (episodes) {
       latitude = episodes[0].locationDTO.latitude;
       longitude = episodes[0].locationDTO.longitude;
     }
@@ -19,7 +19,7 @@ class TripView extends Component {
       zoom: 12,
       mapTypeId: 'roadmap',
     });
-    if(episodes) {
+    if (episodes) {
       const markers = [];
       episodes.map(episode => {
         const marker = new window.google.maps.Marker({
@@ -61,16 +61,27 @@ class TripView extends Component {
               <label>Level:</label>
               <div>{levels.filter(e => e.idLevel === trip.idLevel)[0].name}</div>
             </div>
-            <label className="margin-top-2">Description:</label>
-            <div>{trip.description}</div>
-            <label className="margin-top-2">Moderator:</label>
-            <div>{trip.moderator}</div>
-            <label className="margin-top-2">Start date:</label>
-            <div>{dateFormatter(new Date(trip.startDate))}</div>
-            <label className="margin-top-2">End date:</label>
-            <div>{dateFormatter(new Date(trip.endDate))}</div>
-            <label className="margin-top-2">Participants:</label>
-            <div>number of participants</div>
+            <div className="column">
+              <label className="margin-top-2">Description:</label>
+              <div>{trip.description}</div>
+              <label className="margin-top-2">Moderator:</label>
+              <div>{trip.moderator}</div>
+              <label className="margin-top-2">Start date:</label>
+              <div>{dateFormatter(new Date(trip.startDate))}</div>
+              <label className="margin-top-2">End date:</label>
+              <div>{dateFormatter(new Date(trip.endDate))}</div>
+              <label className="margin-top-2">Participants:</label>
+              <div>number of participants</div>
+            </div>
+            <div className="column">
+              <label className="margin-top-2">Participants:</label>
+              {
+                Object.values(this.props.participants)
+                  .map((participant, key) => {
+                    return <div key={key}>{participant.username}</div>
+                  })
+              }
+            </div>
           </div>
           <div className="column">
             <div id="map"/>

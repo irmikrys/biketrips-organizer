@@ -5,6 +5,7 @@ import {fetchTripById} from "../../../reducers/trip";
 import {fetchAvailableLevels} from "../../../reducers/levels";
 import {fetchAvailableStatuses} from "../../../reducers/statuses";
 import {fetchEpisodesByIdTrip} from "../../../reducers/episodes";
+import {fetchParticipantsByIdTrip} from "../../../reducers/participants";
 
 export class TripViewPage extends Component {
 
@@ -14,6 +15,7 @@ export class TripViewPage extends Component {
     props.fetchStatuses();
     props.fetchTrip(props.params.idTrip);
     props.fetchEpisodes(props.params.idTrip);
+    props.fetchParticipants(props.params.idTrip);
   }
 
   render() {
@@ -21,15 +23,17 @@ export class TripViewPage extends Component {
     return (
       <div className="main">
         {!this.props.updatingTrip && !this.props.updatingEpisodes &&
-        <TripView trip={this.props.trip}
-                  levels={this.props.levels}
-                  statuses={this.props.statuses}
-                  episodes={this.props.episodes}
-                  username={this.props.username}
-                  fetchTrip={this.props.fetchTrip}
+        !this.props.updatingParticipants && <TripView trip={this.props.trip}
+                                                      levels={this.props.levels}
+                                                      statuses={this.props.statuses}
+                                                      episodes={this.props.episodes}
+                                                      participants={this.props.participants}
+                                                      username={this.props.username}
+                                                      fetchTrip={this.props.fetchTrip}
         />
         }
-        {(this.props.updatingTrip || this.props.updatingEpisodes) &&
+        {(this.props.updatingTrip || this.props.updatingEpisodes ||
+          this.props.updatingParticipants) &&
         <div className="loader margin-top"/>}
       </div>
     )
@@ -44,7 +48,9 @@ function mapStateToProps(state) {
     levels: state.levels.levels,
     statuses: state.statuses.statuses,
     episodes: state.episodes.episodes,
-    updatingEpisodes: state.episodes.updating
+    updatingEpisodes: state.episodes.updating,
+    participants: state.participants.participants,
+    updatingParticipants: state.participants.updating
   };
 }
 
@@ -52,7 +58,8 @@ const mapActionsToProps = {
   fetchTrip: fetchTripById,
   fetchLevels: fetchAvailableLevels,
   fetchStatuses: fetchAvailableStatuses,
-  fetchEpisodes: fetchEpisodesByIdTrip
+  fetchEpisodes: fetchEpisodesByIdTrip,
+  fetchParticipants: fetchParticipantsByIdTrip
 };
 
 export default connect(

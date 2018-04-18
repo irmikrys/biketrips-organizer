@@ -3,8 +3,8 @@ const FETCH_PARTICIPANTS_SUCCESS = 'participants/FETCH_PARTICIPANTS_SUCCESS';
 const FETCH_PARTICIPANTS_FAIL = 'participants/FETCH_PARTICIPANTS_FAIL';
 
 const initialState = {
-  loading: false,
-  items: []
+  updating: true,
+  participants: []
 };
 
 // Reducer
@@ -14,13 +14,13 @@ export default function participantsReducer(state = initialState, action) {
     case FETCH_PARTICIPANTS:
       return {
         ...state,
-        loading: true
+        updating: true
       };
     case FETCH_PARTICIPANTS_SUCCESS:
       return {
         ...state,
-        items: action.result.data,
-        loading: false
+        participants: action.result.data,
+        updating: false
       };
     default:
       return state;
@@ -29,7 +29,7 @@ export default function participantsReducer(state = initialState, action) {
 
 // Actions
 
-export function fetchParticipants(idTrip) {
+export function fetchParticipantsByIdTrip(idTrip) {
   return  {
     types: [FETCH_PARTICIPANTS, FETCH_PARTICIPANTS_SUCCESS, FETCH_PARTICIPANTS_FAIL],
     promise: client => client.get(`/api/trips/${idTrip}/participants`)
