@@ -236,6 +236,13 @@ public class TripController {
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
+  @RequestMapping(method = GET, path = "/api/episodes")
+  public @ResponseBody
+  Iterable<Episode>
+  getAllEpisodes() {
+    return this.episodeService.findAll();
+  }
+
 
   //participants
 

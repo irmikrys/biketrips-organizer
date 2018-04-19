@@ -56,4 +56,8 @@ public class EpisodeService {
     this.jdbcTemplate.update(sql, newEpisode.getTime(), newEpisode.getDescription(), oldEpisode.getIdEpisode());
     this.locationService.updateLocation(oldLocation, newEpisode.getLocationDTO());
   }
+
+  public Iterable<Episode> findAll() {
+    return this.episodeRepository.findAll();
+  }
 }

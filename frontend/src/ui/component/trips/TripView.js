@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {dateFormatter} from "../utils";
+import {dateFormatter, datetimeFormatter} from "../utils";
 import Select from "react-select";
 
 class TripView extends Component {
@@ -45,7 +45,7 @@ class TripView extends Component {
           zIndex: 1
         });
         const content =
-          `<p>${dateFormatter(new Date(episode.time))}</p>` +
+          `<p>${datetimeFormatter(new Date(episode.time))}</p>` +
           `<p>${episode.description}</p>` +
           `<p class="map-popup-paragraph" id=episode${episode.idLocation}/>`;
         const infoWindow = new window.google.maps.InfoWindow({content: content});
