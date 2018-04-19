@@ -51,7 +51,7 @@ public class EpisodeService {
   public void updateEpisode(Episode oldEpisode, Location oldLocation, EpisodeDTO newEpisode) {
     final String sql = "" +
       "UPDATE episodes e " +
-      "SET e.time = ?, e.description = ?" +
+      "SET e.time = ?, e.description = ? " +
       "WHERE e.idEpisode = ?";
     this.jdbcTemplate.update(sql, newEpisode.getTime(), newEpisode.getDescription(), oldEpisode.getIdEpisode());
     this.locationService.updateLocation(oldLocation, newEpisode.getLocationDTO());
