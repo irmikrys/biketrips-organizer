@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "calendarium": "^0.3.3",
     "file-loader": "^1.1.11",
     "input-moment": "^0.4.0",
     "moment": "^2.22.0",
