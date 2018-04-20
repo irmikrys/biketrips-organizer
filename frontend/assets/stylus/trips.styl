@@ -122,3 +122,29 @@
 
 .margin
   margin-left 10px
+
+.column
+  float left
+  width 50%
+  padding-top 1rem
+  padding-right 1rem
+
+  .dropdown-toggle, .dropdown-menu
+    background-color blanchedalmond
+    border-radius 0
+    border none
+
+    .dropdown-header
+      margin-left -10px
+
+@media (max-width: 720px)
+  .column
+    width 100%
+
+.three-column
+  float left
+  width 33%
+
+@media (max-width: 500px)
+  .three-column
+    width 100%
