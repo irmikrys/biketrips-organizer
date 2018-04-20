@@ -58,7 +58,7 @@ module.exports = {
       include: path.join(__dirname, 'src')
     }, {
       test: /\.styl$/,
-      loader: ExtractTextPlugin.extract('style-loader!less-loader!css-loader!stylus-loader')
+      loader: ExtractTextPlugin.extract('css-loader!stylus-loader')
     }, {
       test: /\.json/,
       loaders: ['json-loader']

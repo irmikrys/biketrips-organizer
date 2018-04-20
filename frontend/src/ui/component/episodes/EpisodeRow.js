@@ -1,9 +1,7 @@
 import React, {Component} from "react";
-import {datetimeFormatter} from "../utils";
+import {dateFormatter} from "../utils";
 import Geosuggest from "react-geosuggest";
 import axios from "axios";
-import moment from 'moment';
-import InputMoment from 'input-moment';
 
 class EpisodeRow extends Component {
 
@@ -11,8 +9,7 @@ class EpisodeRow extends Component {
     super(props);
     this.state = {
       currentEpisode: {},
-      location: {},
-      moment: moment(),
+      location: {}
     }
   }
 
@@ -32,14 +29,6 @@ class EpisodeRow extends Component {
     }
   }
 
-  handleChange = moment => {
-    this.setState({moment});
-  };
-
-  handleSave = () => {
-    console.log('saved', this.state.moment.format('llll'));
-  };
-
   render() {
     const {episode} = this.props;
     const {currentEpisode} = this.state;
@@ -48,28 +37,12 @@ class EpisodeRow extends Component {
     return (
       <form>
         <div className="episodeRow">
-          <div className="time-picker">
-            <div className="upper">
-              <input id="time-input"
-                     placeholder="time"
-                     value={episodeData.time == null ?
-                       datetimeFormatter(new Date(this.state.moment)) :
-                       datetimeFormatter(new Date(episode.time))
-                     }
-                     disabled={this.props.fieldsDisabled}
-                     required
-              />
-            </div>
-            <div className="lower">
-              <InputMoment
-                moment={this.state.moment}
-                onChange={this.handleChange}
-                onSave={this.handleSave}
-                minStep={15}
-                prevMonthIcon="glyphicon glyphicon-chevron-left"
-                nextMonthIcon="glyphicon glyphicon-chevron-right"
-              />
-            </div>
+          <div>
+            <input placeholder="time"
+                   value={episodeData.time == null ? '' : dateFormatter(new Date(episode.time))}
+                   disabled={this.props.fieldsDisabled}
+                   required
+            />
           </div>
           <div>
             <Geosuggest placeholder="location"
