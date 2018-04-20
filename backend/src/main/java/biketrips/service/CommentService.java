@@ -24,6 +24,10 @@ public class CommentService {
     return this.commentRepository.findByIdComment(idComment);
   }
 
+  public Optional<Comment> findByIdCommentAndIdTrip(long idComment, long idTrip) {
+    return this.commentRepository.findByIdCommentAndIdTrip(idComment, idTrip);
+  }
+
   public Iterable<Comment> findAllByIdTrip(long idTrip) {
     return this.commentRepository.findAllByIdTrip(idTrip);
   }

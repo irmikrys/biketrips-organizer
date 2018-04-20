@@ -12,6 +12,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
   Optional<Comment> findByIdComment(long idComment);
 
+  Optional<Comment> findByIdCommentAndIdTrip(long idComment, long idTrip);
+
   Iterable<Comment> findAllByIdTrip(long idTrip);
 
   @Transactional

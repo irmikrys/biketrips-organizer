@@ -1,5 +1,6 @@
 package biketrips.controller;
 
+import biketrips.dto.CommentDTO;
 import biketrips.dto.EpisodeDTO;
 import biketrips.dto.ParticipantDTO;
 import biketrips.dto.TripDTO;
@@ -54,6 +55,10 @@ public class TripController {
   @Autowired
   @Qualifier("participantService")
   private ParticipantService participantService;
+
+  @Autowired
+  @Qualifier("commentService")
+  private CommentService commentService;
 
 
   // trips
@@ -355,6 +360,94 @@ public class TripController {
       trips.add(trip);
     }
     return trips;
+  }
+
+
+  //comments
+
+
+  @RequestMapping(method = POST, path = "/api/trips/{idTrip}/comments")
+  public @ResponseBody
+  ResponseEntity<Comment>
+  addComment(@PathVariable(name = "idTrip") long idTrip,
+                 @Valid @RequestBody CommentDTO commentDTO,
+                 HttpSession session) {
+    String action = "addComment";
+    if (idTrip != commentDTO.getIdTrip()) {
+      throw new TripException(action + ".error.wrongTrip");
+    }
+    Trip trip = getTripAndCheck(idTrip, action);
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new TripException(action + ".error.userNotFound"));
+    Comment comment = this.commentService.createComment(commentDTO, username);
+    return ResponseEntity.ok(comment);
+  }
+
+  @RequestMapping(method = PUT, path = "/api/trips/{idTrip}/comments/{idComment}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
+  updateComment(@PathVariable(name = "idTrip") long idTrip,
+                @PathVariable(name = "idComment") long idComment,
+                @Valid @RequestBody CommentDTO commentDTO,
+                HttpSession session) {
+    String action = "updateComment";
+    Comment comment =
+      this.commentService.findByIdCommentAndIdTrip(idComment, idTrip).orElseThrow(
+        () -> new TripException(action + ".error.commentNotFound")
+      );
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new TripException(action + ".error.userNotFound")
+    );
+    Trip trip = this.getTripAndCheck(idTrip, action);
+    Participant participant = this.getParticipantAndCheck(username, idTrip, action);
+    this.commentService.updateComment(comment, commentDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = DELETE, path = "/api/trips/{idTrip}/comments/{idComment}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
+  deleteComment(@PathVariable(name = "idTrip") long idTrip,
+                    @PathVariable(name = "idComment") long idComment,
+                    HttpSession session) {
+    String action = "deleteComment";
+    Comment comment =
+      this.commentService.findByIdCommentAndIdTrip(idComment, idTrip).orElseThrow(
+        () -> new TripException(action + ".error.commentNotFound")
+      );
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new TripException(action + ".error.userNotFound")
+    );
+    Trip trip = this.getTripAndCheck(idTrip, action);
+    Participant participant = this.getParticipantAndCheck(username, idTrip, action);
+    this.commentService.deleteComment(idComment);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = DELETE, path = "/api/trips/{idTrip}/comments")
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
+  deleteAllTripComments(@PathVariable(name = "idTrip") long idTrip,
+                HttpSession session) {
+    String action = "deleteAllComments";
+    Trip trip = this.getTripAndCheck(idTrip, action);
+    User moderator = this.getModeratorAndCheck(session, action);
+    this.checkIfModeratorIsOwner(moderator, trip, action);
+    this.commentService.deleteAllByIdTrip(idTrip);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/comments")
+  public @ResponseBody
+  Iterable<Comment>
+  getCommentsByIdTrip(@PathVariable(name = "idTrip") long idTrip) {
+    return this.commentService.findAllByIdTrip(idTrip);
   }
 
 
