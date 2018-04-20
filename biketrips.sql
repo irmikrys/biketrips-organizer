@@ -101,10 +101,11 @@ CREATE TABLE episodes (
 );
 
 CREATE TABLE comments (
-  idComment INTEGER      NOT NULL AUTO_INCREMENT,
-  owner     VARCHAR(30)  NOT NULL,
-  idTrip    BIGINT       NOT NULL,
-  content   VARCHAR(255) NOT NULL,
+  idComment  BIGINT       NOT NULL AUTO_INCREMENT,
+  owner      VARCHAR(30)  NOT NULL,
+  idTrip     BIGINT       NOT NULL,
+  content    VARCHAR(255) NOT NULL,
+  createDate DATETIME     NOT NULL DEFAULT NOW(),
   PRIMARY KEY (idComment),
   FOREIGN KEY (owner) REFERENCES users (username),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
