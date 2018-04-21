@@ -13,12 +13,16 @@ import java.util.Optional;
 @Service("commentService")
 public class CommentService {
 
-  @Autowired
-  @Qualifier("commentRepository")
-  private CommentRepository commentRepository;
+  private final CommentRepository commentRepository;
+
+  private final JdbcTemplate jdbcTemplate;
 
   @Autowired
-  private JdbcTemplate jdbcTemplate;
+  public CommentService(@Qualifier("commentRepository") CommentRepository commentRepository,
+                        JdbcTemplate jdbcTemplate) {
+    this.commentRepository = commentRepository;
+    this.jdbcTemplate = jdbcTemplate;
+  }
 
   public Optional<Comment> findByIdComment(long idComment) {
     return this.commentRepository.findByIdComment(idComment);

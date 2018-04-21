@@ -13,12 +13,16 @@ import java.util.Optional;
 @Service("locationService")
 public class LocationService {
 
-  @Autowired
-  @Qualifier("locationRepository")
-  private LocationRepository locationRepository;
+  private final LocationRepository locationRepository;
+
+  private final JdbcTemplate jdbcTemplate;
 
   @Autowired
-  private JdbcTemplate jdbcTemplate;
+  public LocationService(@Qualifier("locationRepository") LocationRepository locationRepository,
+                         JdbcTemplate jdbcTemplate) {
+    this.locationRepository = locationRepository;
+    this.jdbcTemplate = jdbcTemplate;
+  }
 
 
   public Optional<Location> findByIdLocation(long idLocation) {

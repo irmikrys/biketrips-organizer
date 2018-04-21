@@ -13,13 +13,16 @@ import java.util.Optional;
 @Service("participantService")
 public class ParticipantService {
 
-  @Autowired
-  @Qualifier("participantRepository")
-  private ParticipantRepository participantRepository;
+  private final ParticipantRepository participantRepository;
 
+  private final JdbcTemplate jdbcTemplate;
 
   @Autowired
-  private JdbcTemplate jdbcTemplate;
+  public ParticipantService(@Qualifier("participantRepository") ParticipantRepository participantRepository,
+                            JdbcTemplate jdbcTemplate) {
+    this.participantRepository = participantRepository;
+    this.jdbcTemplate = jdbcTemplate;
+  }
 
   public Iterable<Participant> findAll() {
     return this.participantRepository.findAll();

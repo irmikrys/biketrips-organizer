@@ -12,9 +12,12 @@ import java.util.Optional;
 @Qualifier("statusService")
 public class StatusService {
 
+  private final StatusRepository statusRepository;
+
   @Autowired
-  @Qualifier("statusRepository")
-  private StatusRepository statusRepository;
+  public StatusService(@Qualifier("statusRepository") StatusRepository statusRepository) {
+    this.statusRepository = statusRepository;
+  }
 
   public Iterable<Status> findAll() {
     return this.statusRepository.findAll();

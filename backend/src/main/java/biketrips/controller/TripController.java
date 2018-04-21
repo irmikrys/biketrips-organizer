@@ -24,41 +24,44 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RestController
 public class TripController {
 
-  @Autowired
-  @Qualifier("tripService")
-  private TripService tripService;
+  private final TripService tripService;
+
+  private final UserService userService;
+
+  private final StatusService statusService;
+
+  private final LevelService levelService;
+
+  private final ActivityService activityService;
+
+  private final EpisodeService episodeService;
+
+  private final LocationService locationService;
+
+  private final ParticipantService participantService;
+
+  private final CommentService commentService;
 
   @Autowired
-  @Qualifier("userService")
-  private UserService userService;
-
-  @Autowired
-  @Qualifier("statusService")
-  private StatusService statusService;
-
-  @Autowired
-  @Qualifier("levelService")
-  private LevelService levelService;
-
-  @Autowired
-  @Qualifier("activityService")
-  private ActivityService activityService;
-
-  @Autowired
-  @Qualifier("episodeService")
-  private EpisodeService episodeService;
-
-  @Autowired
-  @Qualifier("locationService")
-  private LocationService locationService;
-
-  @Autowired
-  @Qualifier("participantService")
-  private ParticipantService participantService;
-
-  @Autowired
-  @Qualifier("commentService")
-  private CommentService commentService;
+  public TripController(@Qualifier("tripService") TripService tripService,
+                        @Qualifier("userService") UserService userService,
+                        @Qualifier("statusService") StatusService statusService,
+                        @Qualifier("levelService") LevelService levelService,
+                        @Qualifier("activityService") ActivityService activityService,
+                        @Qualifier("episodeService") EpisodeService episodeService,
+                        @Qualifier("locationService") LocationService locationService,
+                        @Qualifier("participantService") ParticipantService participantService,
+                        @Qualifier("commentService") CommentService commentService) {
+    this.tripService = tripService;
+    this.userService = userService;
+    this.statusService = statusService;
+    this.levelService = levelService;
+    this.activityService = activityService;
+    this.episodeService = episodeService;
+    this.locationService = locationService;
+    this.participantService = participantService;
+    this.commentService = commentService;
+  }
 
 
   // trips

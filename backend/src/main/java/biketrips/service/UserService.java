@@ -14,15 +14,20 @@ import java.util.Optional;
 @Service("userService")
 public class UserService {
 
-  @Autowired
-  @Qualifier("userRepository")
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
+
+  private final JdbcTemplate jdbcTemplate;
+
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired
-  private JdbcTemplate jdbcTemplate;
-
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  public UserService(@Qualifier("userRepository") UserRepository userRepository,
+                     JdbcTemplate jdbcTemplate,
+                     BCryptPasswordEncoder bCryptPasswordEncoder) {
+    this.userRepository = userRepository;
+    this.jdbcTemplate = jdbcTemplate;
+    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+  }
 
   public Optional<User> findByUsername(String username) {
     return userRepository.findByUsername(username);

@@ -11,9 +11,12 @@ import java.util.Optional;
 @Service("levelService")
 public class LevelService {
 
+  private final LevelRepository levelRepository;
+
   @Autowired
-  @Qualifier("levelRepository")
-  private LevelRepository levelRepository;
+  public LevelService(@Qualifier("levelRepository") LevelRepository levelRepository) {
+    this.levelRepository = levelRepository;
+  }
 
   public Iterable<Level> findAll() {
     return this.levelRepository.findAll();

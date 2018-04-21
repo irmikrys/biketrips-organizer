@@ -13,12 +13,16 @@ import java.util.Optional;
 @Service("applicationsService")
 public class ApplicationService {
 
-  @Autowired
-  @Qualifier("applicationsRepository")
-  private ApplicationRepository applicationRepository;
+  private final ApplicationRepository applicationRepository;
+
+  private final JdbcTemplate jdbcTemplate;
 
   @Autowired
-  private JdbcTemplate jdbcTemplate;
+  public ApplicationService(@Qualifier("applicationsRepository") ApplicationRepository applicationRepository,
+                            JdbcTemplate jdbcTemplate) {
+    this.applicationRepository = applicationRepository;
+    this.jdbcTemplate = jdbcTemplate;
+  }
 
   public Optional<Application> findByUsername(String username) {
     return applicationRepository.findByUsername(username);

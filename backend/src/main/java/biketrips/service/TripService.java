@@ -13,12 +13,16 @@ import java.util.Optional;
 @Service("tripService")
 public class TripService {
 
-  @Autowired
-  @Qualifier("tripRepository")
-  private TripRepository tripRepository;
+  private final TripRepository tripRepository;
+
+  private final JdbcTemplate jdbcTemplate;
 
   @Autowired
-  private JdbcTemplate jdbcTemplate;
+  public TripService(@Qualifier("tripRepository") TripRepository tripRepository,
+                     JdbcTemplate jdbcTemplate) {
+    this.tripRepository = tripRepository;
+    this.jdbcTemplate = jdbcTemplate;
+  }
 
   public Iterable<Trip> findAll() {
     return this.tripRepository.findAll();

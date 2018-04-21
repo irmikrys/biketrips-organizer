@@ -14,16 +14,20 @@ import java.util.Optional;
 @Service("episodeService")
 public class EpisodeService {
 
-  @Autowired
-  @Qualifier("episodeRepository")
-  private EpisodeRepository episodeRepository;
+  private final EpisodeRepository episodeRepository;
+
+  private final LocationService locationService;
+
+  private final JdbcTemplate jdbcTemplate;
 
   @Autowired
-  @Qualifier("locationService")
-  private LocationService locationService;
-
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
+  public EpisodeService(@Qualifier("episodeRepository") EpisodeRepository episodeRepository,
+                        @Qualifier("locationService") LocationService locationService,
+                        JdbcTemplate jdbcTemplate) {
+    this.episodeRepository = episodeRepository;
+    this.locationService = locationService;
+    this.jdbcTemplate = jdbcTemplate;
+  }
 
   public Optional<Episode> findByIdEpisode(long idEpisode) {
     return this.episodeRepository.findByIdEpisode(idEpisode);
