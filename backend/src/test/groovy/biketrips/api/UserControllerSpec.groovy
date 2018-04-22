@@ -15,7 +15,8 @@ class UserControllerSpec extends AbstractMvcSpec {
       password: 'TWkJb8ZB',
       email: 'dennisritchie@test.com',
       firstName: 'Dennis',
-      lastName: 'Ritchie'
+      lastName: 'Ritchie',
+      role: 'USER'
     ]
 
     when:
@@ -32,7 +33,8 @@ class UserControllerSpec extends AbstractMvcSpec {
       password: 'TWkJb8ZB',
       email: 'dennisritchietest@test.com',
       firstName: 'Dennis',
-      lastName: 'Ritchie'
+      lastName: 'Ritchie',
+      role: 'USER'
     ]
 
     when:
@@ -68,7 +70,7 @@ class UserControllerSpec extends AbstractMvcSpec {
 
     then:
     result.status == HttpStatus.OK
-    result.json.size == 4 //fixme should be 5 - dennis ritchie not added
+    result.json.size == 6
 
   }
 

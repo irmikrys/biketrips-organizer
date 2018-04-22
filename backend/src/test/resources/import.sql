@@ -24,4 +24,6 @@ INSERT INTO `users`(username, password, email, firstName, lastName, role) VALUES
 
 INSERT INTO `users`(username, password, email, firstName, lastName, role) VALUES ('billgates','$2a$10$tjZR0.Hj4DExo1X81K0rf.RpD7e.bLSuMwoej5z8jAB6iB751TbcS','bill@gates','Bill','Gates','USER');
 
+INSERT INTO `users`(username, password, email, firstName, lastName, role) VALUES ('annacuk','$2a$10$lBHNgZqayknupvmxIAiqNeUDlGxhVnEffVNUJ3YqTXmyZEUBMR2xe','ann@cuk','Anna','Cuk','MODER');
+
 INSERT INTO applications (username, email, isActive) VALUES('markzuckerberg','mark@zuckerberg',true),('stevejobs','steve@jobs',false);
