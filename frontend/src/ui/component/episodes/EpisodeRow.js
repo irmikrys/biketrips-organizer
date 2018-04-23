@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import {dateFormatter} from "../utils";
 import Geosuggest from "react-geosuggest";
 import axios from "axios";
+import {SingleDatePicker} from "react-dates";
+import 'react-dates/initialize';
 
 class EpisodeRow extends Component {
 
@@ -9,7 +10,9 @@ class EpisodeRow extends Component {
     super(props);
     this.state = {
       currentEpisode: {},
-      location: {}
+      location: {},
+      date: null,
+      focused: false,
     }
   }
 
@@ -38,10 +41,14 @@ class EpisodeRow extends Component {
       <form>
         <div className="episodeRow">
           <div>
-            <input placeholder="time"
-                   value={episodeData.time == null ? '' : dateFormatter(new Date(episode.time))}
-                   disabled={this.props.fieldsDisabled}
-                   required
+            <SingleDatePicker date={this.state.date}
+                              onDateChange={date => this.setState({date})}
+                              focused={this.state.focused}
+                              onFocusChange={({focused}) => this.setState({focused})}
+                              noBorder={true}
+                              small={true}
+                              hideKeyboardShortcutsPanel={true}
+                              required
             />
           </div>
           <div>

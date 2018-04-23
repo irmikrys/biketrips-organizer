@@ -50,6 +50,7 @@ export default class TripCreationForm extends Component {
                              focusedInput={this.state.focusedInput}
                              onFocusChange={focusedInput => this.setState({ focusedInput })}
                              noBorder={true}
+                             small={true}
                              hideKeyboardShortcutsPanel={true}
                              startDatePlaceholderText="start date"
                              endDatePlaceholderText="end date"
