@@ -49,6 +49,12 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.json.idStatus == 1
     result.json.description == 'opis jakis'
     result.json.points == 123
+
+    when:
+    def resultAfter = get('/api/trips', new RequestParams(authToken: token))
+
+    then:
+    resultAfter.json.size == 1
   }
 
   def "create new trip with not existing idLevel"() {
