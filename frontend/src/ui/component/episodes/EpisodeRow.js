@@ -111,6 +111,7 @@ class EpisodeRow extends Component {
                             '' : episodeData.locationDTO.description}
                           onSuggestSelect={this.handleLocationSelect}
                           disabled={this.props.fieldsDisabled}
+                          required
               />
             </div>
             <div id="description">
