@@ -68,14 +68,17 @@ class EpisodeRow extends Component {
     const {create} = this.props;
     const description = this.state.description;
     const idTrip = this.props.idTrip;
-    const location = this.state.location;
-    const date = this.state.date;
+    const locationDTO = this.state.location;
+    const time = this.state.date;
     const episodeInfo = {
       idTrip,
-      date,
-      location,
+      time,
+      locationDTO,
       description
     };
+    console.log(episodeInfo);
+    console.log(this.props);
+    console.log(this.state);
     create(idTrip, episodeInfo);
     this.setState({
       submitted: true

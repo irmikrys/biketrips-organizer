@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class EpisodeDTO {
@@ -13,6 +14,7 @@ public class EpisodeDTO {
   @DecimalMin(value = "0", inclusive = false)
   private long idTrip;
 
+  @NotNull
   private Date time;
 
   @NotBlank
