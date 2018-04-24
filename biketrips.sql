@@ -83,7 +83,7 @@ CREATE TABLE participants (
 
 CREATE TABLE locations (
   idLocation  BIGINT          NOT NULL AUTO_INCREMENT,
-  description VARCHAR(60)     NOT NULL,
+  description VARCHAR(255)    NOT NULL,
   latitude    NUMERIC(18, 14) NOT NULL,
   longitude   NUMERIC(18, 14) NOT NULL,
   PRIMARY KEY (idLocation)

@@ -11,8 +11,9 @@ class EpisodeRow extends Component {
     super(props);
     this.state = {
       currentEpisode: null,
+      errorMessage: "",
       description: "",
-      location: {},
+      location: null,
       date: null,
       focused: false,
       submitted: this.props.submitted,
@@ -66,6 +67,9 @@ class EpisodeRow extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    this.setState({
+      errorMessage: ""
+    });
     const {create} = this.props;
     const idEpisode = 1;
     const description = this.state.description;
@@ -80,8 +84,16 @@ class EpisodeRow extends Component {
       description
     };
     console.log(episodeInfo);
-    console.log(this.props);
-    console.log(this.state);
+    if(locationDTO === null) {
+      this.setState({
+        errorMessage: "Invalid location!"
+      });
+    }
+    if(time === null) {
+      this.setState({
+        errorMessage: "Invalid time!"
+      });
+    }
     create(idTrip, episodeInfo);
     this.setState({
       submitted: true
@@ -92,9 +104,10 @@ class EpisodeRow extends Component {
     const {episode} = this.props;
     const {currentEpisode} = this.state;
     const {deleted, submitted} = this.state;
+    const {errorMessage} = this.state;
     let episodeData = currentEpisode === null ? episode : currentEpisode;
-    console.log(this.state);
-    console.log(episode);
+    const errorPanel = errorMessage !== "" && submitted ?
+      <p className="error-message">{errorMessage}</p> : null;
     return (
       <div>
         {deleted && null}
@@ -154,6 +167,7 @@ class EpisodeRow extends Component {
               <span className="glyphicon glyphicon-trash"/>
             </button>
           </div>
+          {errorPanel}
         </form>
         }
       </div>

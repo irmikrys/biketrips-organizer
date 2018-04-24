@@ -38,7 +38,7 @@ export const LEFT_DROPDOWN_MODER = {
     {label: 'Add/Edit episodes', link: '/edit-episodes', icon: ''},
     {label: 'Add/Edit participants', link: '/edit-participants', icon: ''},
     {label: 'Add/Edit trip users', link: '/edit-trip-users', icon: ''},
-    {label: 'See created trips', link: '/moderator-trips', icon: 'glyphicon glyphicon-eye'}
+    {label: 'See created trips', link: '/moderator-trips', icon: 'glyphicon glyphicon-eye-open'}
   ]
 };
 
