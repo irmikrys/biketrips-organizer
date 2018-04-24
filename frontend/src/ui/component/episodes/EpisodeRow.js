@@ -15,6 +15,7 @@ class EpisodeRow extends Component {
       date: null,
       focused: false,
       submitted: false,
+      deleted: false
     }
   }
 
@@ -49,7 +50,17 @@ class EpisodeRow extends Component {
     let value = event.target.value;
     let inputName = event.target.name;
     this.setState({[inputName]: value});
-    console.log('input' + value);
+  };
+
+  handleDelete = event => {
+    event.preventDefault();
+    const {idEpisode, idTrip} = this.props.episode;
+    if(this.state.submitted) {
+      axios.delete(`/api/trips/${idTrip}/episodes/${idEpisode}`);
+    }
+    this.setState({
+      deleted: true
+    })
   };
 
   handleSubmit = event => {
@@ -74,47 +85,60 @@ class EpisodeRow extends Component {
   render() {
     const {episode} = this.props;
     const {currentEpisode} = this.state;
+    const {deleted, submitted} = this.state;
     let episodeData = currentEpisode == null ? episode : currentEpisode;
     console.log(this.state);
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="episode-row">
-          <div>
-            <SingleDatePicker date={this.state.date}
-                              onDateChange={date => this.setState({date})}
-                              focused={this.state.focused}
-                              onFocusChange={({focused}) => this.setState({focused})}
-                              noBorder={true}
-                              small={true}
-                              hideKeyboardShortcutsPanel={true}
-                              required
-            />
+      <div>
+        {deleted && null}
+        {!deleted &&
+        <form onSubmit={this.handleSubmit}>
+          <div className="episode-row">
+            <div>
+              <SingleDatePicker date={this.state.date}
+                                onDateChange={date => this.setState({date})}
+                                focused={this.state.focused}
+                                onFocusChange={({focused}) => this.setState({focused})}
+                                noBorder={true}
+                                small={true}
+                                hideKeyboardShortcutsPanel={true}
+                                required
+              />
+            </div>
+            <div>
+              <Geosuggest placeholder="location"
+                          initialValue={episodeData.locationDTO == null ?
+                            '' : episodeData.locationDTO.description}
+                          onSuggestSelect={this.handleLocationSelect}
+                          disabled={this.props.fieldsDisabled}
+              />
+            </div>
+            <div id="description">
+              <input placeholder="short description"
+                     name="description"
+                     value={this.props.fieldsDisabled ?
+                       episodeData.description :
+                       this.state.description
+                     }
+                     disabled={this.props.fieldsDisabled}
+                     onInput={this.handleInputChange}
+                     required
+              />
+            </div>
+            <button type="submit" disabled={!this.props.tripSelected}>
+              <span className={this.props.glyphicon}/>
+            </button>
+            <button
+              onClick={this.handleDelete}
+              disabled={!this.props.tripSelected}
+              style={{background: "red"}}
+            >
+              <span className="glyphicon glyphicon-trash"/>
+            </button>
           </div>
-          <div>
-            <Geosuggest placeholder="location"
-                        initialValue={episodeData.locationDTO == null ?
-                          '' : episodeData.locationDTO.description}
-                        onSuggestSelect={this.handleLocationSelect}
-                        disabled={this.props.fieldsDisabled}
-            />
-          </div>
-          <div id="description">
-            <input placeholder="short description"
-                   name="description"
-                   value={this.props.fieldsDisabled ?
-                     episodeData.description :
-                     this.state.description
-                   }
-                   disabled={this.props.fieldsDisabled}
-                   onInput={this.handleInputChange}
-                   required
-            />
-          </div>
-          <button type="submit" disabled={!this.props.tripSelected}>
-            <span className={this.props.glyphicon}/>
-          </button>
-        </div>
-      </form>
+        </form>
+        }
+      </div>
     )
   }
 
