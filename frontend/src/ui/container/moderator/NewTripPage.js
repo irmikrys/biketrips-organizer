@@ -6,7 +6,8 @@ import {createTrip} from "../../../reducers/tripCreation";
 function mapStateToProps(state) {
   return {
     levels: state.levels.levels,
-    username: state.authentication.username
+    username: state.authentication.username,
+    updatingModerator: state.authentication.loading
   };
 }
 
