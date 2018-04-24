@@ -3,13 +3,14 @@ import Geosuggest from "react-geosuggest";
 import axios from "axios";
 import {SingleDatePicker} from "react-dates";
 import 'react-dates/initialize';
+import {datetimeFormatter} from "../utils";
 
 class EpisodeRow extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      currentEpisode: {},
+      currentEpisode: null,
       description: "",
       location: {},
       date: null,
@@ -55,7 +56,7 @@ class EpisodeRow extends Component {
   handleDelete = event => {
     event.preventDefault();
     const {idEpisode, idTrip} = this.props.episode;
-    if(this.state.submitted) {
+    if (this.state.submitted) {
       axios.delete(`/api/trips/${idTrip}/episodes/${idEpisode}`);
     }
     this.setState({
@@ -89,8 +90,9 @@ class EpisodeRow extends Component {
     const {episode} = this.props;
     const {currentEpisode} = this.state;
     const {deleted, submitted} = this.state;
-    let episodeData = currentEpisode == null ? episode : currentEpisode;
+    let episodeData = currentEpisode === null ? episode : currentEpisode;
     console.log(this.state);
+    console.log(episode);
     return (
       <div>
         {deleted && null}
@@ -98,15 +100,25 @@ class EpisodeRow extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="episode-row">
             <div>
-              <SingleDatePicker date={this.state.date}
-                                onDateChange={date => this.setState({date})}
-                                focused={this.state.focused}
-                                onFocusChange={({focused}) => this.setState({focused})}
-                                noBorder={true}
-                                small={true}
-                                hideKeyboardShortcutsPanel={true}
-                                required
-              />
+              {
+                episode.time !== null &&
+                <input name="time"
+                       value={datetimeFormatter(new Date(episode.time))}
+                       disabled={true}
+                />
+              }
+              {
+                episode.time === null &&
+                <SingleDatePicker date={this.state.date}
+                                  onDateChange={date => this.setState({date})}
+                                  focused={this.state.focused}
+                                  onFocusChange={({focused}) => this.setState({focused})}
+                                  noBorder={true}
+                                  small={true}
+                                  hideKeyboardShortcutsPanel={true}
+                                  required
+                />
+              }
             </div>
             <div>
               <Geosuggest placeholder="location"
@@ -130,7 +142,7 @@ class EpisodeRow extends Component {
               />
             </div>
             <button type="submit" disabled={!this.props.tripSelected}>
-              <span className={this.props.glyphicon}/>
+              <span className="glyphicon glyphicon-floppy-disk"/>
             </button>
             <button
               onClick={this.handleDelete}

@@ -48,24 +48,23 @@ export default class EpisodesForm extends Component {
             <div>
               {
                 Object.values(this.state.episodes)
-                  .map(episode => {
-                    return <EpisodeRow episode={episode}
+                  .map((episode, key) => {
+                    return <EpisodeRow key={key}
+                                       episode={episode}
                                        tripSelected={tripSelected}
-                                       glyphicon="glyphicon glyphicon-pencil"
                                        fieldsDisabled={true}
                     />
                   })
               }
-              <EpisodeRow episode={{
-                idTrip: this.state.idTrip,
-                time: null,
-                description: ""
-              }}
-                          tripSelected={tripSelected}
-                          glyphicon="glyphicon glyphicon-floppy-disk"
+              <EpisodeRow tripSelected={tripSelected}
                           fieldsDisabled={false}
                           create={this.props.create.bind(this)}
                           idTrip={this.state.idTrip}
+                          episode={{
+                            idTrip: this.state.idTrip,
+                            time: null,
+                            description: ""
+                          }}
               />
             </div>
             <div className="add-btn">
