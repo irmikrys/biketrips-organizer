@@ -12,7 +12,6 @@ export default class ParticipantsForm extends Component {
       participants: [],
       idTrip: 0,
       tripSelected: false,
-      currentUsername: "",
       children: []
     };
   }
@@ -34,25 +33,16 @@ export default class ParticipantsForm extends Component {
     this.setState({
       idTrip: value,
       tripSelected: true,
-      currentUsername: "",
       children: []
     });
   };
 
-  handleInputChange = event => {
-    let value = event.target.value;
-    let inputName = event.target.name;
-    this.setState({[inputName]: value});
-    console.log('input' + value);
-  };
-
-  //fixme handling input change not working in children
   addRow = () => {
     this.setState({
       children: this.state.children.concat([
         {
           idTrip: this.state.idTrip,
-          username: this.state.currentUsername,
+          username: "",
           idActivity: 1
         }
       ])
@@ -82,24 +72,10 @@ export default class ParticipantsForm extends Component {
                                            tripSelected={tripSelected}
                                            submitted={true}
                                            deleted={false}
-                                           create={this.props.createParticipant.bind(this)}
-                                           handleInputChange={this.handleInputChange.bind(this)}
                                            participant={participant}
                     />
                   })
               }
-              <ParticipantRow errorMessage={this.props.errorMessage}
-                              tripSelected={tripSelected}
-                              submitted={false}
-                              deleted={false}
-                              create={this.props.createParticipant.bind(this)}
-                              handleInputChange={this.handleInputChange.bind(this)}
-                              participant={{
-                                idTrip: this.state.idTrip,
-                                username: this.state.currentUsername,
-                                idActivity: 1
-                              }}
-              />
               {
                 Object.values(this.state.children)
                   .map((child, key) => {
@@ -107,9 +83,8 @@ export default class ParticipantsForm extends Component {
                                            tripSelected={tripSelected}
                                            submitted={false}
                                            deleted={false}
-                                           create={this.props.createParticipant.bind(this)}
-                                           handleInputChange={this.handleInputChange.bind(this)}
-                                           errorMessage={this.props.errorMessage}
+                                           create={this.props.createParticipant}
+                                           // errorMessage={this.props.errorMessage}
                                            participant={child}
                     />
                   })
@@ -124,9 +99,6 @@ export default class ParticipantsForm extends Component {
               </button>
             </div>
             <div className="save-btn">
-              <button type="button">
-                <span className="glyphicon glyphicon-file"/> FROM FILE
-              </button>
               <button type="submit">
                 <Link to={'/moderator-trips'}>
                   <span className="glyphicon glyphicon-ok"/> OK

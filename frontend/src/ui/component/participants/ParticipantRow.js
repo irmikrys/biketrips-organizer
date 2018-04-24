@@ -7,15 +7,23 @@ class ParticipantRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: "",
       submitted: this.props.submitted,
       deleted: this.props.deleted
     };
   }
 
+  handleInputChange = event => {
+    event.preventDefault();
+    let value = event.target.value;
+    let inputName = event.target.name;
+    this.setState({[inputName]: value});
+  };
+
   handleSubmit = event => {
     event.preventDefault();
     const {create} = this.props;
-    const username = this.props.participant.username;
+    const username = this.state.username;
     const idTrip = this.props.participant.idTrip;
     const idActivity = 1;
     const participantInfo = {
@@ -42,7 +50,7 @@ class ParticipantRow extends Component {
 
   //fixme add error message only to at-the-moment submitting rows
   render() {
-    const {participant} = this.props;
+    const username = this.state.username === "" ? this.props.participant.username : this.state.username;
     const {errorMessage} = this.props;
     const {deleted, submitted} = this.state;
     const errorPanel = errorMessage && submitted ? <ErrorPanel messageKey={errorMessage}/> : null;
@@ -57,7 +65,7 @@ class ParticipantRow extends Component {
             <div className="participant-row">
               <div id="description">
                 <input placeholder="username"
-                       value={participant.username}
+                       value={username}
                        disabled={true}
                 />
               </div>
@@ -79,10 +87,10 @@ class ParticipantRow extends Component {
             <div className="participant-row">
               <div id="description">
                 <input placeholder="username"
-                       name="currentUsername"
-                       value={participant.username}
+                       name="username"
+                       value={this.state.username}
                        disabled={false}
-                       onChange={this.props.handleInputChange}
+                       onChange={this.handleInputChange}
                        required
                 />
               </div>
