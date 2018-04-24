@@ -64,6 +64,8 @@ export default class EpisodesForm extends Component {
                           tripSelected={tripSelected}
                           glyphicon="glyphicon glyphicon-floppy-disk"
                           fieldsDisabled={false}
+                          create={this.props.create.bind(this)}
+                          idTrip={this.state.idTrip}
               />
             </div>
             <div className="add-btn">

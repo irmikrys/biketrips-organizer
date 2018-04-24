@@ -20,6 +20,7 @@ import participants from "./participants";
 import statuses from "./statuses";
 import participantUpdate from "./participantUpdate";
 import activities from "./activities";
+import createEpisode from "./createEpisode";
 
 export default combineReducers({
   authentication,
@@ -41,6 +42,7 @@ export default combineReducers({
   statuses,
   participantUpdate,
   activities,
+  createEpisode,
   form: formReducer,
   routing
 });

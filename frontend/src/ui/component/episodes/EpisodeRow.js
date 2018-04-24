@@ -10,16 +10,19 @@ class EpisodeRow extends Component {
     super(props);
     this.state = {
       currentEpisode: {},
+      description: "",
       location: {},
       date: null,
       focused: false,
+      submitted: false,
     }
   }
 
   componentDidMount() {
     console.log(this.props);
     const {idTrip, idEpisode} = this.props.episode;
-    if (idTrip !== undefined && idTrip !== null && idEpisode !== undefined && idEpisode !== null) {
+    if (idTrip !== undefined && idTrip !== null &&
+      idEpisode !== undefined && idEpisode !== null) {
       axios.get(`/api/trips/${idTrip}/episodes/${idEpisode}`)
         .then((response) => {
           this.setState({
@@ -32,14 +35,50 @@ class EpisodeRow extends Component {
     }
   }
 
+  handleLocationSelect = value => {
+    const location = {
+      description: value.label,
+      latitude: value.location.lat,
+      longitude: value.location.lng
+    };
+    this.setState({location: location})
+  };
+
+  handleInputChange = event => {
+    event.preventDefault();
+    let value = event.target.value;
+    let inputName = event.target.name;
+    this.setState({[inputName]: value});
+    console.log('input' + value);
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const {create} = this.props;
+    const description = this.state.description;
+    const idTrip = this.props.idTrip;
+    const location = this.state.location;
+    const date = this.state.date;
+    const episodeInfo = {
+      idTrip,
+      date,
+      location,
+      description
+    };
+    create(idTrip, episodeInfo);
+    this.setState({
+      submitted: true
+    });
+  };
+
   render() {
     const {episode} = this.props;
     const {currentEpisode} = this.state;
     let episodeData = currentEpisode == null ? episode : currentEpisode;
     console.log(this.state);
     return (
-      <form>
-        <div className="episodeRow">
+      <form onSubmit={this.handleSubmit}>
+        <div className="episode-row">
           <div>
             <SingleDatePicker date={this.state.date}
                               onDateChange={date => this.setState({date})}
@@ -61,27 +100,23 @@ class EpisodeRow extends Component {
           </div>
           <div id="description">
             <input placeholder="short description"
-                   value={episodeData.description}
+                   name="description"
+                   value={this.props.fieldsDisabled ?
+                     episodeData.description :
+                     this.state.description
+                   }
                    disabled={this.props.fieldsDisabled}
+                   onInput={this.handleInputChange}
                    required
             />
           </div>
-          <button type="button" disabled={!this.props.tripSelected}>
+          <button type="submit" disabled={!this.props.tripSelected}>
             <span className={this.props.glyphicon}/>
           </button>
         </div>
       </form>
     )
   }
-
-  handleLocationSelect = value => {
-    const location = {
-      description: value.label,
-      latitude: value.location.lat,
-      longitude: value.location.lng
-    };
-    this.setState({location: location})
-  };
 
 }
 
