@@ -32,6 +32,7 @@ export default class EpisodesForm extends Component {
 
   render() {
     const {tripSelected} = this.state;
+    console.log(this.state.episodes);
     return (
       <div className="form-page">
         <div className="episodes-form-container">
@@ -53,6 +54,7 @@ export default class EpisodesForm extends Component {
                                        episode={episode}
                                        tripSelected={tripSelected}
                                        fieldsDisabled={true}
+                                       submitted={true}
                     />
                   })
               }
@@ -60,6 +62,7 @@ export default class EpisodesForm extends Component {
                           fieldsDisabled={false}
                           create={this.props.create.bind(this)}
                           idTrip={this.state.idTrip}
+                          submitted={false}
                           episode={{
                             idTrip: this.state.idTrip,
                             time: null,

@@ -15,7 +15,7 @@ class EpisodeRow extends Component {
       location: {},
       date: null,
       focused: false,
-      submitted: false,
+      submitted: this.props.submitted,
       deleted: false
     }
   }
@@ -67,11 +67,13 @@ class EpisodeRow extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const {create} = this.props;
+    const idEpisode = 1;
     const description = this.state.description;
     const idTrip = this.props.idTrip;
     const locationDTO = this.state.location;
     const time = this.state.date;
     const episodeInfo = {
+      idEpisode,
       idTrip,
       time,
       locationDTO,

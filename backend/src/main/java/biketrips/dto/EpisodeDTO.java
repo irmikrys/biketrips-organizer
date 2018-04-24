@@ -12,6 +12,9 @@ import java.util.Date;
 public class EpisodeDTO {
 
   @DecimalMin(value = "0", inclusive = false)
+  private long idEpisode;
+
+  @DecimalMin(value = "0", inclusive = false)
   private long idTrip;
 
   @NotNull
@@ -28,6 +31,7 @@ public class EpisodeDTO {
   }
 
   public EpisodeDTO(Episode episode, Location location) {
+    setIdEpisode(episode.getIdEpisode());
     setIdTrip(episode.getIdTrip());
     setTime(episode.getTime());
     setDescription(episode.getDescription());
@@ -41,6 +45,14 @@ public class EpisodeDTO {
     episode.setDescription(getDescription());
     episode.setIdLocation(idLocation);
     return episode;
+  }
+
+  public long getIdEpisode() {
+    return idEpisode;
+  }
+
+  public void setIdEpisode(long idEpisode) {
+    this.idEpisode = idEpisode;
   }
 
   public long getIdTrip() {
@@ -74,4 +86,5 @@ public class EpisodeDTO {
   public void setLocationDTO(LocationDTO locationDTO) {
     this.locationDTO = locationDTO;
   }
+
 }
