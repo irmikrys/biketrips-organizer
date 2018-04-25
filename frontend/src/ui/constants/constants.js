@@ -58,6 +58,11 @@ export const RIGHT_DROPDOWN_USER = {
   ]
 };
 
+export const FOOTER_ITEMS = [
+  {label: 'About', link: '/contact', icon: ''},
+  {label: 'Contact', link: '/contact', icon: 'glyphicon glyphicon-envelope'}
+];
+
 export const ADDRESS =
   "Bike Trips" +
   "\n AGH University of Science and Technology" +
