@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux';
 import {routerReducer as routing} from 'react-router-redux';
-import {reducer as formReducer} from 'redux-form'
 import authentication from './authentication';
 import register from './register';
 import user from "./user";
@@ -43,6 +42,5 @@ export default combineReducers({
   participantUpdate,
   activities,
   createEpisode,
-  form: formReducer,
   routing
 });

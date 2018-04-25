@@ -35,9 +35,8 @@ export const LEFT_DROPDOWN_ADMIN = null;
 export const LEFT_DROPDOWN_MODER = {
   label: 'Moderator', link: '#', children: [
     {label: 'Create Trip', link: '/create-trip', icon: 'glyphicon glyphicon-leaf'},
-    {label: 'Add/Edit episodes', link: '/edit-episodes', icon: ''},
-    {label: 'Add/Edit participants', link: '/edit-participants', icon: ''},
-    {label: 'Add/Edit trip users', link: '/edit-trip-users', icon: ''},
+    {label: 'Add/Edit episodes', link: '/edit-episodes', icon: 'glyphicon glyphicon-picture'},
+    {label: 'Add/Edit participants', link: '/edit-participants', icon: 'glyphicon glyphicon-user'},
     {label: 'See created trips', link: '/moderator-trips', icon: 'glyphicon glyphicon-eye-open'}
   ]
 };
