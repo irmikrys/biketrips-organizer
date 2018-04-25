@@ -50,6 +50,12 @@ class Comments extends Component {
                     <div key={key}
                          className="comment"
                     >
+                      {
+                        this.props.username === comment.owner &&
+                        <div>
+                          <span className='glyphicon glyphicon-trash trash'/>
+                        </div>
+                      }
                       <div>{datetimeFormatter(new Date(comment.createDate))}</div>
                       <div><b>{comment.owner}</b>: {comment.content}</div>
                     </div>
