@@ -1,0 +1,150 @@
+@import 'theme.styl'
+
+.trip-grid
+  text-align left
+
+  .tile-wrapper
+    display -webkit-flex
+    -webkit-flex-wrap wrap
+    display flex
+    flex-wrap wrap
+
+    .trip-tile
+      background #d9b38c
+      color black
+      opacity 0.8
+      position relative
+      margin 2.5%
+      padding 20px
+      min-width 250px
+      width 45% !important
+      max-width 45%
+      border 1px solid bisque
+      transition 0.30s
+
+      .glyphicon
+        font-size 16px
+        color blanchedalmond
+        margin 2px !important
+
+      .glyphicon:hover
+        color white
+        cursor pointer
+
+    .trip-tile:hover
+      box-shadow 0 0 20px 0 white, 0 5px 5px 0 antiquewhite
+      opacity 1.0
+      transition 0.30s
+
+.user-trip-grid
+  text-align left
+  margin 30px auto 50px
+
+  .card-wrapper
+    display -webkit-flex
+    -webkit-flex-wrap wrap
+    display flex
+    flex-wrap wrap
+
+    .trip-card
+      z-index 1
+      position relative
+      width 300px
+      min-width 300px
+      margin 25px
+      box-shadow 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
+      justify-content left
+      align-items left
+      background-color #fff
+      transition 0.30s
+      -webkit-transition 0.30s
+      -moz-transition 0.30s
+      -ms-transition 0.30s
+      -o-transition 0.30s
+
+      h2, h3, h4
+        color #fff
+        background theme_dark
+        text-align center
+        padding-top 12px
+        padding-bottom 12px
+        width 100%
+        margin-top 0
+        font-weight 300
+
+      .trip-details
+        width 100%
+        text-align left
+        padding-left 20px
+        padding-right 20px
+        padding-bottom 20px
+        padding-top 8px
+
+        label
+          margin-top 10px
+          font-weight 700
+
+    .trip-card:hover
+      box-shadow 0 0 20px 0 antiquewhite, 0 5px 5px 0 white
+      cursor pointer
+      transition 0.30s
+      -webkit-transition 0.30s
+      -moz-transition 0.30s
+      -ms-transition 0.30s
+      -o-transition 0.30s
+      -webkit-transform rotate(1deg)
+      -moz-transform rotate(1deg)
+      -o-transform rotate(1deg)
+      -ms-transform rotate(1deg)
+      transform rotate(1deg)
+
+.trip-view
+  min-height 500px
+  padding 20px
+  overflow hidden
+  background white
+
+  .trip-actions
+    text-align center
+
+    button
+      width 100%
+      margin-top 2rem
+
+#map
+  height 250px
+
+  div
+    padding 0
+
+  #state
+    float left
+
+.margin
+  margin-left 10px
+
+.column
+  float left
+  width 50%
+  padding-top 1rem
+  padding-right 1rem
+
+  .dropdown-toggle, .dropdown-menu
+    background-color blanchedalmond
+    border-radius 0
+    border none
+
+    .dropdown-header
+      margin-left -10px
+
+@media (max-width: 720px)
+  .column
+    width 100%
+
+.three-column
+  float left
+  width 33%
+
+@media (max-width: 500px)
+  .three-column
+    width 100%

@@ -1,3 +1,6 @@
+import {browserHistory} from 'react-router';
+import {fetchActiveApplications} from "./activeApplications";
+
 const ACCEPT_MODER = 'applications/ACCEPT_MODER';
 const ACCEPT_MODER_SUCCESS = 'applications/ACCEPT_MODER_SUCCESS';
 const ACCEPT_MODER_FAIL = 'applications/ACCEPT_MODER_FAIL';
@@ -30,6 +33,10 @@ export default function acceptModerReducer(state = initialState, action) {
 export function acceptModerator(username, role) {
   return {
     types: [ACCEPT_MODER, ACCEPT_MODER_SUCCESS, ACCEPT_MODER_FAIL],
-    promise: (client) => client.put(`/api/users/${username}`, role)
+    promise: (client) => client.put(`/api/users/${username}`, role),
+    afterSuccess: (dispatch, getState, response) => {
+      browserHistory.push('/applications');
+      dispatch(fetchActiveApplications());
+    }
   };
 }

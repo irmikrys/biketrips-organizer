@@ -1,16 +1,24 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {getSession} from "../../reducers/authentication";
+import {displayAuthError, getSession, setRegisterSuccess} from "../../reducers/authentication";
 import "stylus/main.styl";
 import axios from 'axios';
 import {
   ADMIN_RIGHT_ITEMS,
   GUEST_RIGHT_ITEMS,
+  LEFT_DROPDOWN_ADMIN,
+  LEFT_DROPDOWN_GUEST,
+  LEFT_DROPDOWN_MODER,
+  LEFT_DROPDOWN_USER,
   MENU_FOR_ADMIN,
   MENU_FOR_GUEST,
   MENU_FOR_MODERATOR,
   MENU_FOR_USER,
   MODERATOR_RIGHT_ITEMS,
+  RIGHT_DROPDOWN_ADMIN,
+  RIGHT_DROPDOWN_GUEST,
+  RIGHT_DROPDOWN_MODER,
+  RIGHT_DROPDOWN_USER,
   USER_RIGHT_ITEMS
 } from "../constants/constants";
 import Navbar from "../component/Navbar";
@@ -42,10 +50,8 @@ export class App extends Component {
       });
   };
 
-  getMainMenu = () => {
-    const {role} = this.state;
-    const {isAuthenticated} = this.props;
-    if (isAuthenticated) {
+  getMainMenu = (role, isAuthenticated, loading) => {
+    if (isAuthenticated && !loading) {
       switch (role) {
         case 'ADMIN' :
           return MENU_FOR_ADMIN;
@@ -58,10 +64,8 @@ export class App extends Component {
     return MENU_FOR_GUEST;
   };
 
-  getSideMenu = () => {
-    const {role} = this.state;
-    const {isAuthenticated} = this.props;
-    if (isAuthenticated) {
+  getSideMenu = (role, isAuthenticated, loading) => {
+    if (isAuthenticated && !loading) {
       switch (role) {
         case 'ADMIN' :
           return ADMIN_RIGHT_ITEMS;
@@ -74,10 +78,43 @@ export class App extends Component {
     return GUEST_RIGHT_ITEMS;
   };
 
-  render() {
-    const {isAuthenticated} = this.props;
+  getLeftDropdown = (role, isAuthenticated, loading) => {
+    if (isAuthenticated && !loading) {
+      switch (role) {
+        case 'ADMIN' :
+          return LEFT_DROPDOWN_ADMIN;
+        case 'USER' :
+          return LEFT_DROPDOWN_USER;
+        case 'MODER' :
+          return LEFT_DROPDOWN_MODER;
+      }
+    }
+    return LEFT_DROPDOWN_GUEST;
+  };
 
-    if (isAuthenticated) {
+  getRightDropdown = (role, isAuthenticated, loading) => {
+    if (isAuthenticated && !loading) {
+      switch (role) {
+        case 'ADMIN' :
+          return RIGHT_DROPDOWN_ADMIN;
+        case 'USER' :
+          return RIGHT_DROPDOWN_USER;
+        case 'MODER' :
+          return RIGHT_DROPDOWN_MODER;
+      }
+    }
+    return RIGHT_DROPDOWN_GUEST;
+  };
+
+  clearErrorMessages = () => {
+    this.props.displayAuthError(null);
+    this.props.setRegisterSuccess(false);
+  };
+
+  render() {
+    const {isAuthenticated, loading} = this.props;
+    const {role} = this.state;
+    if (isAuthenticated && !loading) {
       this.getUser();
       if (this.state.user != null) {
         const {role} = this.state.user.user;
@@ -85,21 +122,40 @@ export class App extends Component {
       }
     }
 
-    const menuItems = this.getMainMenu();
-    const sideItems = this.getSideMenu();
+    const menuItems = this.getMainMenu(role, isAuthenticated, loading);
+    const sideItems = this.getSideMenu(role, isAuthenticated, loading);
+    const leftDropdown = this.getLeftDropdown(role, isAuthenticated, loading);
+    const rightDropdown = this.getRightDropdown(role, isAuthenticated, loading);
+
     return (
       <div id="application">
-        <Navbar mainItems={menuItems} rightItems={sideItems}/>
+        <Navbar onClick={this.clearErrorMessages.bind(this)}
+                mainItems={menuItems}
+                rightItems={sideItems}
+                leftDropdown={leftDropdown}
+                rightDropdown={rightDropdown}
+        />
         {this.props.children}
       </div>
     );
   }
 }
 
-export default connect(
-  state => ({
+function mapStateToProps(state) {
+  return {
     isAuthenticated: state.authentication.isAuthenticated,
-    username: state.authentication.username
-  }),
-  {getSession}
+    username: state.authentication.username,
+    loading: state.authentication.loading
+  };
+}
+
+const mapActionsToProps = {
+  getSession,
+  setRegisterSuccess,
+  displayAuthError
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
 )(App);

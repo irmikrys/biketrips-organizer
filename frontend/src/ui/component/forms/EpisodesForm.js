@@ -27,17 +27,16 @@ export default class EpisodesForm extends Component {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  handleSubmit = event => {
-    event.preventDefault();
+    this.render();
   };
 
   render() {
+    const {tripSelected} = this.state;
+    console.log(this.state.episodes);
     return (
       <div className="form-page">
         <div className="episodes-form-container">
-          <form onSubmit={this.handleSubmit}>
+          <div>
             <Select simpleValue
                     placeholder="trip"
                     clearable={false}
@@ -50,17 +49,26 @@ export default class EpisodesForm extends Component {
             <div>
               {
                 Object.values(this.state.episodes)
-                  .map(episode => {
-                    return <EpisodeRow episode={episode}
-                                       tripSelected={this.state.tripSelected}
+                  .map((episode, key) => {
+                    return <EpisodeRow key={key}
+                                       episode={episode}
+                                       tripSelected={tripSelected}
+                                       fieldsDisabled={true}
+                                       submitted={true}
                     />
                   })
               }
-              <EpisodeRow episode={{
-                idTrip: this.state.idTrip,
-                time: null,
-                description: ""
-              }}/>
+              <EpisodeRow tripSelected={tripSelected}
+                          fieldsDisabled={false}
+                          create={this.props.create.bind(this)}
+                          idTrip={this.state.idTrip}
+                          submitted={false}
+                          episode={{
+                            idTrip: this.state.idTrip,
+                            time: null,
+                            description: ""
+                          }}
+              />
             </div>
             <div className="add-btn">
               <button type="button" disabled={!this.state.tripSelected}>
@@ -69,12 +77,12 @@ export default class EpisodesForm extends Component {
             </div>
             <div className="save-btn">
               <button type="submit">
-                <Link to={'/moderate'}>
+                <Link to={'/moderator-trips'}>
                   <span className="glyphicon glyphicon-ok"/> OK
                 </Link>
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     );

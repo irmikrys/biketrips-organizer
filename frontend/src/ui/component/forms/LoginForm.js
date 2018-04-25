@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {ErrorPanel} from "./ErrorPanel";
+import {Link} from "react-router";
 import {USERNAME, PASSWORD, getFormField} from "../../constants/constants";
 
 export default class LoginForm extends Component {
@@ -40,6 +41,7 @@ export default class LoginForm extends Component {
             }
             <button type="submit">Login</button>
           </form>
+          <p className="message"><Link to="/register" onClick={this.props.onClick}>Not registered? Sign up</Link></p>
         </div>
       </div>
     );

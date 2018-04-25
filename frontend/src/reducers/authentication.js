@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 const LOGIN = 'authentication/LOGIN';
 const LOGIN_SUCCESS = 'authentication/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'authentication/LOGIN_FAIL';
+const LOGIN_AFTER_REGISTER_SUCCESS = 'authentication/LOGIN_AFTER_REGISTER_SUCCESS';
 
 const LOGOUT = 'authentication/LOGOUT';
 const LOGOUT_SUCCESS = 'authentication/LOGOUT_SUCCESS';
@@ -37,7 +38,8 @@ export default function reducer(state = initialState, action) {
         ...state,
         isAuthenticated: false,
         username: null,
-        errorMessage: action.error.data.messageKey
+        errorMessage: action.error.data.messageKey,
+        registerSuccess: false
       };
     case LOGOUT_SUCCESS:
       return {
@@ -71,6 +73,11 @@ export default function reducer(state = initialState, action) {
         ...state,
         errorMessage: action.message
       };
+    case LOGIN_AFTER_REGISTER_SUCCESS:
+      return {
+        ...state,
+        registerSuccess: action.registerSuccess
+      };
     default:
       return state;
   }
@@ -82,6 +89,10 @@ export function displayAuthError(message) {
   return {type: ERROR_MESSAGE, message};
 }
 
+export function setRegisterSuccess(registerSuccess) {
+  return {type: LOGIN_AFTER_REGISTER_SUCCESS, registerSuccess};
+}
+
 export function login(username, password) {
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
@@ -89,7 +100,8 @@ export function login(username, password) {
     afterSuccess: (dispatch, getState, response) => {
       localStorage.setItem('auth-token', response.headers['x-auth-token']);
       const routingState = getState().routing.locationBeforeTransitions.state || {};
-      browserHistory.push(routingState.nextPathname || '');
+      // browserHistory.push(routingState.nextPathname || '');
+      browserHistory.push('/');
     }
   };
 }

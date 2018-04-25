@@ -1,38 +1,66 @@
-import { FormFieldBuilder } from "../component/forms/FormFieldBuilder";
+import {FormFieldBuilder} from "../component/forms/FormFieldBuilder";
 
 export const MENU_FOR_USER = [
+  {label: 'Trips', link: '/trips', icon: ''},
   {label: 'Apply', link: '/apply', icon: ''}
 ];
 
 export const MENU_FOR_MODERATOR = [
-  {label: 'Moderator', link: '/moderate', icon: ''}
+  {label: 'Trips', link: '/trips', icon: ''},
 ];
 
-export const MENU_FOR_GUEST = [
-];
+export const MENU_FOR_GUEST = [];
 
 export const MENU_FOR_ADMIN = [
   {label: 'Applications', link: '/applications', icon: ''}
 ];
 
-export const USER_RIGHT_ITEMS = [
-  {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
-  {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
-];
+export const USER_RIGHT_ITEMS = [];
 
-export const MODERATOR_RIGHT_ITEMS = [
-  {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
-  {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
-];
+export const MODERATOR_RIGHT_ITEMS = [];
 
 export const GUEST_RIGHT_ITEMS = [
-  {label: 'Login', link: '/login', icon: 'glyphicon glyphicon-log-in'}
+  {label: 'Sign up', link: '/register', icon: 'glyphicon glyphicon-user'},
+  {label: 'Sign in', link: '/login', icon: 'glyphicon glyphicon-log-in'}
 ];
 
 export const ADMIN_RIGHT_ITEMS = [
   {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
 ];
 
+export const LEFT_DROPDOWN_GUEST = null;
+export const LEFT_DROPDOWN_USER = null;
+export const LEFT_DROPDOWN_ADMIN = null;
+
+export const LEFT_DROPDOWN_MODER = {
+  label: 'Moderator', link: '#', children: [
+    {label: 'Create Trip', link: '/create-trip', icon: 'glyphicon glyphicon-leaf'},
+    {label: 'Add/Edit episodes', link: '/edit-episodes', icon: 'glyphicon glyphicon-picture'},
+    {label: 'Add/Edit participants', link: '/edit-participants', icon: 'glyphicon glyphicon-user'},
+    {label: 'See created trips', link: '/moderator-trips', icon: 'glyphicon glyphicon-eye-open'}
+  ]
+};
+
+export const RIGHT_DROPDOWN_GUEST = null;
+export const RIGHT_DROPDOWN_ADMIN = null;
+
+export const RIGHT_DROPDOWN_MODER = {
+  label: 'User', link: '#', children: [
+    {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
+    {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
+  ]
+};
+
+export const RIGHT_DROPDOWN_USER = {
+  label: 'User', link: '#', children: [
+    {label: 'Profile', link: '/profile', icon: 'glyphicon glyphicon-user'},
+    {label: 'Logout', link: '/logout', icon: 'glyphicon glyphicon-log-out'}
+  ]
+};
+
+export const CREATE_MODE = "create";
+export const UPDATE_MODE = "update";
+export const READ_MODE = "read";
 
 export const USERNAME = "username";
 export const PASSWORD = "password";

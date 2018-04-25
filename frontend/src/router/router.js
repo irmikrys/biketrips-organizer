@@ -3,31 +3,35 @@ import {IndexRoute, Route} from 'react-router';
 
 import privateRoute from './privateRoute';
 import App from '../ui/container/App';
-import UserProfilePage from '../ui/container/UserProfilePage';
-import AdminLoginPage from '../ui/container/AdminLoginPage';
+import UserProfilePage from '../ui/container/user/UserProfilePage';
 import RegisterPage from '../ui/container/RegisterPage';
-import UserLoginPage from '../ui/container/UserLoginPage';
+import LoginPage from '../ui/container/LoginPage';
 import WelcomePage from "../ui/container/WelcomePage";
-import ApplicationsPage from "../ui/container/ApplicationsPage";
-import ApplyPage from "../ui/container/ApplyPage";
-import ModeratorPage from "../ui/container/ModeratorPage";
-import NewTripPage from "../ui/container/NewTripPage"
-import EpisodesFormPage from "../ui/container/EpisodesFormPage";
-import TripsPage from "../ui/container/TripsPage";
+import ApplicationsPage from "../ui/container/administrator/ApplicationsPage";
+import ApplyPage from "../ui/container/user/ApplyPage";
+import NewTripPage from "../ui/container/moderator/NewTripPage"
+import EpisodesFormPage from "../ui/container/moderator/EpisodesFormPage";
+import ModeratorTripsPage from "../ui/container/moderator/ModeratorTripsPage";
+import ParticipantsFormPage from "../ui/container/moderator/ParticipantsFormPage";
+import EditTripPage from "../ui/container/moderator/EditTripPage";
+import TripsPage from "../ui/container/user/TripsPage";
+import TripViewPage from "../ui/container/user/TripViewPage";
 
 export default (onLogout) => (
   <Route path="/" name="app" component={App}>
     <IndexRoute component={WelcomePage}/>
     <Route path="register" component={RegisterPage}/>
-    <Route path="login" component={UserLoginPage}/>
-    <Route path="admin-login" component={AdminLoginPage}/>
+    <Route path="login" component={LoginPage}/>
     <Route path="applications" component={privateRoute(ApplicationsPage)}/>
     <Route path="apply" component={privateRoute(ApplyPage)}/>
     <Route path="profile" component={UserProfilePage}/>
-    <Route path="moderate" component={ModeratorPage}/>
-    <Route path="moderate/create-trip" component={NewTripPage}/>
-    <Route path="moderate/edit-episodes" component={EpisodesFormPage}/>
-    <Route path="alltrips" component={TripsPage}/>
+    <Route path="create-trip" component={NewTripPage}/>
+    <Route path="edit-episodes" component={EpisodesFormPage}/>
+    <Route path="edit-participants" component={ParticipantsFormPage}/>
+    <Route path="edit-trip/:idTrip" component={EditTripPage}/>
+    <Route path="moderator-trips" component={ModeratorTripsPage}/>
+    <Route path="trips" component={TripsPage}/>
+    <Route path="trips/:idTrip" component={TripViewPage}/>
     <Route path="logout" onEnter={onLogout}/>
   </Route>
 );

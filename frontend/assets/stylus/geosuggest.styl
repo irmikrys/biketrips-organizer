@@ -1,0 +1,39 @@
+@import 'theme.styl'
+
+.geosuggest
+  position relative
+
+.geosuggest__suggests
+  position absolute
+  left 0
+  right 0
+  max-height 25em
+  padding 0
+  margin-top -15px
+  background #ffffff
+  border 1px solid #f2f2f2
+  border-top-width 0
+  overflow-x hidden
+  overflow-y auto
+  list-style none
+  color #333
+  z-index 5
+
+.geosuggest__suggests--hidden
+  max-height 0
+  overflow hidden
+  border-width 0
+
+.geosuggest__item
+  text-align left
+  padding 8px 15px
+  cursor pointer
+
+.geosuggest__item:hover,
+.geosuggest__item:focus
+.geosuggest__item--active
+  background theme_light
+  color #fff
+
+.geosuggest__item__matched-text
+  font-weight bold

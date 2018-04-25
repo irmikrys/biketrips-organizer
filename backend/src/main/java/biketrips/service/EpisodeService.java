@@ -14,16 +14,20 @@ import java.util.Optional;
 @Service("episodeService")
 public class EpisodeService {
 
-  @Autowired
-  @Qualifier("episodeRepository")
-  private EpisodeRepository episodeRepository;
+  private final EpisodeRepository episodeRepository;
+
+  private final LocationService locationService;
+
+  private final JdbcTemplate jdbcTemplate;
 
   @Autowired
-  @Qualifier("locationService")
-  private LocationService locationService;
-
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
+  public EpisodeService(@Qualifier("episodeRepository") EpisodeRepository episodeRepository,
+                        @Qualifier("locationService") LocationService locationService,
+                        JdbcTemplate jdbcTemplate) {
+    this.episodeRepository = episodeRepository;
+    this.locationService = locationService;
+    this.jdbcTemplate = jdbcTemplate;
+  }
 
   public Optional<Episode> findByIdEpisode(long idEpisode) {
     return this.episodeRepository.findByIdEpisode(idEpisode);
@@ -51,9 +55,13 @@ public class EpisodeService {
   public void updateEpisode(Episode oldEpisode, Location oldLocation, EpisodeDTO newEpisode) {
     final String sql = "" +
       "UPDATE episodes e " +
-      "SET e.time = ?, e.description = ?" +
+      "SET e.time = ?, e.description = ? " +
       "WHERE e.idEpisode = ?";
     this.jdbcTemplate.update(sql, newEpisode.getTime(), newEpisode.getDescription(), oldEpisode.getIdEpisode());
     this.locationService.updateLocation(oldLocation, newEpisode.getLocationDTO());
+  }
+
+  public Iterable<Episode> findAll() {
+    return this.episodeRepository.findAll();
   }
 }

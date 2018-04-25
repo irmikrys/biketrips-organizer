@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import { routerReducer as routing } from 'react-router-redux';
+import {combineReducers} from 'redux';
+import {routerReducer as routing} from 'react-router-redux';
 import authentication from './authentication';
 import register from './register';
 import user from "./user";
@@ -11,6 +11,15 @@ import levels from "./levels";
 import tripCreation from "./tripCreation";
 import episodes from "./episodes";
 import trips from "./trips";
+import episode from "./episode";
+import participant from "./participant";
+import trip from "./trip";
+import tripUpdate from "./tripUpdate";
+import participants from "./participants";
+import statuses from "./statuses";
+import participantUpdate from "./participantUpdate";
+import activities from "./activities";
+import createEpisode from "./createEpisode";
 
 export default combineReducers({
   authentication,
@@ -24,5 +33,14 @@ export default combineReducers({
   tripCreation,
   episodes,
   trips,
+  episode,
+  participant,
+  trip,
+  tripUpdate,
+  participants,
+  statuses,
+  participantUpdate,
+  activities,
+  createEpisode,
   routing
 });

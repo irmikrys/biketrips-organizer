@@ -1,12 +1,13 @@
-import TripCreationForm from '../component/forms/TripCreationForm';
+import TripCreationForm from '../../component/forms/TripCreationForm';
 import {connect} from 'react-redux';
-import {fetchAvailableLevels} from "../../reducers/levels";
-import {createTrip} from "../../reducers/tripCreation";
+import {fetchAvailableLevels} from "../../../reducers/levels";
+import {createTrip} from "../../../reducers/tripCreation";
 
 function mapStateToProps(state) {
   return {
     levels: state.levels.levels,
-    username: state.authentication.username
+    username: state.authentication.username,
+    updatingModerator: state.authentication.loading
   };
 }
 

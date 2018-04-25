@@ -3,7 +3,7 @@ const FETCH_TRIPS_SUCCESS = 'trips/FETCH_TRIPS_SUCCESS';
 const FETCH_TRIPS_FAIL = 'trips/FETCH_TRIPS_FAIL';
 
 const initialState = {
-  updating: false,
+  updating: true,
   trips: []
 };
 
@@ -29,16 +29,23 @@ export default function tripsReducer(state = initialState, action) {
 
 // Actions
 
-export function fetchUserTrips(username) {
+export function fetchModeratorTrips() {
   return  {
     types: [FETCH_TRIPS, FETCH_TRIPS_SUCCESS, FETCH_TRIPS_FAIL],
-    promise: client => client.get(`/api/trips/moderator/${username}`)
+    promise: client => client.get(`/api/moderator/trips`)
   };
 }
 
-export function fetchAllTrips() {
+export function fetchUserTrips() {
   return  {
     types: [FETCH_TRIPS, FETCH_TRIPS_SUCCESS, FETCH_TRIPS_FAIL],
-    promise: client => client.get(`/api/trips`)
+    promise: client => client.get(`/api/user/trips`)
+  };
+}
+
+export function fetchAllCreatedTrips() {
+  return  {
+    types: [FETCH_TRIPS, FETCH_TRIPS_SUCCESS, FETCH_TRIPS_FAIL],
+    promise: client => client.get(`/api/trips/`)
   };
 }

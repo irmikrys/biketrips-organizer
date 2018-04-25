@@ -11,9 +11,12 @@ import java.util.Optional;
 @Service("activityService")
 public class ActivityService {
 
+  private final ActivityRepository activityRepository;
+
   @Autowired
-  @Qualifier("activityRepository")
-  private ActivityRepository activityRepository;
+  public ActivityService(@Qualifier("activityRepository") ActivityRepository activityRepository) {
+    this.activityRepository = activityRepository;
+  }
 
   public Iterable<Activity> findAll() {
     return this.activityRepository.findAll();

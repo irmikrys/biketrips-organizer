@@ -7,6 +7,7 @@ import biketrips.exceptions.UserException;
 import biketrips.model.User;
 import biketrips.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RestController
 public class UserController {
 
+  private final UserService userService;
+
   @Autowired
-  private UserService userService;
+  public UserController(@Qualifier("userService") UserService userService) {
+    this.userService = userService;
+  }
 
   @RequestMapping(method = POST, path = "/api/register")
   public @ResponseBody
@@ -51,12 +56,6 @@ public class UserController {
     return ResponseEntity.ok(userDetails);
   }
 
-  private UserDetailsDTO getUserDetails(String username) {
-    User user = this.userService.findByUsername(username).orElseThrow(
-      () -> new UserException("details.error.userNotFound"));
-    return new UserDetailsDTO(user);
-  }
-
   @RequestMapping(method = PUT, path = "/api/users/{username}")
   public @ResponseBody
   ResponseEntity<HttpStatus> updateUserRole(
@@ -67,5 +66,11 @@ public class UserController {
       () -> new UserException("getUser.error.userNotFound"));
     this.userService.updateUserRole(user, userDTO);
     return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  private UserDetailsDTO getUserDetails(String username) {
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new UserException("details.error.userNotFound"));
+    return new UserDetailsDTO(user);
   }
 }

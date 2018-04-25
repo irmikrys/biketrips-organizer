@@ -1,4 +1,5 @@
 import { browserHistory } from 'react-router';
+import {fetchActiveApplications} from "./activeApplications";
 
 const DEACTIVATE = 'applications/DEACTIVATE';
 const DEACTIVATE_SUCCESS = 'applications/DEACTIVATE_SUCCESS';
@@ -33,8 +34,9 @@ export function deactivateApplication(username, applicationInfo) {
   return  {
     types: [DEACTIVATE, DEACTIVATE_SUCCESS, DEACTIVATE_FAIL],
     promise: (client) => client.put(`/api/applications/${username}`, applicationInfo),
-    afterSuccess: () => {
+    afterSuccess: (dispatch, getState, response) => {
       browserHistory.push('/applications');
+      dispatch(fetchActiveApplications());
     }
   };
 }

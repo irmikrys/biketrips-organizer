@@ -1,9 +1,11 @@
+DROP DATABASE IF EXISTS bikeTrips;
 CREATE DATABASE IF NOT EXISTS bikeTrips;
 
 USE bikeTrips;
 
 DROP TABLE IF EXISTS participants;
 DROP TABLE IF EXISTS applications;
+DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS episodes;
 DROP TABLE IF EXISTS photos;
@@ -81,7 +83,7 @@ CREATE TABLE participants (
 
 CREATE TABLE locations (
   idLocation  BIGINT          NOT NULL AUTO_INCREMENT,
-  description VARCHAR(60)     NOT NULL,
+  description VARCHAR(255)    NOT NULL,
   latitude    NUMERIC(18, 14) NOT NULL,
   longitude   NUMERIC(18, 14) NOT NULL,
   PRIMARY KEY (idLocation)
@@ -96,6 +98,17 @@ CREATE TABLE episodes (
   PRIMARY KEY (idEpisode),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip),
   FOREIGN KEY (idLocation) REFERENCES locations (idLocation)
+);
+
+CREATE TABLE comments (
+  idComment  BIGINT       NOT NULL AUTO_INCREMENT,
+  owner      VARCHAR(30)  NOT NULL,
+  idTrip     BIGINT       NOT NULL,
+  content    VARCHAR(255) NOT NULL,
+  createDate DATETIME     NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (idComment),
+  FOREIGN KEY (owner) REFERENCES users (username),
+  FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
 CREATE TABLE albums (
@@ -129,39 +142,3 @@ INSERT INTO levels (idLevel, name) VALUES
   (1, 'easy'),
   (2, 'medium'),
   (3, 'hard');
-
-INSERT INTO users (username, password, email, firstName, lastName, role) VALUES
-  (
-    'admin',
-    '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',
-    'biketrips.admin@gmail.com',
-    'admin',
-    'admin',
-    'ADMIN'
-  ),
-  (
-    'kacpkasp',
-    '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',
-    'kacp@kasp',
-    'Kacper',
-    'Kasprzyk',
-    'MODER'
-  ),
-  (
-    'irmikrys',
-    '$2a$10$MRFnsiGe3kSlF0lWALTu2e5e89heCXHFXHA2yuCIUuyyPRDNJ2/Cu',
-    'irmi@krys',
-    'Irmina',
-    'Krysiak',
-    'USER'
-  );
-
-INSERT INTO applications (username, email) VALUES
-  (
-    'irmikrys',
-    'irmi@krys'
-  );
-
-INSERT INTO `biketrips`.`trips` (`idTrip`, `name`, `startDate`, `endDate`, `idLevel`, `idStatus`, `description`, `points`, `moderator`) VALUES
-('2', 'Druga', '2018-07-08', '2018-09-09', '1', '2', 'Super wycieczka w nieznane', '12', 'Doma'),
-('3', 'Trzecia', '2017-09-01', '2018-01-01', '2', '1', 'Wyjazd', '111', 'kacpkasp');
