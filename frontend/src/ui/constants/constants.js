@@ -1,10 +1,13 @@
 import {FormFieldBuilder} from "../component/forms/FormFieldBuilder";
 
 export const MENU_FOR_USER = [
+  {label: 'Trips', link: '/trips', icon: ''},
   {label: 'Apply', link: '/apply', icon: ''}
 ];
 
-export const MENU_FOR_MODERATOR = [];
+export const MENU_FOR_MODERATOR = [
+  {label: 'Trips', link: '/trips', icon: ''},
+];
 
 export const MENU_FOR_GUEST = [];
 
@@ -32,9 +35,9 @@ export const LEFT_DROPDOWN_ADMIN = null;
 export const LEFT_DROPDOWN_MODER = {
   label: 'Moderator', link: '#', children: [
     {label: 'Create Trip', link: '/create-trip', icon: 'glyphicon glyphicon-leaf'},
-    {label: 'Add/Edit episodes', link: '/edit-episodes', icon: ''},
-    {label: 'Add/Edit participants', link: '/edit-participants', icon: ''},
-    {label: 'See created trips', link: '/moderator-trips', icon: 'glyphicon glyphicon-eye'}
+    {label: 'Add/Edit episodes', link: '/edit-episodes', icon: 'glyphicon glyphicon-picture'},
+    {label: 'Add/Edit participants', link: '/edit-participants', icon: 'glyphicon glyphicon-user'},
+    {label: 'See created trips', link: '/moderator-trips', icon: 'glyphicon glyphicon-eye-open'}
   ]
 };
 

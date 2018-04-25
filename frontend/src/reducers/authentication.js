@@ -100,7 +100,8 @@ export function login(username, password) {
     afterSuccess: (dispatch, getState, response) => {
       localStorage.setItem('auth-token', response.headers['x-auth-token']);
       const routingState = getState().routing.locationBeforeTransitions.state || {};
-      browserHistory.push(routingState.nextPathname || '');
+      // browserHistory.push(routingState.nextPathname || '');
+      browserHistory.push('/');
     }
   };
 }

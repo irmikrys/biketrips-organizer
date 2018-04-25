@@ -22,12 +22,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 @RestController
 public class ApplicationController {
 
-  @Autowired
-  private ApplicationService applicationService;
+  private final ApplicationService applicationService;
+
+  private final UserService userService;
 
   @Autowired
-  @Qualifier("userService")
-  private UserService userService;
+  public ApplicationController(@Qualifier("applicationsService") ApplicationService applicationService,
+                               @Qualifier("userService") UserService userService) {
+    this.applicationService = applicationService;
+    this.userService = userService;
+  }
 
   @RequestMapping(method = POST, path = "/api/apply")
   public @ResponseBody

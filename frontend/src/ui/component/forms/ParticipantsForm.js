@@ -11,23 +11,42 @@ export default class ParticipantsForm extends Component {
     this.state = {
       participants: [],
       idTrip: 0,
-      tripSelected: false
+      tripSelected: false,
+      children: []
     };
   }
 
-  handleTripChange = value => {
-    axios.get(`/api/trips/${value}/participants`)
+  getTripParticipants = idTrip => {
+    axios.get(`/api/trips/${idTrip}/participants`)
       .then((response) => {
         this.setState({
           participants: response.data,
-          idTrip: value,
-          tripSelected: true
         });
       })
       .catch((error) => {
         console.log(error);
       });
-    this.render();
+  };
+
+  handleTripChange = value => {
+    this.getTripParticipants(value);
+    this.setState({
+      idTrip: value,
+      tripSelected: true,
+      children: []
+    });
+  };
+
+  addRow = () => {
+    this.setState({
+      children: this.state.children.concat([
+        {
+          idTrip: this.state.idTrip,
+          username: "",
+          idActivity: 1
+        }
+      ])
+    });
   };
 
   render() {
@@ -45,38 +64,41 @@ export default class ParticipantsForm extends Component {
                       return {value: item.idTrip, label: item.name}
                     })}
             />
-            <div>
+            <div id="participants-rows">
               {
                 Object.values(this.state.participants)
-                  .map(participant => {
-                    return <ParticipantRow participant={participant}
+                  .map((participant, key) => {
+                    return <ParticipantRow key={key}
                                            tripSelected={tripSelected}
-                                           glyphicon="glyphicon glyphicon-pencil"
-                                           fieldsDisabled={true}
-                                           create={this.props.createParticipant.bind(this)}
+                                           submitted={true}
+                                           deleted={false}
+                                           participant={participant}
                     />
                   })
               }
-              <ParticipantRow participant={{
-                idTrip: this.state.idTrip,
-                username: "",
-                idActivity: 1
-              }}
-                              tripSelected={tripSelected}
-                              glyphicon="glyphicon glyphicon-floppy-disk"
-                              fieldsDisabled={false}
-                              create={this.props.createParticipant.bind(this)}
-              />
+              {
+                Object.values(this.state.children)
+                  .map((child, key) => {
+                    return <ParticipantRow key={key}
+                                           tripSelected={tripSelected}
+                                           submitted={false}
+                                           deleted={false}
+                                           create={this.props.createParticipant}
+                                           // errorMessage={this.props.errorMessage}
+                                           participant={child}
+                    />
+                  })
+              }
             </div>
             <div className="add-btn">
-              <button type="button" disabled={!this.state.tripSelected}>
+              <button type="button"
+                      disabled={!this.state.tripSelected}
+                      onClick={this.addRow}
+              >
                 <span className="glyphicon glyphicon-plus"/>
               </button>
             </div>
             <div className="save-btn">
-              <button type="button">
-                <span className="glyphicon glyphicon-file"/> FROM FILE
-              </button>
               <button type="submit">
                 <Link to={'/moderator-trips'}>
                   <span className="glyphicon glyphicon-ok"/> OK

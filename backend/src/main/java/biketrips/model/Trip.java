@@ -9,7 +9,7 @@ import java.util.Date;
 public class Trip implements Serializable {
 
   @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "idTrip")
   private long idTrip;
 

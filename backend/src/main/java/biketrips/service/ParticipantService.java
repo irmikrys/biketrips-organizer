@@ -13,13 +13,24 @@ import java.util.Optional;
 @Service("participantService")
 public class ParticipantService {
 
-  @Autowired
-  @Qualifier("participantRepository")
-  private ParticipantRepository participantRepository;
+  private final ParticipantRepository participantRepository;
 
+  private final JdbcTemplate jdbcTemplate;
 
   @Autowired
-  private JdbcTemplate jdbcTemplate;
+  public ParticipantService(@Qualifier("participantRepository") ParticipantRepository participantRepository,
+                            JdbcTemplate jdbcTemplate) {
+    this.participantRepository = participantRepository;
+    this.jdbcTemplate = jdbcTemplate;
+  }
+
+  public Iterable<Participant> findAll() {
+    return this.participantRepository.findAll();
+  }
+
+  public Iterable<Participant> findAllByUsername(String username) {
+    return this.participantRepository.findAllByUsername(username);
+  }
 
   public Iterable<Participant> findAllByIdActivity(int idActivity) {
     return this.participantRepository.findAllByIdActivity(idActivity);
@@ -45,7 +56,7 @@ public class ParticipantService {
   public void updateParticipant(Participant oldParticipant, ParticipantDTO newParticipant) {
     final String sql = "" +
       "UPDATE participants p " +
-      "SET p.idActivity = ?" +
+      "SET p.idActivity = ? " +
       "WHERE p.username = ? AND p.idTrip = ?";
     this.jdbcTemplate.update(sql, newParticipant.getIdActivity(), oldParticipant.getUsername(), oldParticipant.getIdTrip());
   }

@@ -18,8 +18,13 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/api/session")
 public class AuthenticationResource {
 
-  @Autowired
+  private final
   AuthenticationManager authenticationManager;
+
+  @Autowired
+  public AuthenticationResource(AuthenticationManager authenticationManager) {
+    this.authenticationManager = authenticationManager;
+  }
 
   @RequestMapping(method = RequestMethod.POST)
   public UserSession login(@RequestBody Credentials credentials, HttpSession httpSession) {

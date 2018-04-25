@@ -50,8 +50,8 @@ export class App extends Component {
       });
   };
 
-  getMainMenu = (role, isAuthenticated) => {
-    if (isAuthenticated) {
+  getMainMenu = (role, isAuthenticated, loading) => {
+    if (isAuthenticated && !loading) {
       switch (role) {
         case 'ADMIN' :
           return MENU_FOR_ADMIN;
@@ -64,8 +64,8 @@ export class App extends Component {
     return MENU_FOR_GUEST;
   };
 
-  getSideMenu = (role, isAuthenticated) => {
-    if (isAuthenticated) {
+  getSideMenu = (role, isAuthenticated, loading) => {
+    if (isAuthenticated && !loading) {
       switch (role) {
         case 'ADMIN' :
           return ADMIN_RIGHT_ITEMS;
@@ -78,8 +78,8 @@ export class App extends Component {
     return GUEST_RIGHT_ITEMS;
   };
 
-  getLeftDropdown = (role, isAuthenticated) => {
-    if (isAuthenticated) {
+  getLeftDropdown = (role, isAuthenticated, loading) => {
+    if (isAuthenticated && !loading) {
       switch (role) {
         case 'ADMIN' :
           return LEFT_DROPDOWN_ADMIN;
@@ -92,8 +92,8 @@ export class App extends Component {
     return LEFT_DROPDOWN_GUEST;
   };
 
-  getRightDropdown = (role, isAuthenticated) => {
-    if (isAuthenticated) {
+  getRightDropdown = (role, isAuthenticated, loading) => {
+    if (isAuthenticated && !loading) {
       switch (role) {
         case 'ADMIN' :
           return RIGHT_DROPDOWN_ADMIN;
@@ -112,9 +112,9 @@ export class App extends Component {
   };
 
   render() {
-    const {isAuthenticated} = this.props;
+    const {isAuthenticated, loading} = this.props;
     const {role} = this.state;
-    if (isAuthenticated) {
+    if (isAuthenticated && !loading) {
       this.getUser();
       if (this.state.user != null) {
         const {role} = this.state.user.user;
@@ -122,10 +122,10 @@ export class App extends Component {
       }
     }
 
-    const menuItems = this.getMainMenu(role, isAuthenticated);
-    const sideItems = this.getSideMenu(role, isAuthenticated);
-    const leftDropdown = this.getLeftDropdown(role, isAuthenticated);
-    const rightDropdown = this.getRightDropdown(role, isAuthenticated);
+    const menuItems = this.getMainMenu(role, isAuthenticated, loading);
+    const sideItems = this.getSideMenu(role, isAuthenticated, loading);
+    const leftDropdown = this.getLeftDropdown(role, isAuthenticated, loading);
+    const rightDropdown = this.getRightDropdown(role, isAuthenticated, loading);
 
     return (
       <div id="application">
@@ -144,7 +144,8 @@ export class App extends Component {
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.authentication.isAuthenticated,
-    username: state.authentication.username
+    username: state.authentication.username,
+    loading: state.authentication.loading
   };
 }
 

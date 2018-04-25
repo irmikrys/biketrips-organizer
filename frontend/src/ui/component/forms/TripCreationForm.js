@@ -9,7 +9,6 @@ export default class TripCreationForm extends Component {
     super(props);
     this.props.fetchLevels();
     this.state = {
-      moderator: this.props.username,
       name: "",
       startDate: null,
       endDate: null,
@@ -34,22 +33,38 @@ export default class TripCreationForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const {create} = this.props;
-    create(this.state);
+    const {name, startDate, endDate, idLevel, idStatus, description, points} = this.state;
+    const moderator = this.props.username;
+    const tripInfo = {
+      name,
+      startDate,
+      endDate,
+      idLevel,
+      idStatus,
+      description,
+      points,
+      moderator
+    };
+    console.log(tripInfo);
+    create(tripInfo);
   };
 
   render() {
     return (
       <div className="form-page" id="create-trip">
         <div className="form-container">
+          {!this.props.updatingModerator &&
           <form onSubmit={this.handleSubmit}>
             <DateRangePicker startDate={this.state.startDate}
                              startDateId="start_date_id"
                              endDate={this.state.endDate}
                              endDateId="end_date_id"
-                             onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })}
+                             onDatesChange={({startDate, endDate}) => this.setState({startDate, endDate})}
                              focusedInput={this.state.focusedInput}
-                             onFocusChange={focusedInput => this.setState({ focusedInput })}
+                             onFocusChange={focusedInput => this.setState({focusedInput})}
                              noBorder={true}
+                             small={true}
+                             hideKeyboardShortcutsPanel={true}
                              startDatePlaceholderText="start date"
                              endDatePlaceholderText="end date"
                              required
@@ -84,6 +99,8 @@ export default class TripCreationForm extends Component {
             />
             <button type="submit">Create trip</button>
           </form>
+          }
+          {this.props.updatingModerator && <div className='loader'/>}
         </div>
       </div>
     );

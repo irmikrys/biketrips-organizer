@@ -1,27 +1,43 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import TripsGrid from "../../component/trips/TripsGrid"
-import {fetchUserTrips} from "../../../reducers/trips";
+import {fetchModeratorTrips} from "../../../reducers/trips";
 import {fetchTripById} from "../../../reducers/trip";
 import {updateTrip} from "../../../reducers/tripUpdate";
+import {fetchAvailableLevels} from "../../../reducers/levels";
+import {fetchAvailableStatuses} from "../../../reducers/statuses";
+import {getSession} from "../../../reducers/authentication";
+import {fetchAvailableActivities} from "../../../reducers/activities";
 
 export class ModeratorTripsPage extends Component {
 
   constructor(props) {
     super(props);
-    this.props.fetchTrips(this.props.username);
+    props.getCurrentSession();
+    props.fetchLevels();
+    props.fetchStatuses();
+    props.fetchTrips();
   }
 
   render() {
     return (
       <div className="main">
-        <h2>Hello, these are your Trips!</h2>
-        <div className="trip-grid">
-          <TripsGrid trips={this.props.trips}
-                     fetchTrip={this.props.fetchTrip}
-                     editTrip={this.props.editTrip}
-          />
-        </div>
+        {
+          (this.props.updating || this.props.userUpdating) &&
+          <div className="loader"/>
+        }
+        {
+          !this.props.updating && !this.props.userUpdating &&
+          <div className="trip-grid">
+            <TripsGrid trips={this.props.trips}
+                       levels={this.props.levels}
+                       statuses={this.props.statuses}
+                       activities={this.props.activities}
+                       fetchTrip={this.props.fetchTrip}
+                       editTrip={this.props.editTrip}
+            />
+          </div>
+        }
       </div>
     )
   }
@@ -31,15 +47,23 @@ export class ModeratorTripsPage extends Component {
 function mapStateToProps(state) {
   return {
     username: state.authentication.username,
+    userUpdating: state.authentication.loading,
     trips: state.trips.trips,
-    updating: state.trips.updating
+    updating: state.trips.updating,
+    levels: state.levels.levels,
+    statuses: state.statuses.statuses,
+    activities: state.activities.activities
   };
 }
 
 const mapActionsToProps = {
-  fetchTrips: fetchUserTrips,
+  fetchTrips: fetchModeratorTrips,
   fetchTrip: fetchTripById,
-  editTrip: updateTrip
+  editTrip: updateTrip,
+  fetchLevels: fetchAvailableLevels,
+  fetchStatuses: fetchAvailableStatuses,
+  fetchActivities: fetchAvailableActivities,
+  getCurrentSession: getSession
 };
 
 export default connect(

@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchUserTrips} from "../../../reducers/trips";
+import {fetchModeratorTrips} from "../../../reducers/trips";
 import ParticipantsForm from "../../component/forms/ParticipantsForm";
 import {createParticipant} from "../../../reducers/participant";
 
 class ParticipantsFormPage extends Component {
 
   componentDidMount() {
-    this.props.fetchTrips(this.props.username);
+    this.props.fetchTrips();
   }
 
   render() {
@@ -15,7 +15,9 @@ class ParticipantsFormPage extends Component {
       <div>
         {
           !this.props.updating && <ParticipantsForm trips={this.props.trips}
-                                                    createParticipant={this.props.create.bind(this)}/>
+                                                    createParticipant={this.props.create.bind(this)}
+                                                    errorMessage={this.props.errorMessage}
+          />
         }
         {
           this.props.updating && <div className="loader margin-top"/>
@@ -30,12 +32,13 @@ function mapStateToProps(state) {
     trips: state.trips.trips,
     updating: state.trips.updating,
     username: state.authentication.username,
-    isAuthenticated: state.authentication.isAuthenticated
+    isAuthenticated: state.authentication.isAuthenticated,
+    errorMessage: state.participant.errorMessage
   };
 }
 
 const mapActionsToProps = {
-  fetchTrips: fetchUserTrips,
+  fetchTrips: fetchModeratorTrips,
   create: createParticipant
 };
 

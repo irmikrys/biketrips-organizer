@@ -18,17 +18,17 @@ export class ApplicationsPage extends Component {
     return (
       <div className="main">
         {
-          this.props.applications.length === 0 && <h2>You have no active applications...</h2>
+          this.props.updating && <div className="loader"/>
         }
         {
-          this.props.applications.length !== 0 &&
+          !this.props.updating && this.props.applications.length === 0 &&
+          <h2>You have no active applications...</h2>
+        }
+        {
+          !this.props.updating && this.props.applications.length !== 0 &&
           <div>
             <h2>Hello {this.props.username}, you have applications to consider!</h2>
             {
-              this.props.updating
-                ?
-                <div className="loader"/>
-                :
                 <section>
                   <table className="table">
                     <thead className="content-center">

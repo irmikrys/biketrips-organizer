@@ -32,6 +32,7 @@ export default class EpisodesForm extends Component {
 
   render() {
     const {tripSelected} = this.state;
+    console.log(this.state.episodes);
     return (
       <div className="form-page">
         <div className="episodes-form-container">
@@ -48,22 +49,25 @@ export default class EpisodesForm extends Component {
             <div>
               {
                 Object.values(this.state.episodes)
-                  .map(episode => {
-                    return <EpisodeRow episode={episode}
+                  .map((episode, key) => {
+                    return <EpisodeRow key={key}
+                                       episode={episode}
                                        tripSelected={tripSelected}
-                                       glyphicon="glyphicon glyphicon-pencil"
                                        fieldsDisabled={true}
+                                       submitted={true}
                     />
                   })
               }
-              <EpisodeRow episode={{
-                idTrip: this.state.idTrip,
-                time: null,
-                description: ""
-              }}
-                          tripSelected={tripSelected}
-                          glyphicon="glyphicon glyphicon-floppy-disk"
+              <EpisodeRow tripSelected={tripSelected}
                           fieldsDisabled={false}
+                          create={this.props.create.bind(this)}
+                          idTrip={this.state.idTrip}
+                          submitted={false}
+                          episode={{
+                            idTrip: this.state.idTrip,
+                            time: null,
+                            description: ""
+                          }}
               />
             </div>
             <div className="add-btn">

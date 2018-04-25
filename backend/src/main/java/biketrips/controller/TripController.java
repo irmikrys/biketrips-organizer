@@ -1,5 +1,6 @@
 package biketrips.controller;
 
+import biketrips.dto.CommentDTO;
 import biketrips.dto.EpisodeDTO;
 import biketrips.dto.ParticipantDTO;
 import biketrips.dto.TripDTO;
@@ -15,43 +16,77 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 public class TripController {
 
-  @Autowired
-  @Qualifier("tripService")
-  private TripService tripService;
+  private final TripService tripService;
+
+  private final UserService userService;
+
+  private final StatusService statusService;
+
+  private final LevelService levelService;
+
+  private final ActivityService activityService;
+
+  private final EpisodeService episodeService;
+
+  private final LocationService locationService;
+
+  private final ParticipantService participantService;
+
+  private final CommentService commentService;
 
   @Autowired
-  @Qualifier("userService")
-  private UserService userService;
-
-  @Autowired
-  @Qualifier("statusService")
-  private StatusService statusService;
-
-  @Autowired
-  @Qualifier("levelService")
-  private LevelService levelService;
-
-  @Autowired
-  @Qualifier("episodeService")
-  private EpisodeService episodeService;
-
-  @Autowired
-  @Qualifier("locationService")
-  private LocationService locationService;
-
-  @Autowired
-  @Qualifier("participantService")
-  private ParticipantService participantService;
+  public TripController(@Qualifier("tripService") TripService tripService,
+                        @Qualifier("userService") UserService userService,
+                        @Qualifier("statusService") StatusService statusService,
+                        @Qualifier("levelService") LevelService levelService,
+                        @Qualifier("activityService") ActivityService activityService,
+                        @Qualifier("episodeService") EpisodeService episodeService,
+                        @Qualifier("locationService") LocationService locationService,
+                        @Qualifier("participantService") ParticipantService participantService,
+                        @Qualifier("commentService") CommentService commentService) {
+    this.tripService = tripService;
+    this.userService = userService;
+    this.statusService = statusService;
+    this.levelService = levelService;
+    this.activityService = activityService;
+    this.episodeService = episodeService;
+    this.locationService = locationService;
+    this.participantService = participantService;
+    this.commentService = commentService;
+  }
 
 
   // trips
 
+
+  @RequestMapping(method = GET, path = "/api/activities")
+  public @ResponseBody
+  Iterable<Activity>
+  getAllActivities() {
+    return this.activityService.findAll();
+  }
+
+  @RequestMapping(method = GET, path = "/api/activities/user")
+  public @ResponseBody
+  Iterable<Activity>
+  getActivitiesForUser() {
+    List<Activity> activitiesForUser = new ArrayList<>();
+    Iterable<Activity> activities = this.getAllActivities();
+    for (Activity a :
+      activities) {
+      if (a.getIdActivity() == 4) continue;
+      activitiesForUser.add(a);
+    }
+    return activitiesForUser;
+  }
 
   @RequestMapping(method = GET, path = "/api/statuses")
   public @ResponseBody
@@ -97,10 +132,11 @@ public class TripController {
   }
 
   @RequestMapping(method = PUT, path = "/api/trips/{idTrip}")
-  public @ResponseBody ResponseEntity<HttpStatus>
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
   updateTrip(@PathVariable(name = "idTrip") long idTrip,
-                @Valid @RequestBody TripDTO tripDTO,
-                HttpSession session) {
+             @Valid @RequestBody TripDTO tripDTO,
+             HttpSession session) {
     String action = "updateTrip";
     User user = getModeratorAndCheck(session, action);
     Trip trip = getTripAndCheck(idTrip, action);
@@ -109,16 +145,12 @@ public class TripController {
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
-  @RequestMapping(method = GET, path = "/api/trips/moderator/{moderator}")
+  @RequestMapping(method = GET, path = "/api/moderator/trips")
   public @ResponseBody
   Iterable<Trip>
-  getTripsByModerator(@PathVariable(name = "moderator") String username, HttpSession session) {
+  getTripsByModerator(HttpSession session) {
     User user = getModeratorAndCheck(session, "getTripsByModerator");
-    System.out.println("User moderator: " + username);
-    if (!user.getUsername().equals(username)) {
-      throw new TripException("getTripsByModerator.error.unauthorisedNotOwner");
-    }
-    return this.tripService.findAllByModerator(username);
+    return this.tripService.findAllByModerator(user.getUsername());
   }
 
 
@@ -132,7 +164,7 @@ public class TripController {
                 @Valid @RequestBody EpisodeDTO episodeDTO,
                 HttpSession session) {
     String action = "createEpisode";
-    if(idTrip != episodeDTO.getIdTrip()) {
+    if (idTrip != episodeDTO.getIdTrip()) {
       throw new TripException(action + ".error.wrongTrip");
     }
     Trip trip = getTripAndCheck(idTrip, action);
@@ -154,9 +186,18 @@ public class TripController {
 
   @RequestMapping(method = GET, path = "/api/trips/{idTrip}/episodes")
   public @ResponseBody
-  Iterable<Episode>
+  Iterable<EpisodeDTO>
   getEpisodesByIdTrip(@PathVariable(name = "idTrip") long idTrip) {
-    return getTripEpisodes(idTrip, "getTripEpisodes");
+    Iterable<Episode> episodes = getTripEpisodes(idTrip, "getTripEpisodes");
+    List<EpisodeDTO> episodesDTO = new ArrayList<>();
+    for (Episode episode :
+      episodes) {
+      Location location = this.locationService.findByIdLocation(episode.getIdLocation()).orElseThrow(
+        () -> new TripException("getTripEpisodes.error.locationNotFound")
+      );
+      episodesDTO.add(new EpisodeDTO(episode, location));
+    }
+    return episodesDTO;
   }
 
   @RequestMapping(method = GET, path = "/api/trips/{idTrip}/episodes/{idEpisode}")
@@ -172,7 +213,8 @@ public class TripController {
   }
 
   @RequestMapping(method = PUT, path = "/api/trips/{idTrip}/episodes/{idEpisode}")
-  public @ResponseBody ResponseEntity<HttpStatus>
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
   updateEpisode(@PathVariable(name = "idTrip") long idTrip,
                 @PathVariable(name = "idEpisode") long idEpisode,
                 @Valid @RequestBody EpisodeDTO episodeDTO,
@@ -202,6 +244,13 @@ public class TripController {
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
+  @RequestMapping(method = GET, path = "/api/episodes")
+  public @ResponseBody
+  Iterable<Episode>
+  getAllEpisodes() {
+    return this.episodeService.findAll();
+  }
+
 
   //participants
 
@@ -210,10 +259,10 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<Participant>
   addParticipant(@PathVariable(name = "idTrip") long idTrip,
-                @Valid @RequestBody ParticipantDTO participantDTO,
-                HttpSession session) {
+                 @Valid @RequestBody ParticipantDTO participantDTO,
+                 HttpSession session) {
     String action = "addParticipant";
-    if(idTrip != participantDTO.getIdTrip()) {
+    if (idTrip != participantDTO.getIdTrip()) {
       throw new TripException(action + ".error.wrongTrip");
     }
     Trip trip = getTripAndCheck(idTrip, action);
@@ -243,7 +292,7 @@ public class TripController {
   @RequestMapping(method = GET, path = "/api/trips/{idTrip}/participants/{username}")
   public ResponseEntity<ParticipantDTO>
   getParticipant(@PathVariable(name = "idTrip") long idTrip,
-             @PathVariable(name = "username") String username) {
+                 @PathVariable(name = "username") String username) {
     String action = "getParticipant";
     Trip trip = getTripAndCheck(idTrip, action);
     Participant participant = getParticipantAndCheck(username, idTrip, action);
@@ -255,8 +304,8 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<HttpStatus>
   deleteParticipant(@PathVariable(name = "idTrip") long idTrip,
-                @PathVariable(name = "username") String username,
-                HttpSession session) {
+                    @PathVariable(name = "username") String username,
+                    HttpSession session) {
     String action = "deleteParticipant";
     User user = getModeratorAndCheck(session, action);
     Trip trip = getTripAndCheck(idTrip, action);
@@ -264,6 +313,144 @@ public class TripController {
     Participant participant = getParticipantAndCheck(username, idTrip, action);
     this.participantService.deleteParticipant(participant.getUsername(), idTrip);
     return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = PUT, path = "/api/trips/{idTrip}/participants/{username}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
+  updateParticipant(@PathVariable(name = "idTrip") long idTrip,
+                    @PathVariable(name = "username") String username,
+                    @Valid @RequestBody ParticipantDTO participantDTO,
+                    HttpSession session) {
+    String action = "updateParticipant";
+    Trip trip = getTripAndCheck(idTrip, action);
+    Participant participant = getParticipantAndCheck(username, idTrip, action);
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String usernameSession = userSession.getUsername();
+    User user = this.userService.findByUsername(usernameSession).orElseThrow(
+      () -> new TripException(action + ".error.userNotFound"));
+    if (!user.getUsername().equals(trip.getModerator()) &&
+      !participant.getUsername().equals(user.getUsername())) {
+      throw new TripException(action + ".error.unauthorized");
+    }
+    this.participantService.updateParticipant(participant, participantDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = GET, path = "/api/participants")
+  public @ResponseBody
+  Iterable<Participant>
+  getAllParticipants() {
+    return this.participantService.findAll();
+  }
+
+
+  //participant trips
+
+
+  @RequestMapping(method = GET, path = "/api/user/trips")
+  public @ResponseBody
+  Iterable<Trip>
+  getTripsByParticipant(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    Iterable<Participant> participants = this.participantService.findAllByUsername(username);
+    List<Trip> trips = new ArrayList<>();
+    for (Participant p : participants) {
+      Trip trip = this.tripService.findByIdTrip(p.getIdTrip()).orElseThrow(
+        () -> new TripException("getParticipantTrips.error.tripNotFound")
+      );
+      trips.add(trip);
+    }
+    return trips;
+  }
+
+
+  //comments
+
+
+  @RequestMapping(method = POST, path = "/api/trips/{idTrip}/comments")
+  public @ResponseBody
+  ResponseEntity<Comment>
+  addComment(@PathVariable(name = "idTrip") long idTrip,
+                 @Valid @RequestBody CommentDTO commentDTO,
+                 HttpSession session) {
+    String action = "addComment";
+    if (idTrip != commentDTO.getIdTrip()) {
+      throw new TripException(action + ".error.wrongTrip");
+    }
+    Trip trip = getTripAndCheck(idTrip, action);
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new TripException(action + ".error.userNotFound"));
+    Comment comment = this.commentService.createComment(commentDTO, username);
+    return ResponseEntity.ok(comment);
+  }
+
+  @RequestMapping(method = PUT, path = "/api/trips/{idTrip}/comments/{idComment}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
+  updateComment(@PathVariable(name = "idTrip") long idTrip,
+                @PathVariable(name = "idComment") long idComment,
+                @Valid @RequestBody CommentDTO commentDTO,
+                HttpSession session) {
+    String action = "updateComment";
+    Comment comment =
+      this.commentService.findByIdCommentAndIdTrip(idComment, idTrip).orElseThrow(
+        () -> new TripException(action + ".error.commentNotFound")
+      );
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new TripException(action + ".error.userNotFound")
+    );
+    Trip trip = this.getTripAndCheck(idTrip, action);
+    Participant participant = this.getParticipantAndCheck(username, idTrip, action);
+    this.commentService.updateComment(comment, commentDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = DELETE, path = "/api/trips/{idTrip}/comments/{idComment}")
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
+  deleteComment(@PathVariable(name = "idTrip") long idTrip,
+                    @PathVariable(name = "idComment") long idComment,
+                    HttpSession session) {
+    String action = "deleteComment";
+    Comment comment =
+      this.commentService.findByIdCommentAndIdTrip(idComment, idTrip).orElseThrow(
+        () -> new TripException(action + ".error.commentNotFound")
+      );
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new TripException(action + ".error.userNotFound")
+    );
+    Trip trip = this.getTripAndCheck(idTrip, action);
+    Participant participant = this.getParticipantAndCheck(username, idTrip, action);
+    this.commentService.deleteComment(idComment);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = DELETE, path = "/api/trips/{idTrip}/comments")
+  public @ResponseBody
+  ResponseEntity<HttpStatus>
+  deleteAllTripComments(@PathVariable(name = "idTrip") long idTrip,
+                HttpSession session) {
+    String action = "deleteAllComments";
+    Trip trip = this.getTripAndCheck(idTrip, action);
+    User moderator = this.getModeratorAndCheck(session, action);
+    this.checkIfModeratorIsOwner(moderator, trip, action);
+    this.commentService.deleteAllByIdTrip(idTrip);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/comments")
+  public @ResponseBody
+  Iterable<Comment>
+  getCommentsByIdTrip(@PathVariable(name = "idTrip") long idTrip) {
+    return this.commentService.findAllByIdTrip(idTrip);
   }
 
 
@@ -312,7 +499,7 @@ public class TripController {
   }
 
   private void checkIfModeratorIsOwner(User user, Trip trip, String action) {
-    if(!trip.getModerator().equals(user.getUsername())) {
+    if (!trip.getModerator().equals(user.getUsername())) {
       throw new TripException(action + ".error.unauthorisedNotOwner");
     }
   }
