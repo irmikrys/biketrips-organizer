@@ -32,22 +32,26 @@ export class TripViewPage extends Component {
       <div className="main">
         {!this.props.updatingTrip && !this.props.updatingEpisodes &&
         !this.props.updatingParticipants && !this.props.sessionUpdating &&
-          <TripView trip={this.props.trip}
-                    idTrip={this.props.params.idTrip}
-                    levels={this.props.levels}
-                    statuses={this.props.statuses}
-                    activities={this.props.activities}
-                    episodes={this.props.episodes}
-                    participants={this.props.participants}
-                    username={this.props.username}
-                    fetchTrip={this.props.fetchTrip}
-                    fetchParticipants={this.props.fetchParticipants}
-                    updateParticipant={this.props.updateParticipant}
-          />
+        <TripView trip={this.props.trip}
+                  idTrip={this.props.params.idTrip}
+                  levels={this.props.levels}
+                  statuses={this.props.statuses}
+                  activities={this.props.activities}
+                  episodes={this.props.episodes}
+                  participants={this.props.participants}
+                  username={this.props.username}
+                  fetchTrip={this.props.fetchTrip}
+                  fetchParticipants={this.props.fetchParticipants}
+                  updateParticipant={this.props.updateParticipant}
+        />
         }
-        {(this.props.updatingTrip || this.props.updatingEpisodes ||
-          this.props.updatingParticipants || this.props.sessionUpdating) &&
-        <div className="loader"/>}
+        {
+          (this.props.updatingTrip || this.props.updatingEpisodes ||
+            this.props.updatingParticipants || this.props.sessionUpdating) &&
+          <div className="trip-view">
+            <div className="loader"/>
+          </div>
+        }
         {
           !this.props.commentsUpdating && !this.props.sessionUpdating &&
           <Comments comments={this.props.comments}
@@ -56,7 +60,10 @@ export class TripViewPage extends Component {
           />
         }
         {
-          (this.props.commentsUpdating || this.props.sessionUpdating) && <div className='loader'/>
+          (this.props.commentsUpdating || this.props.sessionUpdating) &&
+          <div className='comments-view'>
+            <div className="loader"/>
+          </div>
         }
       </div>
     )

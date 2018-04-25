@@ -18,8 +18,9 @@ class Comments extends Component {
       <div>
         {!this.state.isUserParticipant && null}
         {this.state.isUserParticipant &&
+        <div className='comments-container'>
           <div className='comments-view'>
-            Comments
+            <h4>Comments</h4>
             {
               Object.values(this.props.comments)
                 .map((comment, key) => {
@@ -27,12 +28,14 @@ class Comments extends Component {
                     <div key={key}
                          className="comment"
                     >
-                      {datetimeFormatter(new Date(comment.createDate))}, {comment.owner}: {comment.content}
+                      <div>{datetimeFormatter(new Date(comment.createDate))}</div>
+                      <div><b>{comment.owner}</b>: {comment.content}</div>
                     </div>
                   );
                 })
             }
           </div>
+        </div>
         }
       </div>
     );
