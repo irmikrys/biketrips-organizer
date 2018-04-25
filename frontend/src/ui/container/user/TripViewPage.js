@@ -9,6 +9,8 @@ import {fetchParticipantsByIdTrip} from "../../../reducers/participants";
 import {getSession} from "../../../reducers/authentication";
 import {fetchActivitiesForUser} from "../../../reducers/activities";
 import {updateParticipant} from "../../../reducers/participantUpdate";
+import Comments from "../../component/trips/Comments";
+import {fetchCommentsByIdTrip} from "../../../reducers/fetchComments";
 
 export class TripViewPage extends Component {
 
@@ -20,6 +22,7 @@ export class TripViewPage extends Component {
     props.fetchTrip(props.params.idTrip);
     props.fetchEpisodes(props.params.idTrip);
     props.fetchParticipants(props.params.idTrip);
+    props.fetchComments(props.params.idTrip);
     props.getCurrentSession(props.username);
   }
 
@@ -29,22 +32,31 @@ export class TripViewPage extends Component {
       <div className="main">
         {!this.props.updatingTrip && !this.props.updatingEpisodes &&
         !this.props.updatingParticipants && !this.props.sessionUpdating &&
-        <TripView trip={this.props.trip}
-                  idTrip={this.props.params.idTrip}
-                  levels={this.props.levels}
-                  statuses={this.props.statuses}
-                  activities={this.props.activities}
-                  episodes={this.props.episodes}
-                  participants={this.props.participants}
-                  username={this.props.username}
-                  fetchTrip={this.props.fetchTrip}
-                  fetchParticipants={this.props.fetchParticipants}
-                  updateParticipant={this.props.updateParticipant}
-        />
+          <TripView trip={this.props.trip}
+                    idTrip={this.props.params.idTrip}
+                    levels={this.props.levels}
+                    statuses={this.props.statuses}
+                    activities={this.props.activities}
+                    episodes={this.props.episodes}
+                    participants={this.props.participants}
+                    username={this.props.username}
+                    fetchTrip={this.props.fetchTrip}
+                    fetchParticipants={this.props.fetchParticipants}
+                    updateParticipant={this.props.updateParticipant}
+          />
         }
         {(this.props.updatingTrip || this.props.updatingEpisodes ||
           this.props.updatingParticipants || this.props.sessionUpdating) &&
         <div className="loader"/>}
+        {
+          !this.props.commentsUpdating && !this.props.sessionUpdating &&
+          <Comments comments={this.props.comments}
+                    username={this.props.username}
+          />
+        }
+        {
+          (this.props.commentsUpdating || this.props.sessionUpdating) && <div className='loader'/>
+        }
       </div>
     )
   }
@@ -62,7 +74,9 @@ function mapStateToProps(state) {
     episodes: state.episodes.episodes,
     updatingEpisodes: state.episodes.updating,
     participants: state.participants.participants,
-    updatingParticipants: state.participants.updating
+    updatingParticipants: state.participants.updating,
+    comments: state.fetchComments.comments,
+    commentsUpdating: state.fetchComments.updating
   };
 }
 
@@ -73,6 +87,7 @@ const mapActionsToProps = {
   fetchStatuses: fetchAvailableStatuses,
   fetchEpisodes: fetchEpisodesByIdTrip,
   fetchParticipants: fetchParticipantsByIdTrip,
+  fetchComments: fetchCommentsByIdTrip,
   getCurrentSession: getSession,
   updateParticipant
 };
