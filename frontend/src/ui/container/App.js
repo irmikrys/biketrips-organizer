@@ -4,7 +4,7 @@ import {displayAuthError, getSession, setRegisterSuccess} from "../../reducers/a
 import "stylus/main.styl";
 import axios from 'axios';
 import {
-  ADMIN_RIGHT_ITEMS,
+  ADMIN_RIGHT_ITEMS, FOOTER_ITEMS,
   GUEST_RIGHT_ITEMS,
   LEFT_DROPDOWN_ADMIN,
   LEFT_DROPDOWN_GUEST,
@@ -22,6 +22,24 @@ import {
   USER_RIGHT_ITEMS
 } from "../constants/constants";
 import Navbar from "../component/Navbar";
+import {Link} from "react-router";
+
+const FooterMenu = (props) => {
+  const items = props.items.map((item, key) => (
+    <li key={key}>
+      <Link to={item.link}>{item.label}</Link>
+    </li>
+  ));
+  return (
+    <nav className="navbar navbar-inverse navbar-fixed-bottom navbar-left">
+      <div className="container-fluid">
+        <ul className="nav navbar-nav">
+          {items}
+        </ul>
+      </div>
+    </nav>
+  );
+};
 
 export class App extends Component {
 
@@ -136,6 +154,7 @@ export class App extends Component {
                 rightDropdown={rightDropdown}
         />
         {this.props.children}
+        <FooterMenu items={FOOTER_ITEMS}/>
       </div>
     );
   }

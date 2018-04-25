@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import TripView from "../../component/trips/TripView";
+import Comments from "../../component/trips/Comments";
 import {fetchTripById} from "../../../reducers/trip";
 import {fetchAvailableLevels} from "../../../reducers/levels";
 import {fetchAvailableStatuses} from "../../../reducers/statuses";
@@ -9,6 +10,8 @@ import {fetchParticipantsByIdTrip} from "../../../reducers/participants";
 import {getSession} from "../../../reducers/authentication";
 import {fetchActivitiesForUser} from "../../../reducers/activities";
 import {updateParticipant} from "../../../reducers/participantUpdate";
+import {fetchCommentsByIdTrip} from "../../../reducers/fetchComments";
+import {createComment} from "../../../reducers/addComment";
 
 export class TripViewPage extends Component {
 
@@ -20,6 +23,7 @@ export class TripViewPage extends Component {
     props.fetchTrip(props.params.idTrip);
     props.fetchEpisodes(props.params.idTrip);
     props.fetchParticipants(props.params.idTrip);
+    props.fetchComments(props.params.idTrip);
     props.getCurrentSession(props.username);
   }
 
@@ -42,9 +46,29 @@ export class TripViewPage extends Component {
                   updateParticipant={this.props.updateParticipant}
         />
         }
-        {(this.props.updatingTrip || this.props.updatingEpisodes ||
-          this.props.updatingParticipants || this.props.sessionUpdating) &&
-        <div className="loader"/>}
+        {
+          (this.props.updatingTrip || this.props.updatingEpisodes ||
+            this.props.updatingParticipants || this.props.sessionUpdating) &&
+          <div className="trip-view">
+            <div className="loader"/>
+          </div>
+        }
+        {
+          !this.props.commentsUpdating && !this.props.sessionUpdating &&
+          <Comments comments={this.props.comments}
+                    username={this.props.username}
+                    idTrip={this.props.params.idTrip}
+                    participants={this.props.participants}
+                    post={this.props.addComment.bind(this)}
+                    fetchComments={this.props.fetchComments.bind(this)}
+          />
+        }
+        {
+          (this.props.commentsUpdating || this.props.sessionUpdating) &&
+          <div className='comments-view'>
+            <div className="loader"/>
+          </div>
+        }
       </div>
     )
   }
@@ -62,7 +86,9 @@ function mapStateToProps(state) {
     episodes: state.episodes.episodes,
     updatingEpisodes: state.episodes.updating,
     participants: state.participants.participants,
-    updatingParticipants: state.participants.updating
+    updatingParticipants: state.participants.updating,
+    comments: state.fetchComments.comments,
+    commentsUpdating: state.fetchComments.updating
   };
 }
 
@@ -73,7 +99,9 @@ const mapActionsToProps = {
   fetchStatuses: fetchAvailableStatuses,
   fetchEpisodes: fetchEpisodesByIdTrip,
   fetchParticipants: fetchParticipantsByIdTrip,
+  fetchComments: fetchCommentsByIdTrip,
   getCurrentSession: getSession,
+  addComment: createComment,
   updateParticipant
 };
 
