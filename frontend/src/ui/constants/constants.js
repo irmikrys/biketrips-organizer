@@ -59,7 +59,7 @@ export const RIGHT_DROPDOWN_USER = {
 };
 
 export const FOOTER_ITEMS = [
-  {label: 'About', link: '/contact', icon: ''},
+  {label: 'About', link: '/about', icon: 'glyphicon glyphicon-info-sign'},
   {label: 'Contact', link: '/contact', icon: 'glyphicon glyphicon-envelope'}
 ];
 
