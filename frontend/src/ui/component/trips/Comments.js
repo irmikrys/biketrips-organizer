@@ -9,9 +9,17 @@ class Comments extends Component {
     this.state = {
       isUserParticipant: participants.filter(
         item => item.username === props.username
-      ).length === 1
+      ).length === 1,
+      commentInput: "",
     };
   }
+
+  handleInputChange = event => {
+    event.preventDefault();
+    let value = event.target.value;
+    let inputName = event.target.name;
+    this.setState({[inputName]: value});
+  };
 
   render() {
     return (
@@ -34,6 +42,15 @@ class Comments extends Component {
                   );
                 })
             }
+            <div className='form-comment'>
+              <textarea cols="100"
+                        rows="5"
+                        placeholder="write a comment..."
+                        name="commentInput"
+              >
+
+              </textarea>
+            </div>
           </div>
         </div>
         }
