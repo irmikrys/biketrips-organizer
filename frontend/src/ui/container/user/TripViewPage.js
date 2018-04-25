@@ -52,6 +52,7 @@ export class TripViewPage extends Component {
           !this.props.commentsUpdating && !this.props.sessionUpdating &&
           <Comments comments={this.props.comments}
                     username={this.props.username}
+                    participants={this.props.participants}
           />
         }
         {

@@ -155,11 +155,7 @@ class TripView extends Component {
                 </div>
               }
               {
-                !this.state.isUserParticipant &&
-                <button type="button">
-                  <span className='glyphicon glyphicon-ok'/>
-                  You are not participant!
-                </button>
+                !this.state.isUserParticipant && null
               }
             </div>
           </div>
