@@ -23,6 +23,16 @@ class Comments extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const {post} = this.props;
+    const {fetchComments} = this.props;
+    const {idTrip} = this.props;
+    const content = this.state.commentInput;
+    const commentInfo = {
+      idTrip,
+      content
+    };
+    post(idTrip, commentInfo);
+    fetchComments(idTrip);
   };
 
   render() {
@@ -46,22 +56,17 @@ class Comments extends Component {
                   );
                 })
             }
-            <div className='form-comment'>
+            <form className='form-comment'
+                  onSubmit={this.handleSubmit}>
               <textarea cols="100"
                         rows="5"
                         placeholder="write a comment..."
                         name="commentInput"
                         onInput={this.handleInputChange}
-              >
-
-              </textarea>
-              <button id="comment-button"
-                      type="button"
-                      onClick={this.handleSubmit}
-              >
-              Add comment
-              </button>
-            </div>
+                        required
+              />
+              <button type="submit">Add comment</button>
+            </form>
           </div>
         </div>
         }

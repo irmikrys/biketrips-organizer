@@ -21,6 +21,7 @@ import participantUpdate from "./participantUpdate";
 import activities from "./activities";
 import createEpisode from "./createEpisode";
 import fetchComments from "./fetchComments";
+import addComment from "./addComment";
 
 export default combineReducers({
   authentication,
@@ -44,5 +45,6 @@ export default combineReducers({
   activities,
   createEpisode,
   fetchComments,
+  addComment,
   routing
 });

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import TripView from "../../component/trips/TripView";
+import Comments from "../../component/trips/Comments";
 import {fetchTripById} from "../../../reducers/trip";
 import {fetchAvailableLevels} from "../../../reducers/levels";
 import {fetchAvailableStatuses} from "../../../reducers/statuses";
@@ -9,8 +10,8 @@ import {fetchParticipantsByIdTrip} from "../../../reducers/participants";
 import {getSession} from "../../../reducers/authentication";
 import {fetchActivitiesForUser} from "../../../reducers/activities";
 import {updateParticipant} from "../../../reducers/participantUpdate";
-import Comments from "../../component/trips/Comments";
 import {fetchCommentsByIdTrip} from "../../../reducers/fetchComments";
+import {createComment} from "../../../reducers/addComment";
 
 export class TripViewPage extends Component {
 
@@ -56,7 +57,10 @@ export class TripViewPage extends Component {
           !this.props.commentsUpdating && !this.props.sessionUpdating &&
           <Comments comments={this.props.comments}
                     username={this.props.username}
+                    idTrip={this.props.params.idTrip}
                     participants={this.props.participants}
+                    post={this.props.addComment.bind(this)}
+                    fetchComments={this.props.fetchComments.bind(this)}
           />
         }
         {
@@ -97,6 +101,7 @@ const mapActionsToProps = {
   fetchParticipants: fetchParticipantsByIdTrip,
   fetchComments: fetchCommentsByIdTrip,
   getCurrentSession: getSession,
+  addComment: createComment,
   updateParticipant
 };
 

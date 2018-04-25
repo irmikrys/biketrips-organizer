@@ -133,8 +133,9 @@ class TripView extends Component {
                             return participant.username === this.props.username
                           }
                         )
-                        .map(participant => {
+                        .map((participant, key) => {
                             return <Select simpleValue
+                                           key={key}
                                            placeholder="your status..."
                                            clearable={false}
                                            value={
