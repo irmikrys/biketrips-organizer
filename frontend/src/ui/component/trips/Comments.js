@@ -21,6 +21,10 @@ class Comments extends Component {
     this.setState({[inputName]: value});
   };
 
+  handleSubmit = event => {
+    event.preventDefault();
+  };
+
   render() {
     return (
       <div>
@@ -47,9 +51,16 @@ class Comments extends Component {
                         rows="5"
                         placeholder="write a comment..."
                         name="commentInput"
+                        onInput={this.handleInputChange}
               >
 
               </textarea>
+              <button id="comment-button"
+                      type="button"
+                      onClick={this.handleSubmit}
+              >
+              Add comment
+              </button>
             </div>
           </div>
         </div>
