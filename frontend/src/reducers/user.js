@@ -36,3 +36,10 @@ export function fetchUserByUsername(username) {
     promise: client => client.get(`/api/users/${username}`)
   };
 }
+
+export function fetchUserFromSession() {
+  return  {
+    types: [FETCH_USER, FETCH_USER_SUCCESS, FETCH_USER_FAIL],
+    promise: client => client.get(`/api/user/details`)
+  };
+}
