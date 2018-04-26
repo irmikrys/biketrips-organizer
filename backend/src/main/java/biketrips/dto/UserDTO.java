@@ -2,7 +2,9 @@ package biketrips.dto;
 
 import biketrips.model.User;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -26,7 +28,37 @@ public class UserDTO {
   @Email
   private String email;
 
+  @NotBlank
   private String role;
+
+  @DecimalMin(value = "0")
+  private int points;
+
+  public UserDTO() {
+
+  }
+
+  public UserDTO(User user) {
+    setFirstName(user.getFirstName());
+    setLastName(user.getLastName());
+    setEmail(user.getEmail());
+    setRole(user.getRole());
+    setUsername(user.getUsername());
+    setPassword(user.getPassword());
+    setPoints(user.getPoints());
+  }
+
+  public User toUser(String password) {
+    User user = new User();
+    user.setUsername(getUsername());
+    user.setFirstName(getFirstName());
+    user.setLastName(getLastName());
+    user.setEmail(getEmail());
+    user.setPassword(password);
+    user.setRole(getRole());
+    user.setPoints(getPoints());
+    return user;
+  }
 
   public String getUsername() {
     return username;
@@ -76,15 +108,11 @@ public class UserDTO {
     this.role = role;
   }
 
-  public User toUser(String password) {
-    User user = new User();
-    user.setUsername(getUsername());
-    user.setFirstName(getFirstName());
-    user.setLastName(getLastName());
-    user.setEmail(getEmail());
-    user.setPassword(password);
-    user.setRole(getRole());
-    return user;
+  public int getPoints() {
+    return points;
   }
 
+  public void setPoints(int points) {
+    this.points = points;
+  }
 }

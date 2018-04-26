@@ -2,6 +2,7 @@ package biketrips.controller;
 
 import biketrips.dto.UserDTO;
 import biketrips.dto.UserDetailsDTO;
+import biketrips.dto.session.UserSession;
 import biketrips.exceptions.RegisterException;
 import biketrips.exceptions.UserException;
 import biketrips.model.User;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -54,6 +56,18 @@ public class UserController {
   ResponseEntity<UserDetailsDTO> getUser(@PathVariable("username") String username) {
     UserDetailsDTO userDetails = this.getUserDetails(username);
     return ResponseEntity.ok(userDetails);
+  }
+
+  @RequestMapping(method = GET, path = "/api/user/details")
+  public @ResponseBody
+  ResponseEntity<UserDTO>
+  getUserFromSession(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new UserException("getDetails.error.userNotFound")
+    );
+    return ResponseEntity.ok(new UserDTO(user));
   }
 
   @RequestMapping(method = PUT, path = "/api/users/{username}")
