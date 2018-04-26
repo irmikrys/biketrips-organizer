@@ -12,6 +12,7 @@ import {fetchActivitiesForUser} from "../../../reducers/activities";
 import {updateParticipant} from "../../../reducers/participantUpdate";
 import {fetchCommentsByIdTrip} from "../../../reducers/fetchComments";
 import {createComment} from "../../../reducers/addComment";
+import {deleteCommentById} from "../../../reducers/commentDelete";
 
 export class TripViewPage extends Component {
 
@@ -60,6 +61,7 @@ export class TripViewPage extends Component {
                     idTrip={this.props.params.idTrip}
                     participants={this.props.participants}
                     post={this.props.addComment.bind(this)}
+                    deleteComment={this.props.deleteComment.bind(this)}
                     fetchComments={this.props.fetchComments.bind(this)}
           />
         }
@@ -102,6 +104,7 @@ const mapActionsToProps = {
   fetchComments: fetchCommentsByIdTrip,
   getCurrentSession: getSession,
   addComment: createComment,
+  deleteComment: deleteCommentById,
   updateParticipant
 };
 

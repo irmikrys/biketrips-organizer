@@ -36,7 +36,11 @@ class Comments extends Component {
   };
 
   handleDelete = idComment => {
-    console.log('delete' + idComment);
+    const {idTrip} = this.props;
+    const {fetchComments, deleteComment} = this.props;
+    deleteComment(idTrip, idComment);
+    console.log('deletion...');
+    fetchComments(idTrip);
   };
 
   render() {
