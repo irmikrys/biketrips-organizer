@@ -22,6 +22,12 @@ INSERT INTO `users` (username, password, email, firstName, lastName, role) VALUE
 
 INSERT INTO `users`(username, password, email, firstName, lastName, role) VALUES ('markzuckerberg','$2a$10$tgIejFFdFbHBL4yj/XMBu.Cy1yF0b5d0bcffY22SvOia8h60gEUWe','mark@zuckerberg','Mark','Zuckerberg','USER');
 
-INSERT INTO `users`(username, password, email, firstName, lastName, role) VALUES ('billgates','$2a$10$tjZR0.Hj4DExo1X81K0rf.RpD7e.bLSuMwoej5z8jAB6iB751TbcS','bill@gates','Bill','Gates','USER');
+INSERT INTO `users`(username, password, email, firstName, lastName, role) VALUES ('billgates','$2a$10$FHaBC.T3KevsXXVOtWKB4OhX.HcrxK63RHzm9SCXmeP/Agbvn/b..','bill@gates','Bill','Gates','USER');
+
+INSERT INTO `users`(username, password, email, firstName, lastName, role) VALUES ('annacuk','$2a$10$lBHNgZqayknupvmxIAiqNeUDlGxhVnEffVNUJ3YqTXmyZEUBMR2xe','ann@cuk','Anna','Cuk','MODER');
 
 INSERT INTO applications (username, email, isActive) VALUES('markzuckerberg','mark@zuckerberg',true),('stevejobs','steve@jobs',false);
+
+INSERT INTO `trips` (name, startDate, endDate, idLevel, idStatus, description, points, moderator) VALUES ('wycieczka','2018-09-01 00:00:00', '2018-09-02 00:00:00', '2','3','bkjsanbjksabjdsak', '45', 'stevejobs');
+
+
