@@ -27,6 +27,10 @@ export default class EditTripForm extends Component {
     this.setState({[inputName]: value});
   };
 
+  handleStatusChange = value => {
+    this.setState({idStatus: value})
+  };
+
   handleSubmit = event => {
     event.preventDefault();
     const {editTrip, fetchTrip} = this.props;
@@ -60,7 +64,15 @@ export default class EditTripForm extends Component {
                    onChange={this.handleInputChange}
                    required
             />
-            <Select
+            <Select simpleValue
+                    placeholder="status"
+                    clearable={false}
+                    value={this.state.idStatus}
+                    onChange={this.handleStatusChange}
+                    options={this.props.statuses.map(item => {
+                      return {value: item.idStatus, label: item.name}
+                    })}
+                    required
             />
             <button type="submit">Save</button>
           </form>

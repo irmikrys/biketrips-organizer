@@ -58,6 +58,18 @@ export const RIGHT_DROPDOWN_USER = {
   ]
 };
 
+export const FOOTER_ITEMS = [
+  {label: 'About', link: '/about', icon: 'glyphicon glyphicon-info-sign'},
+  {label: 'Contact', link: '/contact', icon: 'glyphicon glyphicon-envelope'}
+];
+
+export const ADDRESS =
+  "Bike Trips" +
+  "\n AGH University of Science and Technology" +
+  "\n al. Mickiewicza 30" +
+  "\n 30-059 Cracow" +
+  "\n Poland";
+
 export const CREATE_MODE = "create";
 export const UPDATE_MODE = "update";
 export const READ_MODE = "read";

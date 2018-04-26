@@ -133,8 +133,9 @@ class TripView extends Component {
                             return participant.username === this.props.username
                           }
                         )
-                        .map(participant => {
+                        .map((participant, key) => {
                             return <Select simpleValue
+                                           key={key}
                                            placeholder="your status..."
                                            clearable={false}
                                            value={
@@ -155,11 +156,7 @@ class TripView extends Component {
                 </div>
               }
               {
-                !this.state.isUserParticipant &&
-                <button type="button">
-                  <span className='glyphicon glyphicon-ok'/>
-                  You are not participant!
-                </button>
+                !this.state.isUserParticipant && null
               }
             </div>
           </div>
