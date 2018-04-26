@@ -131,9 +131,18 @@ class EpisodeRow extends Component {
                                   onFocusChange={({focused}) => this.setState({focused})}
                                   noBorder={true}
                                   small={true}
+                                  placeholder="date"
                                   hideKeyboardShortcutsPanel={true}
                                   required
                 />
+              }
+            </div>
+            <div>
+              {
+                (!submitted || (submitted && errorPanel !== null)) &&
+                <div className="temporary-date-input">
+                  <span className="glyphicon glyphicon-time"/>
+                </div>
               }
             </div>
             <div>
