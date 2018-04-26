@@ -15,7 +15,6 @@ export class UserProfilePage extends Component {
     console.log(this.props);
     return (
       <div className="main">
-        <h2>Hello {this.props.username}!</h2>
         {
           (this.props.loading || this.props.updatingUser) &&
           <div className="loader"/>
