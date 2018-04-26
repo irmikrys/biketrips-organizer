@@ -108,6 +108,7 @@ class EpisodeRow extends Component {
     let episodeData = currentEpisode === null ? episode : currentEpisode;
     const errorPanel = errorMessage !== "" && submitted ?
       <p className="error-message">{errorMessage}</p> : null;
+    let disabled = submitted && errorPanel === null;
     return (
       <div>
         {deleted && null}
@@ -116,14 +117,14 @@ class EpisodeRow extends Component {
           <div className="episode-row">
             <div>
               {
-                episode.time !== null &&
+                submitted && errorPanel === null &&
                 <input name="time"
                        value={datetimeFormatter(new Date(episode.time))}
                        disabled={true}
                 />
               }
               {
-                episode.time === null &&
+                (!submitted || (submitted && errorPanel !== null)) &&
                 <SingleDatePicker date={this.state.date}
                                   onDateChange={date => this.setState({date})}
                                   focused={this.state.focused}
@@ -140,7 +141,7 @@ class EpisodeRow extends Component {
                           initialValue={episodeData.locationDTO == null ?
                             '' : episodeData.locationDTO.description}
                           onSuggestSelect={this.handleLocationSelect}
-                          disabled={this.props.fieldsDisabled}
+                          disabled={disabled}
                           required
               />
             </div>
@@ -151,7 +152,7 @@ class EpisodeRow extends Component {
                        episodeData.description :
                        this.state.description
                      }
-                     disabled={this.props.fieldsDisabled}
+                     disabled={disabled}
                      onInput={this.handleInputChange}
                      required
               />
