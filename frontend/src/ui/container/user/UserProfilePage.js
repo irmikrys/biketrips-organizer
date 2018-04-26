@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchUserByUsername, fetchUserFromSession} from "../../../reducers/user";
+import {fetchUserFromSession} from "../../../reducers/user";
 import {fetchUserTrips} from "../../../reducers/trips";
 import UserProfile from "../../component/user/UserProfile";
 
@@ -9,6 +9,7 @@ export class UserProfilePage extends Component {
   constructor(props) {
     super(props);
     props.fetchUser();
+    props.fetchTrips();
   }
 
   render() {

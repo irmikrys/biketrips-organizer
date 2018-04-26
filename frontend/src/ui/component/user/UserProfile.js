@@ -12,11 +12,42 @@ class UserProfile extends Component {
                  src="http://eoclimlab.eu/wp-content/uploads/2017/01/default.png"
             />
           </div>
-          <div><b>username: </b>{user.username}</div>
-          <div><b>first name: </b>{user.firstName}</div>
-          <div><b>last name: </b>{user.lastName}</div>
-          <div><b>email: </b>{user.email}</div>
-          <div><b>points: </b>{user.points}</div>
+          <div id="name"><b>{user.firstName}</b></div>
+          <div id="name"><b>{user.lastName}</b></div>
+          <div id="username">@{user.username}</div>
+          <div id="role">{user.role}</div>
+          <div className="section">
+            <table>
+              <tbody>
+              <tr>
+                <td id="info">
+                  {user.points}
+                </td>
+                <td id="info">
+                  {this.props.trips.length}
+                </td>
+              </tr>
+              <tr>
+                <td id="label">
+                  Points
+                </td>
+                <td id="label">
+                  Trips
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="email">{user.email}</div>
+        </div>
+        <div className="column-flex">
+          {
+            Object.values(this.props.trips)
+              .map((trip, key) => {
+                return (
+                  <div key={key}>{trip.name}</div>
+            )})
+          }
         </div>
       </div>
     );
