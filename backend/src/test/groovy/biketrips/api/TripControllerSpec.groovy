@@ -13,7 +13,7 @@ class TripControllerSpec extends AbstractMvcSpec {
   String token
   String token2
 
-  def "user logged in"() {
+  def "user logging in"() {
     given:
     def credentials = [username: 'annacuk', password: 'Raz2trzy4']
 
@@ -27,7 +27,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     token != null
   }
 
-  def "second user logged in"() {
+  def "second user logging in"() {
     given:
     def credentials = [username: 'billgates', password: 'Billgates1']
 
@@ -203,7 +203,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     resultAfter.json.size == 2
   }
 
-  def "See all trips"() {
+  def "get all trips"() {
     when:
     def result = get('/api/trips', new RequestParams(authToken: token))
 
@@ -212,7 +212,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.json.size == 2
   }
 
-  def "Get all statuses"() {
+  def "get all statuses"() {
     when:
     def result = get('/api/statuses', new RequestParams(authToken: token))
 
@@ -221,7 +221,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.json.size == 3
   }
 
-  def "Get all levels"() {
+  def "get all levels"() {
     when:
     def result = get('/api/levels', new RequestParams(authToken: token))
 
@@ -230,7 +230,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.json.size == 3
   }
 
-  def "See trip with existing id"() {
+  def "get trip with existing id"() {
     when:
     def result = get('/api/trips/1', new RequestParams(authToken: token))
 
@@ -238,7 +238,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.OK
   }
 
-  def "See trip with non-existing id"() {
+  def "get trip with non-existing id"() {
     when:
     def result = get('/api/trips/3', new RequestParams(authToken: token))
 
@@ -317,7 +317,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "Get trips by moderator"() {
+  def "get trips by moderator"() {
     when:
     def result = get('/api/moderator/trips', new RequestParams(authToken: token))
 
@@ -326,7 +326,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.json.size == 1
   }
 
-  def "Add participant"() {
+  def "add participant"() {
     given:
     def request = [
       username  : 'billgates',
@@ -350,7 +350,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     resultAfter.json.size == 1
   }
 
-  def "Add participant with non-existing idActivity"() {
+  def "add participant with non-existing idActivity"() {
     given:
     def request = [
       username  : 'billgates',
@@ -365,7 +365,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "Add non-existing participant"() {
+  def "add non-existing participant"() {
     given:
     def request = [
       username  : 'billgat',
@@ -380,7 +380,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "Add participant to not owned trip"() {
+  def "add participant to not owned trip"() {
     given:
     def request = [
       username  : 'billgates',
@@ -395,7 +395,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "Add participant that already have been aded"() {
+  def "add participant that has already been added"() {
     given:
     def request = [
       username  : 'billgates',
@@ -410,7 +410,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "Add participant to non-existing trip"() {
+  def "add participant to non-existing trip"() {
     given:
     def request = [
       username  : 'billgates',
@@ -425,7 +425,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "See trip's participants"() {
+  def "get trip's participants"() {
     when:
     def result = get('/api/trips/2/participants', new RequestParams(authToken: token))
 
@@ -434,7 +434,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.json.size == 1
   }
 
-  def "See participants from non-existing trip"() {
+  def "get participants from non-existing trip"() {
     when:
     def result = get('/api/trips/5/participants', new RequestParams(authToken: token))
 
@@ -442,7 +442,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "See participant"() {
+  def "get participant by username"() {
     when:
     def result = get('/api/trips/2/participants/billgates', new RequestParams(authToken: token))
 
@@ -453,7 +453,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.json.idActivity == 2
   }
 
-  def "See participant with incorrect name"() {
+  def "get participant with incorrect username"() {
     when:
     def result = get('/api/trips/2/participants/stevejobs', new RequestParams(authToken: token))
 
@@ -462,7 +462,7 @@ class TripControllerSpec extends AbstractMvcSpec {
   }
 
 
-  def "Add correct comment"() {
+  def "add correct comment"() {
     given:
     def request = [
       idTrip : '2',
@@ -483,7 +483,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     resultAfter.json.size == 1
   }
 
-  def "Add empty comment"() {
+  def "add empty comment"() {
     given:
     def request = [
       idTrip : '2',
@@ -497,7 +497,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "Add comment to non-existing trip"() {
+  def "add comment to non-existing trip"() {
     given:
     def request = [
       idTrip : '5',
@@ -511,7 +511,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "Add comment to wrong trip"() {
+  def "add comment to wrong trip"() {
     given:
     def request = [
       idTrip : '1',
@@ -525,7 +525,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "See trip's comments"() {
+  def "get trip's comments"() {
     when:
     def result = get('/api/trips/2/comments', new RequestParams(authToken: token))
 
@@ -535,7 +535,7 @@ class TripControllerSpec extends AbstractMvcSpec {
   }
 
 
-  def "Delete participant"() {
+  def "delete participant by username"() {
     when:
     def result = delete('/api/trips/2/participants/billgates', new RequestParams(authToken: token))
 
@@ -543,7 +543,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.OK
   }
 
-  def "Delete participant from not owned trip"() {
+  def "delete participant from not owned trip"() {
     when:
     def result = delete('/api/trips/1/participants/billgates', new RequestParams(authToken: token))
 
@@ -551,7 +551,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "Delete participant from non-existing trip"() {
+  def "delete participant from non-existing trip"() {
     when:
     def result = delete('/api/trips/5/participants/billgates', new RequestParams(authToken: token))
 
@@ -559,7 +559,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "Delete participant with incorrect name"() {
+  def "delete participant with incorrect username"() {
     when:
     def result = delete('/api/trips/2/participants/stevejobs', new RequestParams(authToken: token))
 
