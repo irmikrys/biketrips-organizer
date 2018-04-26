@@ -84,12 +84,12 @@ class EpisodeRow extends Component {
       description
     };
     console.log(episodeInfo);
-    if(locationDTO === null) {
+    if (locationDTO === null) {
       this.setState({
         errorMessage: "Invalid location!"
       });
     }
-    if(time === null) {
+    if (time === null) {
       this.setState({
         errorMessage: "Invalid time!"
       });
@@ -156,9 +156,12 @@ class EpisodeRow extends Component {
                      required
               />
             </div>
-            <button type="submit" disabled={!this.props.tripSelected}>
-              <span className="glyphicon glyphicon-floppy-disk"/>
-            </button>
+            {
+              (!submitted || (submitted && errorPanel !== null)) &&
+              <button type="submit" disabled={!this.props.tripSelected}>
+                <span className="glyphicon glyphicon-floppy-disk"/>
+              </button>
+            }
             <button
               onClick={this.handleDelete}
               disabled={!this.props.tripSelected}
