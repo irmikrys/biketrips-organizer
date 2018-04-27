@@ -72,13 +72,36 @@ public class UserController {
 
   @RequestMapping(method = PUT, path = "/api/users/{username}")
   public @ResponseBody
-  ResponseEntity<HttpStatus> updateUserRole(
+  ResponseEntity<HttpStatus> updateUser(
     @PathVariable("username") String username,
-    @Valid @RequestBody UserDTO userDTO
-  ) {
+    @Valid @RequestBody UserDTO userDTO) {
     User user = this.userService.findByUsername(username).orElseThrow(
       () -> new UserException("getUser.error.userNotFound"));
-    this.userService.updateUserRole(user, userDTO);
+    this.userService.updateUser(user, userDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = PUT, path = "/api/users/{username}/points")
+  public @ResponseBody
+  ResponseEntity<HttpStatus> updateUserPoints(
+    @PathVariable("username") String username,
+    @RequestParam(name = "points") int points,
+    HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String usernameSession = userSession.getUsername();
+    System.out.println(usernameSession);
+    User moderator = this.userService.findByUsername(usernameSession).orElseThrow(
+      () -> new UserException("updateUserPoints.error.moderatorNotFound")
+    );
+    if(!moderator.getRole().equals("MODER")) {
+      throw new UserException("updateUserPoints.error.userNotModerator");
+    }
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new UserException("updateUserPoints.error.userNotFound")
+    );
+    UserDTO userDTO = new UserDTO(user);
+    userDTO.setPoints(user.getPoints() + points);
+    this.userService.updateUser(user, userDTO);
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
