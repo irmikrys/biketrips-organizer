@@ -33,6 +33,19 @@ class TripTile extends Component {
     window.location = '/edit-trip/' + this.props.trip.idTrip;
   };
 
+  confirm = participant => {
+    const {username, idTrip} = participant;
+    const idActivity = 4;
+    const {points} = this.props.trip;
+    const participantDTO = {
+      username,
+      idTrip,
+      idActivity
+    };
+    axios.put(`/api/trips/${idTrip}/participants/${username}`, participantDTO);
+    axios.put(`/api/users/${username}/points?points=${points}`, null);
+  };
+
   render() {
     const {trip, levels, statuses} = this.props;
     return (
@@ -83,10 +96,16 @@ class TripTile extends Component {
                           return participant.idActivity === 2
                         })
                         .map((participant, key) => {
-                          return <li key={key}
-                                     className="margin">
-                            {participant.username}
-                          </li>
+                          return (
+                            <div key={key}>
+                              <li className="margin">
+                                {participant.username}
+                                <span className='glyphicon glyphicon-ok'
+                                      onClick={() => this.confirm(participant)}
+                                />
+                              </li>
+                            </div>
+                          );
                         })
                     }
                     <li className="divider"/>
