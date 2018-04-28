@@ -53,16 +53,17 @@ class UserProfile extends Component {
         <div className="column-flex">
           <h3>Completed trips</h3>
           {
-            Object.values(this.props.trips)
-              .filter(trip => {
-                return trip.idStatus === 3
-              })
+            Object.values(this.props.archivedTrips)
               .map((trip, key) => {
                 return (
-                  <div key={key}>
-                    <span onClick={() => this.seeTrip(trip.idTrip)}
-                          style={{cursor: `pointer`}}>
+                  <div key={key}
+                       className='trip-archive'>
+                    <span className='link'
+                          onClick={() => this.seeTrip(trip.idTrip)}>
                     {trip.name}
+                    </span>
+                    <span className='info'>
+                      {' - ' + trip.description}
                     </span>
                   </div>
                 )
