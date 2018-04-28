@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 
 class UserProfile extends Component {
 
+  seeTrip = idTrip => {
+    window.location = '/trips/' + idTrip;
+  };
+
   render() {
     const {user} = this.props;
     return (
@@ -26,6 +30,9 @@ class UserProfile extends Component {
                 <td id="info">
                   {this.props.trips.length}
                 </td>
+                <td id="info">
+                  {this.props.archivedTrips.length}
+                </td>
               </tr>
               <tr>
                 <td id="label">
@@ -34,6 +41,9 @@ class UserProfile extends Component {
                 <td id="label">
                   Trips
                 </td>
+                <td id="label">
+                  Closed
+                </td>
               </tr>
               </tbody>
             </table>
@@ -41,12 +51,22 @@ class UserProfile extends Component {
           <div id="email">{user.email}</div>
         </div>
         <div className="column-flex">
+          <h3>Completed trips</h3>
           {
             Object.values(this.props.trips)
+              .filter(trip => {
+                return trip.idStatus === 3
+              })
               .map((trip, key) => {
                 return (
-                  <div key={key}>{trip.name}</div>
-            )})
+                  <div key={key}>
+                    <span onClick={() => this.seeTrip(trip.idTrip)}
+                          style={{cursor: `pointer`}}>
+                    {trip.name}
+                    </span>
+                  </div>
+                )
+              })
           }
         </div>
       </div>
