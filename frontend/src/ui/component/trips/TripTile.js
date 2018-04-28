@@ -100,9 +100,12 @@ class TripTile extends Component {
                             <div key={key}>
                               <li className="margin">
                                 {participant.username}
-                                <span className='glyphicon glyphicon-ok'
-                                      onClick={() => this.confirm(participant)}
-                                />
+                                {
+                                  this.props.trip.idStatus === 3 &&
+                                  <span className='glyphicon glyphicon-ok'
+                                        onClick={() => this.confirm(participant)}
+                                  />
+                                }
                               </li>
                             </div>
                           );
