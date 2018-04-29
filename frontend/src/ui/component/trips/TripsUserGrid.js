@@ -12,9 +12,6 @@ class TripsUserGrid extends Component {
         }
         {
           Object.values(this.props.trips)
-            .filter(trip => {
-              return trip.idStatus !== 3 && trip.idStatus !== 4
-            })
             .map((trip, key) => {
               return <TripCard key={key}
                                trip={trip}

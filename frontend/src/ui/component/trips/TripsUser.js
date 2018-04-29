@@ -6,7 +6,7 @@ class TripsUser extends Component {
   constructor(props) {
     super(props);
     props.fetchLevels();
-    props.fetchTrips();
+    props.fetchActiveTrips();
   }
 
   render() {
