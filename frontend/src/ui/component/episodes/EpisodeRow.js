@@ -126,6 +126,7 @@ class EpisodeRow extends Component {
               {
                 (!submitted || (submitted && errorPanel !== null)) &&
                 <SingleDatePicker date={this.state.date}
+                                  id="date_id"
                                   onDateChange={date => this.setState({date})}
                                   focused={this.state.focused}
                                   onFocusChange={({focused}) => this.setState({focused})}
