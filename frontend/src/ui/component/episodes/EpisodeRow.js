@@ -168,14 +168,17 @@ class EpisodeRow extends Component {
             </div>
             {
               (!submitted || (submitted && errorPanel !== null)) &&
-              <button type="submit" disabled={!this.props.tripSelected}>
+              <button type="submit"
+                      disabled={!this.props.tripSelected}
+                      className="form-disk"
+              >
                 <span className="glyphicon glyphicon-floppy-disk"/>
               </button>
             }
             <button
               onClick={this.handleDelete}
               disabled={!this.props.tripSelected}
-              style={{background: "red"}}
+              className="form-trash"
             >
               <span className="glyphicon glyphicon-trash"/>
             </button>

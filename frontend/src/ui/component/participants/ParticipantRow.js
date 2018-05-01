@@ -72,7 +72,7 @@ class ParticipantRow extends Component {
               <button
                 onClick={this.handleDelete}
                 disabled={!this.props.tripSelected}
-                style={{background: "red"}}
+                className="form-trash"
               >
                 <span className="glyphicon glyphicon-trash"/>
               </button>
@@ -97,14 +97,14 @@ class ParticipantRow extends Component {
               <button
                 type="submit"
                 disabled={!this.props.tripSelected}
-                style={{background: "#088A29"}}
+                className="form-disk"
               >
                 <span className="glyphicon glyphicon-floppy-disk"/>
               </button>
               <button
                 onClick={this.handleDelete}
                 disabled={!this.props.tripSelected}
-                style={{background: "red"}}
+                className="form-trash"
               >
                 <span className="glyphicon glyphicon-trash"/>
               </button>
