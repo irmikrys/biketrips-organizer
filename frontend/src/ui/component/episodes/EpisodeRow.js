@@ -84,12 +84,12 @@ class EpisodeRow extends Component {
       description
     };
     console.log(episodeInfo);
-    if(locationDTO === null) {
+    if (locationDTO === null) {
       this.setState({
         errorMessage: "Invalid location!"
       });
     }
-    if(time === null) {
+    if (time === null) {
       this.setState({
         errorMessage: "Invalid time!"
       });
@@ -108,6 +108,7 @@ class EpisodeRow extends Component {
     let episodeData = currentEpisode === null ? episode : currentEpisode;
     const errorPanel = errorMessage !== "" && submitted ?
       <p className="error-message">{errorMessage}</p> : null;
+    let disabled = submitted && errorPanel === null;
     return (
       <div>
         {deleted && null}
@@ -116,23 +117,33 @@ class EpisodeRow extends Component {
           <div className="episode-row">
             <div>
               {
-                episode.time !== null &&
+                submitted && errorPanel === null &&
                 <input name="time"
                        value={datetimeFormatter(new Date(episode.time))}
                        disabled={true}
                 />
               }
               {
-                episode.time === null &&
+                (!submitted || (submitted && errorPanel !== null)) &&
                 <SingleDatePicker date={this.state.date}
+                                  id="date_id"
                                   onDateChange={date => this.setState({date})}
                                   focused={this.state.focused}
                                   onFocusChange={({focused}) => this.setState({focused})}
                                   noBorder={true}
                                   small={true}
+                                  placeholder="date"
                                   hideKeyboardShortcutsPanel={true}
                                   required
                 />
+              }
+            </div>
+            <div>
+              {
+                (!submitted || (submitted && errorPanel !== null)) &&
+                <div className="temporary-date-input">
+                  <span className="glyphicon glyphicon-time"/>
+                </div>
               }
             </div>
             <div>
@@ -140,7 +151,7 @@ class EpisodeRow extends Component {
                           initialValue={episodeData.locationDTO == null ?
                             '' : episodeData.locationDTO.description}
                           onSuggestSelect={this.handleLocationSelect}
-                          disabled={this.props.fieldsDisabled}
+                          disabled={disabled}
                           required
               />
             </div>
@@ -151,18 +162,24 @@ class EpisodeRow extends Component {
                        episodeData.description :
                        this.state.description
                      }
-                     disabled={this.props.fieldsDisabled}
+                     disabled={disabled}
                      onInput={this.handleInputChange}
                      required
               />
             </div>
-            <button type="submit" disabled={!this.props.tripSelected}>
-              <span className="glyphicon glyphicon-floppy-disk"/>
-            </button>
+            {
+              (!submitted || (submitted && errorPanel !== null)) &&
+              <button type="submit"
+                      disabled={!this.props.tripSelected}
+                      className="form-disk"
+              >
+                <span className="glyphicon glyphicon-floppy-disk"/>
+              </button>
+            }
             <button
               onClick={this.handleDelete}
               disabled={!this.props.tripSelected}
-              style={{background: "red"}}
+              className="form-trash"
             >
               <span className="glyphicon glyphicon-trash"/>
             </button>

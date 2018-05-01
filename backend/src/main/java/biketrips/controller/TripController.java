@@ -365,6 +365,44 @@ public class TripController {
     return trips;
   }
 
+  @RequestMapping(method = GET, path = "/api/user/trips/archive")
+  public @ResponseBody
+  Iterable<Trip>
+  getArchivedTripsByParticipant(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    Iterable<Participant> participants = this.participantService.findAllByUsername(username);
+    List<Trip> trips = new ArrayList<>();
+    for (Participant p : participants) {
+      Trip trip = this.tripService.findByIdTrip(p.getIdTrip()).orElseThrow(
+        () -> new TripException("getParticipantTrips.error.tripNotFound")
+      );
+      if (trip.getIdStatus() == 3) {
+        trips.add(trip);
+      }
+    }
+    return trips;
+  }
+
+  @RequestMapping(method = GET, path = "/api/user/trips/active")
+  public @ResponseBody
+  Iterable<Trip>
+  getActiveTripsByParticipant(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    Iterable<Participant> participants = this.participantService.findAllByUsername(username);
+    List<Trip> trips = new ArrayList<>();
+    for (Participant p : participants) {
+      Trip trip = this.tripService.findByIdTrip(p.getIdTrip()).orElseThrow(
+        () -> new TripException("getParticipantTrips.error.tripNotFound")
+      );
+      if (trip.getIdStatus() == 2 || trip.getIdStatus() == 1) {
+        trips.add(trip);
+      }
+    }
+    return trips;
+  }
+
 
   //comments
 
@@ -373,8 +411,8 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<Comment>
   addComment(@PathVariable(name = "idTrip") long idTrip,
-                 @Valid @RequestBody CommentDTO commentDTO,
-                 HttpSession session) {
+             @Valid @RequestBody CommentDTO commentDTO,
+             HttpSession session) {
     String action = "addComment";
     if (idTrip != commentDTO.getIdTrip()) {
       throw new TripException(action + ".error.wrongTrip");
@@ -415,8 +453,8 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<HttpStatus>
   deleteComment(@PathVariable(name = "idTrip") long idTrip,
-                    @PathVariable(name = "idComment") long idComment,
-                    HttpSession session) {
+                @PathVariable(name = "idComment") long idComment,
+                HttpSession session) {
     String action = "deleteComment";
     Comment comment =
       this.commentService.findByIdCommentAndIdTrip(idComment, idTrip).orElseThrow(
@@ -437,7 +475,7 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<HttpStatus>
   deleteAllTripComments(@PathVariable(name = "idTrip") long idTrip,
-                HttpSession session) {
+                        HttpSession session) {
     String action = "deleteAllComments";
     Trip trip = this.getTripAndCheck(idTrip, action);
     User moderator = this.getModeratorAndCheck(session, action);
