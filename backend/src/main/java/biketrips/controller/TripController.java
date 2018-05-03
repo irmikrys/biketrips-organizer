@@ -41,6 +41,8 @@ public class TripController {
 
   private final AlbumService albumService;
 
+  private final PhotoService photoService;
+
   @Autowired
   public TripController(@Qualifier("tripService") TripService tripService,
                         @Qualifier("userService") UserService userService,
@@ -51,7 +53,8 @@ public class TripController {
                         @Qualifier("locationService") LocationService locationService,
                         @Qualifier("participantService") ParticipantService participantService,
                         @Qualifier("commentService") CommentService commentService,
-                        @Qualifier("albumService") AlbumService albumService) {
+                        @Qualifier("albumService") AlbumService albumService,
+                        @Qualifier("photoService") PhotoService photoService) {
     this.tripService = tripService;
     this.userService = userService;
     this.statusService = statusService;
@@ -62,6 +65,7 @@ public class TripController {
     this.participantService = participantService;
     this.commentService = commentService;
     this.albumService = albumService;
+    this.photoService = photoService;
   }
 
 
@@ -493,7 +497,7 @@ public class TripController {
   }
 
 
-  //photos
+  //albums
 
 
   @RequestMapping(method = POST, path = "/api/trips/{idTrip}/albums")
@@ -518,6 +522,34 @@ public class TripController {
   }
 
 
+  //photos
+
+
+  @RequestMapping(method = POST, path = "/api/trips/{idTrip}/albums/{idAlbum}/photos")
+  public @ResponseBody
+  ResponseEntity<Photo>
+  addPhoto(@PathVariable(name = "idTrip") long idTrip,
+           @PathVariable(name = "idAlbum") long idAlbum,
+           @Valid @RequestBody PhotoDTO photoDTO) {
+    String action = "addPhoto";
+    Trip trip = getTripAndCheck(idTrip, action);
+    Album album = this.albumService.findByIdAlbum(idAlbum).orElseThrow(
+      () -> new TripException(action + ".error.albumNotFound")
+    );
+    Photo photo = this.photoService.createPhoto(photoDTO);
+    return ResponseEntity.ok(photo);
+  }
+
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/albums/{idAlbum}/photos")
+  public @ResponseBody
+  Iterable<Photo>
+  getPhotosByIdAlbum(@PathVariable(name = "idTrip") long idTrip,
+                     @PathVariable(name = "idAlbum") long idAlbum) {
+    Trip trip = this.getTripAndCheck(idTrip, "getPhotos");
+    return this.photoService.findAllByIdAlbum(idAlbum);
+  }
+
+  
   //helpers
 
 

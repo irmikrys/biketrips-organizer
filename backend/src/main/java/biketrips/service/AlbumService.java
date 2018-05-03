@@ -46,7 +46,7 @@ public class AlbumService {
     this.jdbcTemplate.update(sql, newAlbum.getName(), oldAlbum.getIdAlbum());
   }
 
-  public void deleteComment(long idAlbum) {
+  public void deleteAlbum(long idAlbum) {
     this.albumRepository.deleteAlbumByIdAlbum(idAlbum);
   }
 
