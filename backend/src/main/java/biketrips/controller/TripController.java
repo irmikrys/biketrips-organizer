@@ -1,9 +1,6 @@
 package biketrips.controller;
 
-import biketrips.dto.CommentDTO;
-import biketrips.dto.EpisodeDTO;
-import biketrips.dto.ParticipantDTO;
-import biketrips.dto.TripDTO;
+import biketrips.dto.*;
 import biketrips.dto.session.UserSession;
 import biketrips.exceptions.TripException;
 import biketrips.model.*;
@@ -42,6 +39,8 @@ public class TripController {
 
   private final CommentService commentService;
 
+  private final AlbumService albumService;
+
   @Autowired
   public TripController(@Qualifier("tripService") TripService tripService,
                         @Qualifier("userService") UserService userService,
@@ -51,7 +50,8 @@ public class TripController {
                         @Qualifier("episodeService") EpisodeService episodeService,
                         @Qualifier("locationService") LocationService locationService,
                         @Qualifier("participantService") ParticipantService participantService,
-                        @Qualifier("commentService") CommentService commentService) {
+                        @Qualifier("commentService") CommentService commentService,
+                        @Qualifier("albumService") AlbumService albumService) {
     this.tripService = tripService;
     this.userService = userService;
     this.statusService = statusService;
@@ -61,6 +61,7 @@ public class TripController {
     this.locationService = locationService;
     this.participantService = participantService;
     this.commentService = commentService;
+    this.albumService = albumService;
   }
 
 
@@ -489,6 +490,31 @@ public class TripController {
   Iterable<Comment>
   getCommentsByIdTrip(@PathVariable(name = "idTrip") long idTrip) {
     return this.commentService.findAllByIdTrip(idTrip);
+  }
+
+
+  //photos
+
+
+  @RequestMapping(method = POST, path = "/api/trips/{idTrip}/albums")
+  public @ResponseBody
+  ResponseEntity<Album>
+  addAlbum(@PathVariable(name = "idTrip") long idTrip,
+           @Valid @RequestBody AlbumDTO albumDTO) {
+    String action = "addAlbum";
+    if (idTrip != albumDTO.getIdTrip()) {
+      throw new TripException(action + ".error.wrongTrip");
+    }
+    Trip trip = getTripAndCheck(idTrip, action);
+    Album album = this.albumService.createAlbum(albumDTO);
+    return ResponseEntity.ok(album);
+  }
+
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/albums")
+  public @ResponseBody
+  Iterable<Album>
+  getAlbumsByIdTrip(@PathVariable(name = "idTrip") long idTrip) {
+    return this.albumService.findAllByIdTrip(idTrip);
   }
 
 
