@@ -82,3 +82,9 @@ VALUES
   (3, 'kacpkasp', 'Trip 3', '2018-04-28 12:00:00', '2018-04-30 12:00:00', 3, 1, 'Trip 3 description', 400),
   (4, 'kacpkasp', 'Trip 4', '2018-04-23 12:00:00', '2018-04-26 12:00:00', 1, 2, 'Trip 4 description', 40),
   (5, 'kacpkasp', 'Trip 5', '2018-04-18 12:00:00', '2018-04-22 12:00:00', 2, 3, 'Trip 5 description', 240);
+
+
+INSERT INTO participants (username, idTrip, idActivity) VALUES
+  ('test', 1, 1),
+  ('user', 4, 2),
+  ('user2', 4, 1);

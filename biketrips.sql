@@ -112,16 +112,17 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE albums (
-  idAlbum BIGINT NOT NULL AUTO_INCREMENT,
-  idTrip  BIGINT NOT NULL,
+  idAlbum BIGINT      NOT NULL AUTO_INCREMENT,
+  name    VARCHAR(60) NOT NULL,
+  idTrip  BIGINT      NOT NULL,
   PRIMARY KEY (idAlbum),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
 CREATE TABLE photos (
-  idPhoto BIGINT      NOT NULL AUTO_INCREMENT,
-  idAlbum BIGINT      NOT NULL,
-  url     VARCHAR(40) NOT NULL,
+  idPhoto BIGINT     NOT NULL AUTO_INCREMENT,
+  idAlbum BIGINT     NOT NULL,
+  photo   MEDIUMBLOB NOT NULL,
   PRIMARY KEY (idPhoto),
   FOREIGN KEY (idAlbum) REFERENCES albums (idAlbum)
 );
