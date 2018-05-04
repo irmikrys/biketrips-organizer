@@ -6,6 +6,10 @@ class UserProfile extends Component {
     window.location = '/trips/' + idTrip;
   };
 
+  seeAlbums = idTrip => {
+    window.location = '/trips/' + idTrip + '/albums';
+  };
+
   render() {
     const {user} = this.props;
     return (
@@ -63,15 +67,15 @@ class UserProfile extends Component {
               Object.values(this.props.tripsArchive)
                 .map((trip, key) => {
                   return (
-                    <div key={key}
-                         className='trip-archive'>
-                    <span className='link'
-                          onClick={() => this.seeTrip(trip.idTrip)}>
-                    {trip.name}
-                    </span>
-                      <span className='info'>
-                      {' - ' + trip.description}
-                    </span>
+                    <div className='trip'>
+                      <div className='photos-column'>
+                        <span className='glyphicon glyphicon-camera'
+                        onClick={() => this.seeAlbums(trip.idTrip)}/>
+                      </div>
+                      <div key={key} className='trip-archive'>
+                        <span className='link' onClick={() => this.seeTrip(trip.idTrip)}>{trip.name}</span>
+                        <span className='info'>{' - ' + trip.description}</span>
+                      </div>
                     </div>
                   )
                 })

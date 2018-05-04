@@ -1,3 +1,5 @@
+@import 'theme.styl'
+
 .profile
   min-height 200px
   overflow hidden
@@ -11,17 +13,32 @@
     h3, h4
       padding-top 15px
 
-    .trip-archive
-      padding 20px
-      font-size 18px
-      text-align left
+    .trip
+      border-top solid 1px theme_light
 
-      .link:hover
-        cursor pointer
-        color #808080
+      .trip-archive
+        overflow hidden
+        padding 20px
+        font-size 18px
+        text-align left
 
-      .info
-        color #a9a9a9
+        .link:hover
+          cursor pointer
+          color #808080
+
+        .info
+          color #a9a9a9
+
+      .photos-column
+        float right
+        width 100px
+        padding 15.5px
+        font-size 24px
+        color theme_dark
+        min-width 100px
+
+        .glyphicon
+          cursor pointer
 
   .column-fixed
     float left

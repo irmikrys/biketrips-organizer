@@ -23,7 +23,7 @@ CREATE TABLE users (
   firstName VARCHAR(30) NOT NULL,
   lastName  VARCHAR(30) NOT NULL,
   role      VARCHAR(30) NOT NULL,
-  photo     MEDIUMBLOB           DEFAULT NULL,
+  photo     LONGBLOB             DEFAULT NULL,
   points    INTEGER     NOT NULL DEFAULT 0,
   PRIMARY KEY (username)
 );
@@ -120,9 +120,9 @@ CREATE TABLE albums (
 );
 
 CREATE TABLE photos (
-  idPhoto BIGINT     NOT NULL AUTO_INCREMENT,
-  idAlbum BIGINT     NOT NULL,
-  photo   MEDIUMBLOB NOT NULL,
+  idPhoto BIGINT   NOT NULL AUTO_INCREMENT,
+  idAlbum BIGINT   NOT NULL,
+  photo   LONGBLOB NOT NULL,
   PRIMARY KEY (idPhoto),
   FOREIGN KEY (idAlbum) REFERENCES albums (idAlbum)
 );
