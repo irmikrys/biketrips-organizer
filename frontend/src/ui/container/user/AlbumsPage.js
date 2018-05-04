@@ -26,12 +26,18 @@ class AlbumsPage extends Component {
   };
 
   addAlbum = (name, idTrip) => {
-    const {create} = this.props;
-    const albumInfo = {
-      name,
-      idTrip
-    };
-    create(idTrip, albumInfo);
+    if (name !== '') {
+      const {create} = this.props;
+      const albumInfo = {
+        name,
+        idTrip
+      };
+      create(idTrip, albumInfo);
+    }
+  };
+
+  seePhotos = idAlbum => {
+    window.location = '/trips/' + this.props.params.idTrip + '/albums/' + idAlbum;
   };
 
   render() {
@@ -47,9 +53,11 @@ class AlbumsPage extends Component {
             {
               Object.values(this.props.albums)
                 .map((album, key) => (
-                  <div className="album-container" key={key}>
+                  <div className="album-container"
+                       key={key}
+                  >
                     <div className="album">
-                      <p>
+                      <p onClick={() => this.seePhotos(album.idAlbum)}>
                         {album.name}
                       </p>
                     </div>

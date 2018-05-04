@@ -19,6 +19,7 @@ import TripViewPage from "../ui/container/user/TripViewPage";
 import ContactPage from "../ui/container/ContactPage";
 import AboutPage from "../ui/container/AboutPage";
 import AlbumsPage from "../ui/container/user/AlbumsPage";
+import PhotosPage from "../ui/container/user/PhotosPage";
 
 
 export default (onLogout) => (
@@ -37,6 +38,7 @@ export default (onLogout) => (
     <Route path="trips" component={TripsPage}/>
     <Route path="trips/:idTrip" component={TripViewPage}/>
     <Route path="trips/:idTrip/albums" component={AlbumsPage}/>
+    <Route path="trips/:idTrip/albums/:idAlbum" component={PhotosPage}/>
     <Route path="contact" component={ContactPage}/>
     <Route path="about" component={AboutPage}/>
     <Route path="logout" onEnter={onLogout}/>
