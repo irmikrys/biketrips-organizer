@@ -7,10 +7,25 @@ class AlbumsPage extends Component {
   constructor(props) {
     super(props);
     props.fetchAlbums(this.props.params.idTrip);
+    this.state = {
+      newName: ""
+    }
   }
 
+  clearName = () => {
+    console.log('clearing name...');
+    this.setState({
+      newName: ""
+    })
+  };
+
+  handleInputChange = event => {
+    let value = event.target.value;
+    let inputName = event.target.name;
+    this.setState({[inputName]: value});
+  };
+
   render() {
-    console.log(this.props);
     return (
       <div className='margin-top'>
         {
@@ -21,11 +36,11 @@ class AlbumsPage extends Component {
           <div className='albums-grid'>
             {
               Object.values(this.props.albums)
-                .map((item, key) => (
+                .map((album, key) => (
                   <div className="album-container" key={key}>
                     <div className="album">
                       <p>
-                        {item.name}
+                        {album.name}
                       </p>
                     </div>
                   </div>
@@ -43,14 +58,28 @@ class AlbumsPage extends Component {
               <div className="modal-dialog modal-sm">
                 <div className="modal-content">
                   <div className="modal-header">
-                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                    <button type="button"
+                            className="close"
+                            data-dismiss="modal"
+                            onClick={this.clearName}
+                    >
+                      &times;
+                    </button>
                     <h4 className="modal-title">Pick a name for the album</h4>
                   </div>
                   <div className="modal-body">
-                    <input placeholder="album name..."/>
+                    <input name='newName'
+                           placeholder="album name..."
+                           value={this.state.newName}
+                           onInput={this.handleInputChange}
+                    />
                   </div>
                   <div className="modal-footer">
-                    <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button"
+                            className="btn btn-default"
+                    >
+                      Add
+                    </button>
                   </div>
                 </div>
               </div>
