@@ -25,6 +25,7 @@ import addComment from "./addComment";
 import commentDelete from "./commentDelete";
 import tripsArchive from "./tripsArchive";
 import tripsActive from "./tripsActive";
+import albums from "./albums";
 
 export default combineReducers({
   authentication,
@@ -52,5 +53,6 @@ export default combineReducers({
   fetchComments,
   addComment,
   commentDelete,
+  albums,
   routing
 });
