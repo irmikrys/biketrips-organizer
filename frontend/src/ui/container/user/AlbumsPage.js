@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {fetchAlbumsByIdTrip} from "../../../reducers/albums";
+import {fetchAlbumsByIdTrip} from "../../../reducers/albums/albums";
+import {createAlbum} from "../../../reducers/albums/createAlbum";
 
 class AlbumsPage extends Component {
 
@@ -13,7 +14,6 @@ class AlbumsPage extends Component {
   }
 
   clearName = () => {
-    console.log('clearing name...');
     this.setState({
       newName: ""
     })
@@ -25,7 +25,17 @@ class AlbumsPage extends Component {
     this.setState({[inputName]: value});
   };
 
+  addAlbum = (name, idTrip) => {
+    const {create} = this.props;
+    const albumInfo = {
+      name,
+      idTrip
+    };
+    create(idTrip, albumInfo);
+  };
+
   render() {
+    console.log(this.props);
     return (
       <div className='margin-top'>
         {
@@ -49,7 +59,11 @@ class AlbumsPage extends Component {
             <div className="album-container">
               <div className="album">
                 <p>
-                  <span data-toggle="modal" data-target="#myModal" className="glyphicon glyphicon-plus"/>
+                  <span data-toggle="modal"
+                        data-target="#myModal"
+                        className="glyphicon glyphicon-plus"
+                        onClick={this.clearName}
+                  />
                 </p>
               </div>
             </div>
@@ -61,7 +75,6 @@ class AlbumsPage extends Component {
                     <button type="button"
                             className="close"
                             data-dismiss="modal"
-                            onClick={this.clearName}
                     >
                       &times;
                     </button>
@@ -77,6 +90,8 @@ class AlbumsPage extends Component {
                   <div className="modal-footer">
                     <button type="button"
                             className="btn btn-default"
+                            data-dismiss="modal"
+                            onClick={() => this.addAlbum(this.state.newName, this.props.params.idTrip)}
                     >
                       Add
                     </button>
@@ -100,7 +115,8 @@ function mapStateToProps(state) {
 }
 
 const mapActionsToProps = {
-  fetchAlbums: fetchAlbumsByIdTrip
+  fetchAlbums: fetchAlbumsByIdTrip,
+  create: createAlbum
 };
 
 export default connect(

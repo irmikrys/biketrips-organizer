@@ -1,5 +1,3 @@
-import {fetchEpisodesByIdTrip} from "./episodes";
-
 const CREATE_EPISODE = 'episodes/CREATE_EPISODE';
 const CREATE_EPISODE_SUCCESS = 'episodes/CREATE_EPISODE_SUCCESS';
 const CREATE_EPISODE_FAIL = 'episodes/CREATE_EPISODE_FAIL';
@@ -35,9 +33,6 @@ export default function episodeCreationReducer(state = initialState, action) {
 export function createEpisode(idTrip, episodeInfo) {
   return {
     types: [CREATE_EPISODE, CREATE_EPISODE_SUCCESS, CREATE_EPISODE_FAIL],
-    promise: (client) => client.post(`/api/trips/${idTrip}/episodes`, episodeInfo),
-    afterSuccess(dispatch, getState, response) {
-      // dispatch(fetchEpisodesByIdTrip(idTrip));
-    }
+    promise: (client) => client.post(`/api/trips/${idTrip}/episodes`, episodeInfo)
   };
 }
