@@ -27,6 +27,8 @@ import tripsArchive from "./tripsArchive";
 import tripsActive from "./tripsActive";
 import albums from "./albums/albums";
 import createAlbum from "./albums/createAlbum";
+import photos from "./photos/photos";
+import addPhoto from "./photos/addPhoto";
 
 export default combineReducers({
   authentication,
@@ -56,5 +58,7 @@ export default combineReducers({
   commentDelete,
   albums,
   createAlbum,
+  photos,
+  addPhoto,
   routing
 });
