@@ -26,6 +26,13 @@ class PhotosPage extends Component {
     });
   };
 
+  onDrop = (accepted, rejected) => {
+    this.setState({
+      accepted,
+      rejected
+    });
+  };
+
   render() {
     const toggleText = this.state.addPhotosActive ? DROPZONE_ACTIVE : DROPZONE_INACTIVE;
     return (
@@ -47,9 +54,7 @@ class PhotosPage extends Component {
               <Dropzone
                 className='dropzone'
                 accept="image/jpeg, image/png"
-                onDrop={(accepted, rejected) => {
-                  this.setState({accepted, rejected});
-                }}
+                onDrop={this.onDrop.bind(this)}
               >
                 <p>Try dropping some files here, or click to select files to upload.</p>
                 <p>Only *.jpeg and *.png images will be accepted</p>
