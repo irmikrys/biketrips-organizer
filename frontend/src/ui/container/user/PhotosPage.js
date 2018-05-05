@@ -12,7 +12,8 @@ class PhotosPage extends Component {
     this.state = {
       accepted: [],
       rejected: [],
-      addPhotosActive: false
+      addPhotosActive: false,
+      photos: []
     }
   }
 
@@ -29,7 +30,11 @@ class PhotosPage extends Component {
   onDrop = (accepted, rejected) => {
     this.setState({
       accepted,
-      rejected
+      rejected,
+      photos: this.state.photos.concat(accepted)
+    });
+    accepted.forEach(file => {
+      console.log(file.name);
     });
   };
 
@@ -64,13 +69,19 @@ class PhotosPage extends Component {
               <h2>Accepted files</h2>
               <ul>
                 {
-                  this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+                  this.state.photos
+                    .map((f, key) =>
+                      <li key={key}>{f.name} - {f.size} bytes</li>
+                    )
                 }
               </ul>
               <h2>Rejected files</h2>
               <ul>
                 {
-                  this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+                  this.state.rejected
+                    .map((f, key) =>
+                      <li key={key}>{f.name} - {f.size} bytes</li>
+                    )
                 }
               </ul>
             </div>
