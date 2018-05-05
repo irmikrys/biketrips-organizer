@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {fetchPhotosByIdAlbum} from "../../../reducers/photos/photos";
 import {addPhotoToAlbum} from "../../../reducers/photos/addPhoto";
 import Dropzone from 'react-dropzone';
+import {DROPZONE_ACTIVE, DROPZONE_INACTIVE} from "../../constants/constants";
 
 class PhotosPage extends Component {
 
@@ -10,7 +11,8 @@ class PhotosPage extends Component {
     super(props);
     this.state = {
       accepted: [],
-      rejected: []
+      rejected: [],
+      addPhotosActive: false
     }
   }
 
@@ -18,7 +20,14 @@ class PhotosPage extends Component {
     window.location = '/trips/' + this.props.params.idTrip + '/albums'
   };
 
+  changeDropzoneVisibility = () => {
+    this.setState({
+      addPhotosActive: !this.state.addPhotosActive
+    });
+  };
+
   render() {
+    const toggleText = this.state.addPhotosActive ? DROPZONE_ACTIVE : DROPZONE_INACTIVE;
     return (
       <div className='photos-page'>
         <button className='btn btn-default'
@@ -26,34 +35,42 @@ class PhotosPage extends Component {
         >
           Go back to trip albums
         </button>
-        <div className='photos-drop'>
-          <div className='drop'>
-            <Dropzone
-              className='dropzone'
-              accept="image/jpeg, image/png"
-              onDrop={(accepted, rejected) => {
-                this.setState({accepted, rejected});
-              }}
-            >
-              <p>Try dropping some files here, or click to select files to upload.</p>
-              <p>Only *.jpeg and *.png images will be accepted</p>
-            </Dropzone>
+        <button className='btn btn-default'
+                onClick={this.changeDropzoneVisibility}
+        >
+          {toggleText}
+        </button>
+        {
+          this.state.addPhotosActive &&
+          <div className='photos-drop'>
+            <div className='drop'>
+              <Dropzone
+                className='dropzone'
+                accept="image/jpeg, image/png"
+                onDrop={(accepted, rejected) => {
+                  this.setState({accepted, rejected});
+                }}
+              >
+                <p>Try dropping some files here, or click to select files to upload.</p>
+                <p>Only *.jpeg and *.png images will be accepted</p>
+              </Dropzone>
+            </div>
+            <div className='aside'>
+              <h2>Accepted files</h2>
+              <ul>
+                {
+                  this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+                }
+              </ul>
+              <h2>Rejected files</h2>
+              <ul>
+                {
+                  this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
+                }
+              </ul>
+            </div>
           </div>
-          <div className='aside'>
-            <h2>Accepted files</h2>
-            <ul>
-              {
-                this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-              }
-            </ul>
-            <h2>Rejected files</h2>
-            <ul>
-              {
-                this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-              }
-            </ul>
-          </div>
-        </div>
+        }
       </div>
     );
   }

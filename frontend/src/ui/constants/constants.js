@@ -70,9 +70,8 @@ export const ADDRESS =
   "\n 30-059 Cracow" +
   "\n Poland";
 
-export const CREATE_MODE = "create";
-export const UPDATE_MODE = "update";
-export const READ_MODE = "read";
+export const DROPZONE_ACTIVE = "Hide dropzone";
+export const DROPZONE_INACTIVE = "Add photos";
 
 export const USERNAME = "username";
 export const PASSWORD = "password";
