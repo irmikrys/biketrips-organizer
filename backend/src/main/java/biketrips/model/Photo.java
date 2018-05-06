@@ -16,7 +16,7 @@ public class Photo implements Serializable {
   private long idAlbum;
 
   @Column(name = "photo", nullable = false)
-  private byte[] photo;
+  private String photo;
 
   public long getIdPhoto() {
     return idPhoto;
@@ -34,11 +34,11 @@ public class Photo implements Serializable {
     this.idAlbum = idAlbum;
   }
 
-  public byte[] getPhoto() {
+  public String getPhoto() {
     return photo;
   }
 
-  public void setPhoto(byte[] photo) {
+  public void setPhoto(String photo) {
     this.photo = photo;
   }
 }

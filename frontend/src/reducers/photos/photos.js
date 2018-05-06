@@ -32,6 +32,6 @@ export default function fetchPhotosReducer(state = initialState, action) {
 export function fetchPhotosByIdAlbum(idTrip, idAlbum) {
   return  {
     types: [FETCH_PHOTOS, FETCH_PHOTOS_SUCCESS, FETCH_PHOTOS_FAIL],
-    promise: client => client.get(`/api/trips/${idTrip}/albums/${idAlbum}/`)
+    promise: client => client.get(`/api/trips/${idTrip}/albums/${idAlbum}/photos`)
   };
 }

@@ -4,17 +4,23 @@ import {fetchPhotosByIdAlbum} from "../../../reducers/photos/photos";
 import {addPhotoToAlbum} from "../../../reducers/photos/addPhoto";
 import Dropzone from 'react-dropzone';
 import {DROPZONE_ACTIVE, DROPZONE_INACTIVE} from "../../constants/constants";
+import PhotosGrid from "../../component/user/PhotosGrid";
 
 class PhotosPage extends Component {
 
   constructor(props) {
     super(props);
+    props.fetchPhotos(this.props.params.idTrip, this.props.params.idAlbum);
     this.state = {
       accepted: [],
       rejected: [],
       addPhotosActive: false,
       photos: []
     }
+  }
+
+  componentDidMount() {
+    this.setState({photos: this.props.photos});
   }
 
   goToAlbums = () => {
@@ -34,7 +40,11 @@ class PhotosPage extends Component {
       photos: this.state.photos.concat(accepted)
     });
     accepted.forEach(file => {
-      console.log(file.name);
+      const {idTrip, idAlbum} = this.props.params;
+      const photo = file.preview;
+      const photoInfo = {idAlbum, photo};
+      const {addPhoto} = this.props;
+      addPhoto(idTrip, idAlbum, photoInfo);
     });
   };
 
@@ -61,7 +71,7 @@ class PhotosPage extends Component {
                 accept="image/jpeg, image/png"
                 onDrop={this.onDrop.bind(this)}
               >
-                <p>Try dropping some files here, or click to select files to upload.</p>
+                <p>Click to select files to upload.</p>
                 <p>Only *.jpeg and *.png images will be accepted</p>
               </Dropzone>
             </div>
@@ -86,6 +96,12 @@ class PhotosPage extends Component {
               </ul>
             </div>
           </div>
+        }
+        {
+          this.props.updating && <div className='loader'/>
+        }
+        {
+          !this.props.updating && <PhotosGrid photos={this.props.photos}/>
         }
       </div>
     );

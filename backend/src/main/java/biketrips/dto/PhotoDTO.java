@@ -6,7 +6,7 @@ public class PhotoDTO {
 
   private long idAlbum;
 
-  private byte[] photo;
+  private String photo;
 
   public PhotoDTO() {
 
@@ -32,11 +32,11 @@ public class PhotoDTO {
     this.idAlbum = idAlbum;
   }
 
-  public byte[] getPhoto() {
+  public String getPhoto() {
     return photo;
   }
 
-  public void setPhoto(byte[] photo) {
+  public void setPhoto(String photo) {
     this.photo = photo;
   }
 }
