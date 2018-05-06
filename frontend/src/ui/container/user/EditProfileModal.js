@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Dropzone from "react-dropzone";
 import {EMAIL, FIRST_NAME, getFormField, LAST_NAME, PASSWORD, USERNAME} from "../../constants/constants";
 import axios from 'axios';
+import {ErrorPanel} from "../../component/forms/ErrorPanel";
 
 class EditProfileModal extends Component {
 
@@ -9,6 +10,7 @@ class EditProfileModal extends Component {
     super(props);
     const {user} = props;
     this.state = {
+      role: user.role,
       [USERNAME]: user.username,
       [FIRST_NAME]: user.firstName,
       [LAST_NAME]: user.lastName,
@@ -17,9 +19,9 @@ class EditProfileModal extends Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const {photo} = this.props.user;
-    if(photo) {
+    if (photo) {
       const img = document.getElementById('avatar-edit');
       img.src = `data:image/png;base64,${photo}`;
     }
@@ -41,7 +43,16 @@ class EditProfileModal extends Component {
       });
   };
 
+  handleSubmit = event => {
+    event.preventDefault();
+    const {editProfile, fetchUser} = this.props;
+    editProfile(this.state, fetchUser);
+    this.render();
+  };
+
   render() {
+    const {errorMessage} = this.props;
+    const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
     return (
       <div>
         <div className="container edit-modal margin-top">
@@ -63,7 +74,10 @@ class EditProfileModal extends Component {
               </div>
             </div>
             <div className="column">
-              <div className="edit-form">
+              <form className="edit-form"
+                    onSubmit={this.handleSubmit.bind(this)}
+              >
+                {errorPanel}
                 {
                   [FIRST_NAME, LAST_NAME, EMAIL].map(fieldKey => {
                     const field = getFormField(fieldKey);
@@ -83,9 +97,10 @@ class EditProfileModal extends Component {
                        name={PASSWORD}
                        pattern={getFormField(PASSWORD).pattern}
                        onChange={this.handleInputChange}
+                       required
                 />
-                <button>Save</button>
-              </div>
+                <button type="submit">Save</button>
+              </form>
             </div>
           </div>
         </div>

@@ -29,6 +29,7 @@ import albums from "./albums/albums";
 import createAlbum from "./albums/createAlbum";
 import photos from "./photos/photos";
 import addPhoto from "./photos/addPhoto";
+import editProfile from "./user/editProfile";
 
 export default combineReducers({
   authentication,
@@ -60,5 +61,6 @@ export default combineReducers({
   createAlbum,
   photos,
   addPhoto,
+  editProfile,
   routing
 });

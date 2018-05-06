@@ -65,7 +65,7 @@ class TripTile extends Component {
           </div>
           <div className="column">
             <div className="dropdown">
-              <button className="btn btn-default dropdown-toggle"
+              <button className="btn dropdown-toggle"
                       type="button"
                       data-toggle="dropdown"
                       onClick={this.handleDropdownClick}

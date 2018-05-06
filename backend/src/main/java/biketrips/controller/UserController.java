@@ -18,8 +18,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 
-import java.io.IOException;
-
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 
@@ -78,10 +76,38 @@ public class UserController {
   public @ResponseBody
   ResponseEntity<HttpStatus> updateUser(
     @PathVariable("username") String username,
-    @Valid @RequestBody UserDTO userDTO) {
-    User user = this.userService.findByUsername(username).orElseThrow(
-      () -> new UserException("getUser.error.userNotFound"));
+    @Valid @RequestBody UserDTO userDTO,
+    HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    User user = this.userService.findByUsername(userSession.getUsername()).orElseThrow(
+      () -> new UserException("updateUser.error.userNotFound"));
+    if (!user.getUsername().equals(userDTO.getUsername()) ||
+      !username.equals(user.getUsername())) {
+      throw new UserException("updateUser.error.unauthorised");
+    }
+    if (!user.getEmail().equals(userDTO.getEmail())) {
+      this.userService.findByEmail(userDTO.getEmail()).ifPresent(
+        userEmail -> {
+          throw new UserException("updateUser.error.emailExists");
+        });
+    }
     this.userService.updateUser(user, userDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method = PUT, path = "/api/users/{username}/role")
+  public @ResponseBody
+  ResponseEntity<HttpStatus> updateUserRole(
+    @PathVariable("username") String username,
+    @Valid @RequestBody UserDTO userDTO, HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String sessionUsername = userSession.getUsername();
+    if (!sessionUsername.equals("admin")) {
+      throw new UserException("updateUserRole.error.notAdmin");
+    }
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new UserException("updateUser.error.userNotFound"));
+    this.userService.updateRole(user, userDTO);
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
@@ -93,11 +119,10 @@ public class UserController {
     HttpSession session) {
     UserSession userSession = (UserSession) session.getAttribute("user");
     String usernameSession = userSession.getUsername();
-    System.out.println(usernameSession);
     User moderator = this.userService.findByUsername(usernameSession).orElseThrow(
       () -> new UserException("updateUserPoints.error.moderatorNotFound")
     );
-    if(!moderator.getRole().equals("MODER")) {
+    if (!moderator.getRole().equals("MODER")) {
       throw new UserException("updateUserPoints.error.userNotModerator");
     }
     User user = this.userService.findByUsername(username).orElseThrow(
@@ -105,11 +130,11 @@ public class UserController {
     );
     UserDTO userDTO = new UserDTO(user);
     userDTO.setPoints(user.getPoints() + points);
-    this.userService.updateUser(user, userDTO);
+    this.userService.updatePoints(user, userDTO);
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
-  @RequestMapping(method=PUT, path="/api/users/{username}/photo")
+  @RequestMapping(method = PUT, path = "/api/users/{username}/photo")
   public @ResponseBody
   ResponseEntity<HttpStatus> updateUserPhoto(
     @PathVariable("username") String username,

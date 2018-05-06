@@ -10,9 +10,9 @@ class UserProfile extends Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const {photo} = this.props.user;
-    if(photo) {
+    if (photo) {
       const img = document.getElementById('avatar');
       img.src = `data:image/png;base64,${photo}`;
     }
@@ -40,15 +40,13 @@ class UserProfile extends Component {
       <div className="main">
         <div className="profile">
           <div className="column-fixed left-content">
-            <h3>
-              <span className="glyphicon glyphicon-pencil"
-                    onClick={this.openModal}
-              />
-            </h3>
-            <div className="avatar-container">
+            <div className="avatar-container"
+                 id='wrapper'
+            >
               <img id="avatar"
                    src="http://eoclimlab.eu/wp-content/uploads/2017/01/default.png"
               />
+              <p onClick={this.openModal}>Edit profile</p>
             </div>
             <div id="name"><b>{user.firstName}</b></div>
             <div id="name"><b>{user.lastName}</b></div>
@@ -115,6 +113,9 @@ class UserProfile extends Component {
           this.state.modalVisible &&
           <EditProfileModal user={this.props.user}
                             closeModal={this.closeModal.bind(this)}
+                            editProfile={this.props.editProfile.bind(this)}
+                            fetchUser={this.props.fetchUser.bind(this)}
+                            errorMessage={this.props.errorMessage}
           />
         }
       </div>

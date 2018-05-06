@@ -48,19 +48,18 @@
     padding 20px
     border-right solid 1px theme_tile
 
-    h3
-      .glyphicon
-        color theme_dark
-
-      .glyphicon:hover
-        cursor pointer
-
     .avatar-container
       margin-bottom 20px
 
       img
         width 225px
         height 225px
+        -webkit-filter brightness(100%)
+        -moz-filter brightness(100%)
+        -o-filter brightness(100%)
+        -ms-filter brightness(100%)
+        filter brightness(100%)
+        transition 0.30s
 
     #name
       font-size 26px
@@ -95,3 +94,26 @@
 
     #label
       font-size 14px
+
+#wrapper
+  text-align center
+
+#wrapper p
+  position relative
+  bottom 30px
+  visibility hidden
+  cursor pointer
+
+#wrapper:hover p
+  visibility visible
+  color #f2f2f2
+  cursor pointer
+
+#wrapper:hover img
+  -webkit-filter brightness(40%)
+  -moz-filter brightness(40%)
+  -o-filter brightness(40%)
+  -ms-filter brightness(40%)
+  filter brightness(40%)
+  transition 0.20s
+
