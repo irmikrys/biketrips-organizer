@@ -1,6 +1,14 @@
 import React, {Component} from 'react';
+import EditProfileModal from "../../container/user/EditProfileModal";
 
 class UserProfile extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false
+    };
+  }
 
   seeTrip = idTrip => {
     window.location = '/trips/' + idTrip;
@@ -10,12 +18,25 @@ class UserProfile extends Component {
     window.location = '/trips/' + idTrip + '/albums';
   };
 
+  openModal = () => {
+    this.setState({modalVisible: true});
+  };
+
+  closeModal = () => {
+    this.setState({modalVisible: false});
+  };
+
   render() {
     const {user} = this.props;
     return (
       <div className="main">
         <div className="profile">
           <div className="column-fixed left-content">
+            <h3>
+              <span className="glyphicon glyphicon-pencil"
+                    onClick={this.openModal}
+              />
+            </h3>
             <div className="avatar-container">
               <img id="avatar"
                    src="http://eoclimlab.eu/wp-content/uploads/2017/01/default.png"
@@ -70,7 +91,7 @@ class UserProfile extends Component {
                     <div className='trip'>
                       <div className='photos-column'>
                         <span className='glyphicon glyphicon-camera'
-                        onClick={() => this.seeAlbums(trip.idTrip)}/>
+                              onClick={() => this.seeAlbums(trip.idTrip)}/>
                       </div>
                       <div key={key} className='trip-archive'>
                         <span className='link' onClick={() => this.seeTrip(trip.idTrip)}>{trip.name}</span>
@@ -82,6 +103,12 @@ class UserProfile extends Component {
             }
           </div>
         </div>
+        {
+          this.state.modalVisible &&
+          <EditProfileModal user={this.props.user}
+                            closeModal={this.closeModal.bind(this)}
+          />
+        }
       </div>
     );
   }
