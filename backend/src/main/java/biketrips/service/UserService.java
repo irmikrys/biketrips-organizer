@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service("userService")
@@ -54,5 +55,15 @@ public class UserService {
     this.jdbcTemplate.update(sql, userDTO.getRole(), userDTO.getEmail(),
       userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPoints(),
       oldUser.getUsername());
+  }
+
+  public void updatePhoto(User user, byte[] photo) {
+    if (!Arrays.equals(user.getPhoto(), photo)) {
+      final String sql = "" +
+        "UPDATE users u " +
+        "SET u.photo = ? " +
+        "WHERE u.username = ?";
+      this.jdbcTemplate.update(sql, photo, user.getUsername());
+    }
   }
 }

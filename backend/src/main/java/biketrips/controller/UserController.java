@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -102,6 +104,20 @@ public class UserController {
     UserDTO userDTO = new UserDTO(user);
     userDTO.setPoints(user.getPoints() + points);
     this.userService.updateUser(user, userDTO);
+    return ResponseEntity.ok(HttpStatus.OK);
+  }
+
+  @RequestMapping(method=PUT, path="/api/users/{username}/photo")
+  public @ResponseBody
+  ResponseEntity<HttpStatus> updateUserPhoto(
+    @PathVariable("username") String username,
+    @RequestParam("file") MultipartFile file)
+    throws IOException {
+    User user = this.userService.findByUsername(username).orElseThrow(
+      () -> new UserException("updateUserPhoto.error.userNotFound"));
+    if (!file.isEmpty()) {
+      this.userService.updatePhoto(user, file.getBytes());
+    }
     return ResponseEntity.ok(HttpStatus.OK);
   }
 
