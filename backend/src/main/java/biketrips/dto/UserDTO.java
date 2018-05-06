@@ -34,6 +34,8 @@ public class UserDTO {
   @DecimalMin(value = "0")
   private int points;
 
+  private byte[] photo;
+
   public UserDTO() {
 
   }
@@ -46,6 +48,7 @@ public class UserDTO {
     setUsername(user.getUsername());
     setPassword(user.getPassword());
     setPoints(user.getPoints());
+    setPhoto(user.getPhoto());
   }
 
   public User toUser(String password) {
@@ -114,5 +117,13 @@ public class UserDTO {
 
   public void setPoints(int points) {
     this.points = points;
+  }
+
+  public byte[] getPhoto() {
+    return photo;
+  }
+
+  public void setPhoto(byte[] photo) {
+    this.photo = photo;
   }
 }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Dropzone from "react-dropzone";
-import {EMAIL, FIRST_NAME, getFormField, LAST_NAME, LOCATION, PASSWORD, USERNAME,} from "../../constants/constants";
+import {EMAIL, FIRST_NAME, getFormField, LAST_NAME, PASSWORD, USERNAME} from "../../constants/constants";
+import axios from 'axios';
 
 class EditProfileModal extends Component {
 
@@ -16,10 +17,28 @@ class EditProfileModal extends Component {
     };
   }
 
+  componentDidMount(){
+    const {photo} = this.props.user;
+    if(photo) {
+      const img = document.getElementById('avatar-edit');
+      img.src = `data:image/png;base64,${photo}`;
+    }
+  }
+
   handleInputChange = event => {
     let value = event.target.value;
     let inputName = event.target.name;
     this.setState({[inputName]: value});
+  };
+
+  onDrop = files => {
+    let data = new FormData();
+    data.append('file', files[0]);
+    axios.put(`/api/users/${this.props.user.username}/photo`, data)
+      .then(result => {
+        const img = document.getElementById('avatar-edit');
+        img.src = files[0].preview;
+      });
   };
 
   render() {
@@ -34,6 +53,8 @@ class EditProfileModal extends Component {
             <div className="column">
               <div className="drop-down-zone">
                 <Dropzone multiple={false}
+                          onDrop={this.onDrop.bind(this)}
+                          className={'dropdown-content'}
                 >
                   <img id="avatar-edit"
                        src="http://eoclimlab.eu/wp-content/uploads/2017/01/default.png"
@@ -62,14 +83,15 @@ class EditProfileModal extends Component {
                        name={PASSWORD}
                        pattern={getFormField(PASSWORD).pattern}
                        onChange={this.handleInputChange}
-                       required
                 />
                 <button>Save</button>
               </div>
             </div>
           </div>
         </div>
-        <div id="cover"/>
+        <div id="cover"
+             onClick={this.props.closeModal}
+        />
       </div>
     )
   };

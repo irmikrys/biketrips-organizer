@@ -10,6 +10,14 @@ class UserProfile extends Component {
     };
   }
 
+  componentDidMount(){
+    const {photo} = this.props.user;
+    if(photo) {
+      const img = document.getElementById('avatar');
+      img.src = `data:image/png;base64,${photo}`;
+    }
+  }
+
   seeTrip = idTrip => {
     window.location = '/trips/' + idTrip;
   };
