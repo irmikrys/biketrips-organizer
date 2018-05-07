@@ -59,9 +59,25 @@ class TripTile extends Component {
             <div>{trip.description}</div>
             <div>From: {dateFormatter(new Date(trip.startDate))}</div>
             <div>To: {dateFormatter(new Date(trip.endDate))}</div>
-            <div>Level: {levels.filter(e => e.idLevel === trip.idLevel)[0].name}</div>
+            {
+              Object.values(levels)
+                .filter(e => {
+                  return e.idLevel === trip.idLevel
+                })
+                .map((level, key) => {
+                  return <div key={key}>Level: {level.name}</div>
+                })
+            }
             <div>Points: {trip.points}</div>
-            <div>Status: {statuses.filter(e => e.idStatus === trip.idStatus)[0].name}</div>
+            {
+              Object.values(statuses)
+                .filter(e => {
+                  return e.idStatus === trip.idStatus
+                })
+                .map((status, key) => {
+                  return <div key={key}>Status: {status.name}</div>
+                })
+            }
           </div>
           <div className="column">
             <div className="dropdown">
