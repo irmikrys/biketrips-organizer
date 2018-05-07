@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import EditProfileModal from "../../container/user/EditProfileModal";
+import EditProfileModal from "./EditProfileModal";
 
 class UserProfile extends Component {
 

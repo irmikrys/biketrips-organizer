@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Dropzone from "react-dropzone";
 import {EMAIL, FIRST_NAME, getFormField, LAST_NAME, PASSWORD, USERNAME} from "../../constants/constants";
 import axios from 'axios';
-import {ErrorPanel} from "../../component/forms/ErrorPanel";
+import {ErrorPanel} from "../forms/ErrorPanel";
 
 class EditProfileModal extends Component {
 
