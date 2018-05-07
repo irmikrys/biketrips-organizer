@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import UserProfile from "../../component/user/UserProfile";
-import {fetchUserFromSession} from "../../../reducers/user";
-import {fetchUserTrips} from "../../../reducers/trips";
-import {fetchUserArchiveTrips} from "../../../reducers/tripsArchive";
-import {fetchUserActiveTrips} from "../../../reducers/tripsActive";
+import {fetchUserFromSession} from "../../../reducers/user/user";
+import {fetchUserTrips} from "../../../reducers/trips/trips";
+import {fetchUserArchiveTrips} from "../../../reducers/trips/tripsArchive";
+import {fetchUserActiveTrips} from "../../../reducers/trips/tripsActive";
 import {editProfile} from "../../../reducers/user/editProfile";
 
 export class UserProfilePage extends Component {

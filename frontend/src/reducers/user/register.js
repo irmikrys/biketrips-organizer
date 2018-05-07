@@ -1,5 +1,5 @@
 import {browserHistory} from 'react-router';
-import {setRegisterSuccess} from "./authentication";
+import {setRegisterSuccess} from "../authentication/authentication";
 
 const REGISTER = 'register/REGISTER';
 const REGISTER_SUCCESS = 'register/REGISTER_SUCCESS';

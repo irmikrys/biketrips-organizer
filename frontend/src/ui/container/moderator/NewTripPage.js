@@ -1,7 +1,7 @@
 import TripCreationForm from '../../component/forms/TripCreationForm';
 import {connect} from 'react-redux';
-import {fetchAvailableLevels} from "../../../reducers/levels";
-import {createTrip} from "../../../reducers/tripCreation";
+import {fetchAvailableLevels} from "../../../reducers/trips/levels";
+import {createTrip} from "../../../reducers/trips/tripCreation";
 
 function mapStateToProps(state) {
   return {

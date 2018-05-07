@@ -1,6 +1,6 @@
 import ApplyForm from '../../component/forms/ApplyForm';
 import {connect} from 'react-redux';
-import {apply} from '../../../reducers/apply';
+import {apply} from '../../../reducers/applications/apply';
 
 export default connect(
   state => ({

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import EditTripForm from "../../component/forms/EditTripForm";
-import {fetchTripById} from "../../../reducers/trip";
-import {updateTrip} from "../../../reducers/tripUpdate";
-import {fetchAvailableStatuses} from "../../../reducers/statuses";
+import {fetchTripById} from "../../../reducers/trips/trip";
+import {updateTrip} from "../../../reducers/trips/tripUpdate";
+import {fetchAvailableStatuses} from "../../../reducers/trips/statuses";
 
 export class EditTripPage extends Component {
 

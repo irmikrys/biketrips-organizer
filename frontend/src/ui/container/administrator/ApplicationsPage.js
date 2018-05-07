@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {ApplicationRow} from "../../component/ApplicationRow";
-import {fetchActiveApplications} from "../../../reducers/activeApplications";
-import {acceptModerator} from "../../../reducers/acceptModerator";
-import {deactivateApplication} from "../../../reducers/deactivateApplication";
+import {fetchActiveApplications} from "../../../reducers/applications/activeApplications";
+import {acceptModerator} from "../../../reducers/applications/acceptModerator";
+import {deactivateApplication} from "../../../reducers/applications/deactivateApplication";
 
 export class ApplicationsPage extends Component {
 
