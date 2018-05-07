@@ -32,6 +32,7 @@ class UserProfile extends Component {
 
   closeModal = () => {
     this.setState({modalVisible: false});
+    this.props.fetchUser();
   };
 
   render() {

@@ -79,7 +79,7 @@ class EditProfileModal extends Component {
               >
                 {errorPanel}
                 {
-                  [FIRST_NAME, LAST_NAME, EMAIL].map(fieldKey => {
+                  [FIRST_NAME, LAST_NAME, EMAIL, PASSWORD].map(fieldKey => {
                     const field = getFormField(fieldKey);
                     return <input key={field.name}
                                   value={this.state[fieldKey]}
@@ -92,13 +92,6 @@ class EditProfileModal extends Component {
                     />
                   })
                 }
-                <input type="password"
-                       placeholder="password"
-                       name={PASSWORD}
-                       pattern={getFormField(PASSWORD).pattern}
-                       onChange={this.handleInputChange}
-                       required
-                />
                 <button type="submit">Save</button>
               </form>
             </div>
