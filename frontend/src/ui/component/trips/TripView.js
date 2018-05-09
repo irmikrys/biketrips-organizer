@@ -122,9 +122,15 @@ class TripView extends Component {
             <div className="trip-actions">
               {
                 this.state.isUserParticipant &&
+                this.props.trip.idStatus !== 4 &&
                 <div className="margin-top-2">
                   <div className="column margin-top-1 left-content">
-                    <b>Change your status:</b>
+                    {
+                      this.props.trip.idStatus === 3 && <b>Status:</b>
+                    }
+                    {
+                      this.props.trip.idStatus !== 3 && <b>Change your status:</b>
+                    }
                   </div>
                   <div className="column">
                     {
@@ -134,21 +140,35 @@ class TripView extends Component {
                           }
                         )
                         .map((participant, key) => {
-                            return <Select simpleValue
-                                           key={key}
-                                           placeholder="your status..."
-                                           clearable={false}
-                                           value={
-                                             this.state.idActivity === 0 ?
-                                               participant.idActivity :
-                                               this.state.idActivity
-                                           }
-                                           onChange={this.handleActivityChange}
-                                           options={this.props.activities.map(item => {
-                                             return {value: item.idActivity, label: item.name}
-                                           })}
-                                           required
-                            />
+                            return (
+                              <div>
+                                {
+                                  participant.idActivity === 4 &&
+                                  <input value="confirmed"
+                                         disabled={true}
+                                  />
+                                }
+                                {
+                                  participant.idActivity !== 4 &&
+                                  <Select simpleValue
+                                          key={key}
+                                          placeholder="your status..."
+                                          clearable={false}
+                                          value={
+                                            this.state.idActivity === 0 ?
+                                              participant.idActivity :
+                                              this.state.idActivity
+                                          }
+                                          onChange={this.handleActivityChange}
+                                          options={this.props.activities.map(item => {
+                                            return {value: item.idActivity, label: item.name}
+                                          })}
+                                          disabled={this.props.trip.idStatus === 3}
+                                          required
+                                  />
+                                }
+                              </div>
+                            );
                           }
                         )
                     }
@@ -156,7 +176,7 @@ class TripView extends Component {
                 </div>
               }
               {
-                !this.state.isUserParticipant && null
+                (!this.state.isUserParticipant || this.props.trip.idStatus === 4) && null
               }
             </div>
           </div>

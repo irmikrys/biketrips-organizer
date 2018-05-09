@@ -23,7 +23,7 @@ CREATE TABLE users (
   firstName VARCHAR(30) NOT NULL,
   lastName  VARCHAR(30) NOT NULL,
   role      VARCHAR(30) NOT NULL,
-  photo     MEDIUMBLOB           DEFAULT NULL,
+  photo     LONGBLOB             DEFAULT NULL,
   points    INTEGER     NOT NULL DEFAULT 0,
   PRIMARY KEY (username)
 );
@@ -52,12 +52,12 @@ CREATE TABLE statuses (
 CREATE TABLE trips (
   idTrip      BIGINT       NOT NULL AUTO_INCREMENT,
   moderator   VARCHAR(30)  NOT NULL,
-  name        VARCHAR(30)  NOT NULL,
+  name        VARCHAR(255)  NOT NULL,
   startDate   DATETIME     NOT NULL,
   endDate     DATETIME     NOT NULL,
   idLevel     INTEGER      NOT NULL,
   idStatus    INTEGER      NOT NULL,
-  description VARCHAR(255) NOT NULL,
+  description VARCHAR(500) NOT NULL,
   points      INTEGER      NOT NULL,
   PRIMARY KEY (idTrip),
   FOREIGN KEY (moderator) REFERENCES users (username),
@@ -112,16 +112,17 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE albums (
-  idAlbum BIGINT NOT NULL AUTO_INCREMENT,
-  idTrip  BIGINT NOT NULL,
+  idAlbum BIGINT      NOT NULL AUTO_INCREMENT,
+  name    VARCHAR(60) NOT NULL,
+  idTrip  BIGINT      NOT NULL,
   PRIMARY KEY (idAlbum),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
 CREATE TABLE photos (
-  idPhoto BIGINT      NOT NULL AUTO_INCREMENT,
-  idAlbum BIGINT      NOT NULL,
-  url     VARCHAR(40) NOT NULL,
+  idPhoto BIGINT   NOT NULL AUTO_INCREMENT,
+  idAlbum BIGINT   NOT NULL,
+  photo   LONGBLOB NOT NULL,
   PRIMARY KEY (idPhoto),
   FOREIGN KEY (idAlbum) REFERENCES albums (idAlbum)
 );

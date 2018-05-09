@@ -6,11 +6,10 @@ class TripsUser extends Component {
   constructor(props) {
     super(props);
     props.fetchLevels();
-    props.fetchTrips();
+    props.fetchActiveTrips();
   }
 
   render() {
-    console.log(this.props.trips);
     return (
       <div className="main-color-none">
         {

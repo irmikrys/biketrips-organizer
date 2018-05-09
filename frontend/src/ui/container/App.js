@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {displayAuthError, getSession, setRegisterSuccess} from "../../reducers/authentication";
+import {displayAuthError, getSession, setRegisterSuccess} from "../../reducers/authentication/authentication";
 import "stylus/main.styl";
 import axios from 'axios';
 import {

@@ -1,0 +1,119 @@
+@import 'theme.styl'
+
+.profile
+  min-height 200px
+  overflow hidden
+  background white
+
+  .column-flex
+    overflow hidden
+    min-height inherit
+    min-width 200px
+
+    h3, h4
+      padding-top 15px
+
+    .trip
+      border-top solid 1px theme_light
+
+      .trip-archive
+        overflow hidden
+        padding 20px
+        font-size 18px
+        text-align left
+
+        .link:hover
+          cursor pointer
+          color #808080
+
+        .info
+          color #a9a9a9
+
+      .photos-column
+        float right
+        width 100px
+        padding 15.5px
+        font-size 24px
+        color theme_dark
+        min-width 100px
+
+        .glyphicon
+          cursor pointer
+
+  .column-fixed
+    float left
+    min-width 270px
+    max-width 270px
+    min-height inherit
+    padding 20px
+    border-right solid 1px theme_tile
+
+    .avatar-container
+      margin-bottom 20px
+
+      img
+        width 225px
+        height 225px
+        -webkit-filter brightness(100%)
+        -moz-filter brightness(100%)
+        -o-filter brightness(100%)
+        -ms-filter brightness(100%)
+        filter brightness(100%)
+        transition 0.30s
+
+    #name
+      font-size 26px
+      font-weight 700
+
+    #username
+      font-size 18px
+      font-weight 500
+      color #a9a9a9
+
+    #role
+      font-size 24px
+      color #808080
+      margin 10px 0 10px 0
+
+    .section
+      margin 10px 0 10px 0
+      padding 10px 0 10px 0
+      border-top solid 1px #d9d9d9
+      border-bottom solid 1px #d9d9d9
+
+      table
+        margin 0 auto
+
+        tr, td
+          padding 0 10px 0 10px
+          text-align center
+
+    #info
+      font-size 24px
+      font-weight 700
+
+    #label
+      font-size 14px
+
+#wrapper
+  text-align center
+
+#wrapper p
+  position relative
+  bottom 30px
+  visibility hidden
+  cursor pointer
+
+#wrapper:hover p
+  visibility visible
+  color #f2f2f2
+  cursor pointer
+
+#wrapper:hover img
+  -webkit-filter brightness(40%)
+  -moz-filter brightness(40%)
+  -o-filter brightness(40%)
+  -ms-filter brightness(40%)
+  filter brightness(40%)
+  transition 0.20s
+

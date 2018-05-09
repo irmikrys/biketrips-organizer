@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {displayAuthError, login, setRegisterSuccess} from "../../reducers/authentication";
+import {displayAuthError, login, setRegisterSuccess} from "../../reducers/authentication/authentication";
 import LoginForm from "../component/forms/LoginForm";
 
 export class LoginPage extends Component {

@@ -1,5 +1,3 @@
-@import "theme.styl"
-
 //day selection
 
 .CalendarDay
@@ -55,36 +53,36 @@
   color #565a5c
 
 .CalendarDay__selected_span
-  background #99e699
+  background theme_light
   border 0
   color #fff
 
 .CalendarDay__selected_span:active,
 .CalendarDay__selected_span:hover
-  background #70db70
-  border 1px solid #70db70
+  background theme_tile
+  border 1px solid theme_light
   color #fff
 
 .CalendarDay__last_in_range
-  border-right #00b33c
+  border-right theme_dark
 
 .CalendarDay__selected,
 .CalendarDay__selected:active,
 .CalendarDay__selected:hover
-  background #00b33c
-  border 1px solid #00b33c
+  background theme_dark
+  border 1px solid theme_dark
   color #fff
 
 .CalendarDay__hovered_span,
 .CalendarDay__hovered_span:hover
-  background #ccffdd
-  border 1px solid #70db70
-  color #00b33c
+  background content_background
+  border 1px solid theme_light
+  color theme_dark
 
 .CalendarDay__hovered_span:active
-  background #70db70
-  border 1px solid #70db70
-  color #00b33c
+  background theme_light
+  border 1px solid theme_light
+  color theme_dark
 
 .CalendarDay__blocked_calendar,
 .CalendarDay__blocked_calendar:active,
@@ -344,15 +342,15 @@
   background #f2f2f2
   position relative
   display inline-block
-  width 130px
+  width 92.5px
   height 50px
   vertical-align middle
 
 .DateInput__small
-  width 130px
+  width 92.5px
 
 .DateInput__block
-  width 100%
+  width 92.5px
 
 .DateInput__disabled
   background #f2f2f2
@@ -581,35 +579,37 @@
 
 //preset
 
-.PresetDateRangePicker_panel {
-  padding: 0 22px 11px
-}
-.PresetDateRangePicker_button {
-  position: relative;
-  height: 100%;
-  text-align: center;
-  background: 0 0;
-  border: 2px solid #00a699;
-  color: #00a699;
-  padding: 4px 12px;
-  margin-right: 8px;
-  font: inherit;
-  font-weight: 700;
-  line-height: normal;
-  overflow: visible;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  cursor: pointer
-}
-.PresetDateRangePicker_button:active {
-  outline: 0
-}
-.PresetDateRangePicker_button__selected {
-  color: #fff;
-  background: #00a699
-}
+.PresetDateRangePicker_panel
+  padding 0 22px 11px
+
+.PresetDateRangePicker_button
+  position relative
+  height 100%
+  text-align center
+  background 0 0
+  border 2px solid theme_tile
+  color theme_tile
+  padding 4px 12px
+  margin-right 8px
+  font inherit
+  font-weight 700
+  line-height normal
+  overflow visible
+  -moz-box-sizing border-box
+  box-sizing border-box
+  cursor pointer
+
+.PresetDateRangePicker_button:active
+  outline 0
+
+.PresetDateRangePicker_button__selected
+  color #fff
+  background theme_tile
 
 //single date
+
+#date_id
+  width 100%
 
 .SingleDatePickerInput
   display inline-block
@@ -741,4 +741,3 @@
   height 15px
   width 15px
   fill #cacccd
-

@@ -1,10 +1,13 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300)
 @import 'theme.styl'
 @import 'form.styl'
 @import 'select.styl'
 @import 'dates.styl'
 @import 'geosuggest.styl'
 @import 'trips.styl'
+@import 'profile.styl'
+@import 'loader.styl'
+@import 'photos.styl'
+@import 'modal.styl'
 
 body
   background theme_dark
@@ -12,8 +15,8 @@ body
   background -moz-linear-gradient(right, theme_dark, theme_light)
   background -o-linear-gradient(right, theme_dark, theme_light)
   background linear-gradient(to left, theme_dark, theme_light)
-  background-image url(http://www.tabletwallpapers.org/download/nature-lake-and-mountains-4k-hd-wallpaper_3840x2160.jpg)
-  font-family "Roboto", sans-serif
+  background-image url(https://images.ctfassets.net/o6sr41tx16eu/2e1dtxhzXqMIyIk4MgOqoC/c2fdc8eaee070077ccbf4ac4a634a4b3/Multistrada-1200-Enduro-Pro-MY18-Sand-13-Slider-Gallery-1920x1080.jpg)
+  font-family proxima-nova, arial, sans-serif
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   padding 0 1rem 1rem 1rem
@@ -22,7 +25,7 @@ nav a
   color #ffffff
 
 button
-  font-family "Roboto", sans-serif
+  font-family proxima-nova, arial, sans-serif
   text-transform uppercase
   outline 0
   background theme_dark
@@ -59,7 +62,7 @@ h1, h2, h3
 .content
   position relative
   z-index 1
-  background blanchedalmond
+  background content_background
   padding 40px
   max-width 90%
   margin 70px auto 100px
@@ -122,7 +125,7 @@ h1, h2, h3
 .loader-little
   margin 0 auto 0
   border 3px solid #f3f3f3
-  border-top 3px solid saddlebrown
+  border-top 3px solid theme_expressive
   border-radius 50%
   width 14px
   height 14px
@@ -162,3 +165,37 @@ h1, h2, h3
 
 .paragraph
   padding 25px
+
+.navbar-inverse
+  opacity 0.9
+
+.welcome
+  margin-top 80px
+  color theme_dark
+
+  .question
+    position fixed
+    margin -30px auto auto -350px
+    height 50px
+    width 700px
+    top 50%
+    left 50%
+    text-align center
+    font-size 30px
+    color #f2f2f2
+    text-shadow: 1px 1px 3px #a9a9a9;
+
+  h1
+    font-size 60px
+    text-shadow: 2px 2px 2px theme_expressive;
+
+  .centered
+    position fixed
+    margin -130px auto auto -150px
+    height 100px
+    width 300px
+    top 50%
+    left 50%
+    text-align center
+    font-size 70px
+    color #f2f2f2

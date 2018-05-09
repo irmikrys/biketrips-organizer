@@ -1,0 +1,67 @@
+.albums-grid
+  text-align center
+
+  .album-container
+    display inline-block
+    position relative
+    margin 25px
+
+    a
+      display inline-block
+      color #fff
+      text-decoration none
+
+    .album
+      display flex
+      box-shadow 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
+      width 170px
+      height 170px
+      justify-content center
+      align-items center
+      background-color theme_yellow
+
+      p
+        font-size 25px
+        cursor pointer
+
+.btn-default
+  border-radius 0
+  background-color theme_dark
+  color #ffffff
+  border 0
+  margin-right 15px
+
+.btn-default:hover
+  background-color theme_light
+
+.photos-page
+  margin-top 70px
+
+  .photos-drop
+    position relative
+    z-index 1
+    background rgba(255, 255, 255, 0.8)
+    padding 20px
+    max-width 90%
+    margin 20px auto
+    text-align center
+    box-shadow 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24)
+    border solid 1px theme_dark
+
+    .aside
+      font-size 14px
+      text-align left
+
+      h2, h3, h4
+        font-size 14px
+        font-weight bold
+        text-align center
+
+    .drop
+      width 100%
+
+      .dropzone
+        margin 20px auto
+        width 90%
+        text-align center
+        border dashed 1px #a9a9a9

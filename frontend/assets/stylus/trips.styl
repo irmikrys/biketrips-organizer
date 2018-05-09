@@ -10,7 +10,7 @@
     flex-wrap wrap
 
     .trip-tile
-      background #d9b38c
+      background theme_tile
       color black
       opacity 0.8
       position relative
@@ -23,8 +23,8 @@
       transition 0.30s
 
       .glyphicon
-        font-size 16px
-        color blanchedalmond
+        font-size 14px
+        color theme_middle
         margin 2px !important
 
       .glyphicon:hover
@@ -134,9 +134,10 @@
     margin-left 2rem
 
   .dropdown-toggle, .dropdown-menu
-    background-color blanchedalmond
+    background-color content_background
     border-radius 0
     border none
+    color black
 
     .dropdown-header
       margin-left -10px
@@ -161,6 +162,7 @@
 
   .comments-view
     width 100%
+    min-height 200px
     display block
 
     h2, h3, h4
@@ -189,3 +191,10 @@
         text-align center
         line-height 0
 
+.trash
+  color theme_expressive
+  float right
+
+.trash:hover
+  color theme_middle
+  cursor pointer

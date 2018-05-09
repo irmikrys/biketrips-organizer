@@ -35,6 +35,14 @@ class Comments extends Component {
     fetchComments(idTrip);
   };
 
+  handleDelete = idComment => {
+    const {idTrip} = this.props;
+    const {fetchComments, deleteComment} = this.props;
+    deleteComment(idTrip, idComment);
+    console.log('deletion...');
+    fetchComments(idTrip);
+  };
+
   render() {
     return (
       <div>
@@ -50,6 +58,14 @@ class Comments extends Component {
                     <div key={key}
                          className="comment"
                     >
+                      {
+                        this.props.username === comment.owner &&
+                        <div>
+                          <span className='glyphicon glyphicon-trash trash'
+                                onClick={() => this.handleDelete(comment.idComment)}
+                          />
+                        </div>
+                      }
                       <div>{datetimeFormatter(new Date(comment.createDate))}</div>
                       <div><b>{comment.owner}</b>: {comment.content}</div>
                     </div>

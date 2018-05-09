@@ -14,6 +14,9 @@ public class Album {
   @Column(name = "idTrip", nullable = false)
   private long idTrip;
 
+  @Column(name = "name", nullable = false)
+  private String name;
+
   public long getIdAlbum() {
     return idAlbum;
   }
@@ -28,5 +31,13 @@ public class Album {
 
   public void setIdTrip(long idTrip) {
     this.idTrip = idTrip;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

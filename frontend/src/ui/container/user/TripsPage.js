@@ -1,25 +1,24 @@
 import {connect} from 'react-redux';
 import React from 'react';
-import {fetchAllCreatedTrips, fetchUserTrips} from '../../../reducers/trips';
-import {fetchTripById} from "../../../reducers/trip";
+import {fetchTripById} from "../../../reducers/trips/trip";
 import TripsUser from "../../component/trips/TripsUser";
-import {fetchAvailableLevels} from "../../../reducers/levels";
+import {fetchAvailableLevels} from "../../../reducers/trips/levels";
+import {fetchUserActiveTrips} from "../../../reducers/trips/tripsActive";
 
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.authentication.isAuthenticated,
     username: state.authentication.username,
-    trips: state.trips.trips,
-    updating: state.trips.updating,
+    trips: state.tripsActive.trips,
+    updating: state.tripsActive.updating,
     levels: state.levels.levels
   };
 }
 
 const mapActionsToProps = {
-  fetchTrips: fetchUserTrips,
   fetchTrip: fetchTripById,
   fetchLevels: fetchAvailableLevels,
-  fetchAllTrips: fetchAllCreatedTrips
+  fetchActiveTrips: fetchUserActiveTrips
 };
 
 export default connect(

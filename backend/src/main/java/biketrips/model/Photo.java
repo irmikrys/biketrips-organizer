@@ -15,8 +15,8 @@ public class Photo implements Serializable {
   @Column(name = "idAlbum", nullable = false)
   private long idAlbum;
 
-  @Column(name = "url", nullable = false)
-  private String url;
+  @Column(name = "photo", nullable = false)
+  private String photo;
 
   public long getIdPhoto() {
     return idPhoto;
@@ -34,11 +34,11 @@ public class Photo implements Serializable {
     this.idAlbum = idAlbum;
   }
 
-  public String getUrl() {
-    return url;
+  public String getPhoto() {
+    return photo;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
+  public void setPhoto(String photo) {
+    this.photo = photo;
   }
 }

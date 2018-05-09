@@ -10,8 +10,9 @@ export default class EpisodesForm extends Component {
     super(props);
     this.state = {
       episodes: [],
-      idTrip: "",
-      tripSelected: false
+      idTrip: 0,
+      tripSelected: false,
+      children: []
     };
   }
 
@@ -21,13 +22,26 @@ export default class EpisodesForm extends Component {
         this.setState({
           episodes: response.data,
           idTrip: value,
-          tripSelected: true
+          tripSelected: true,
+          children: []
         });
       })
       .catch((error) => {
         console.log(error);
       });
     this.render();
+  };
+
+  addRow = () => {
+    this.setState({
+      children: this.state.children.concat([
+        {
+          idTrip: this.state.idTrip,
+          description: "",
+          time: null
+        }
+      ])
+    });
   };
 
   render() {
@@ -58,20 +72,25 @@ export default class EpisodesForm extends Component {
                     />
                   })
               }
-              <EpisodeRow tripSelected={tripSelected}
-                          fieldsDisabled={false}
-                          create={this.props.create.bind(this)}
-                          idTrip={this.state.idTrip}
-                          submitted={false}
-                          episode={{
-                            idTrip: this.state.idTrip,
-                            time: null,
-                            description: ""
-                          }}
-              />
+              {
+                Object.values(this.state.children)
+                  .map((child, key) => {
+                    return <EpisodeRow key={key}
+                                       tripSelected={tripSelected}
+                                       submitted={false}
+                                       deleted={false}
+                                       create={this.props.create}
+                                       episode={child}
+                                       idTrip={this.state.idTrip}
+                    />
+                  })
+              }
             </div>
             <div className="add-btn">
-              <button type="button" disabled={!this.state.tripSelected}>
+              <button type="button"
+                      disabled={!this.state.tripSelected}
+                      onClick={this.addRow}
+              >
                 <span className="glyphicon glyphicon-plus"/>
               </button>
             </div>

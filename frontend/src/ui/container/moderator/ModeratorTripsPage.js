@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import TripsGrid from "../../component/trips/TripsGrid"
-import {fetchModeratorTrips} from "../../../reducers/trips";
-import {fetchTripById} from "../../../reducers/trip";
-import {updateTrip} from "../../../reducers/tripUpdate";
-import {fetchAvailableLevels} from "../../../reducers/levels";
-import {fetchAvailableStatuses} from "../../../reducers/statuses";
-import {getSession} from "../../../reducers/authentication";
-import {fetchAvailableActivities} from "../../../reducers/activities";
+import {fetchModeratorTrips} from "../../../reducers/trips/trips";
+import {fetchTripById} from "../../../reducers/trips/trip";
+import {updateTrip} from "../../../reducers/trips/tripUpdate";
+import {fetchAvailableLevels} from "../../../reducers/trips/levels";
+import {fetchAvailableStatuses} from "../../../reducers/trips/statuses";
+import {getSession} from "../../../reducers/authentication/authentication";
+import {fetchAvailableActivities} from "../../../reducers/participants/activities";
 
 export class ModeratorTripsPage extends Component {
 

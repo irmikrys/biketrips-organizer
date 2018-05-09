@@ -1,9 +1,6 @@
 package biketrips.controller;
 
-import biketrips.dto.CommentDTO;
-import biketrips.dto.EpisodeDTO;
-import biketrips.dto.ParticipantDTO;
-import biketrips.dto.TripDTO;
+import biketrips.dto.*;
 import biketrips.dto.session.UserSession;
 import biketrips.exceptions.TripException;
 import biketrips.model.*;
@@ -42,6 +39,10 @@ public class TripController {
 
   private final CommentService commentService;
 
+  private final AlbumService albumService;
+
+  private final PhotoService photoService;
+
   @Autowired
   public TripController(@Qualifier("tripService") TripService tripService,
                         @Qualifier("userService") UserService userService,
@@ -51,7 +52,9 @@ public class TripController {
                         @Qualifier("episodeService") EpisodeService episodeService,
                         @Qualifier("locationService") LocationService locationService,
                         @Qualifier("participantService") ParticipantService participantService,
-                        @Qualifier("commentService") CommentService commentService) {
+                        @Qualifier("commentService") CommentService commentService,
+                        @Qualifier("albumService") AlbumService albumService,
+                        @Qualifier("photoService") PhotoService photoService) {
     this.tripService = tripService;
     this.userService = userService;
     this.statusService = statusService;
@@ -61,6 +64,8 @@ public class TripController {
     this.locationService = locationService;
     this.participantService = participantService;
     this.commentService = commentService;
+    this.albumService = albumService;
+    this.photoService = photoService;
   }
 
 
@@ -365,6 +370,44 @@ public class TripController {
     return trips;
   }
 
+  @RequestMapping(method = GET, path = "/api/user/trips/archive")
+  public @ResponseBody
+  Iterable<Trip>
+  getArchivedTripsByParticipant(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    Iterable<Participant> participants = this.participantService.findAllByUsername(username);
+    List<Trip> trips = new ArrayList<>();
+    for (Participant p : participants) {
+      Trip trip = this.tripService.findByIdTrip(p.getIdTrip()).orElseThrow(
+        () -> new TripException("getParticipantTrips.error.tripNotFound")
+      );
+      if (trip.getIdStatus() == 3) {
+        trips.add(trip);
+      }
+    }
+    return trips;
+  }
+
+  @RequestMapping(method = GET, path = "/api/user/trips/active")
+  public @ResponseBody
+  Iterable<Trip>
+  getActiveTripsByParticipant(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    Iterable<Participant> participants = this.participantService.findAllByUsername(username);
+    List<Trip> trips = new ArrayList<>();
+    for (Participant p : participants) {
+      Trip trip = this.tripService.findByIdTrip(p.getIdTrip()).orElseThrow(
+        () -> new TripException("getParticipantTrips.error.tripNotFound")
+      );
+      if (trip.getIdStatus() == 2 || trip.getIdStatus() == 1) {
+        trips.add(trip);
+      }
+    }
+    return trips;
+  }
+
 
   //comments
 
@@ -373,8 +416,8 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<Comment>
   addComment(@PathVariable(name = "idTrip") long idTrip,
-                 @Valid @RequestBody CommentDTO commentDTO,
-                 HttpSession session) {
+             @Valid @RequestBody CommentDTO commentDTO,
+             HttpSession session) {
     String action = "addComment";
     if (idTrip != commentDTO.getIdTrip()) {
       throw new TripException(action + ".error.wrongTrip");
@@ -415,8 +458,8 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<HttpStatus>
   deleteComment(@PathVariable(name = "idTrip") long idTrip,
-                    @PathVariable(name = "idComment") long idComment,
-                    HttpSession session) {
+                @PathVariable(name = "idComment") long idComment,
+                HttpSession session) {
     String action = "deleteComment";
     Comment comment =
       this.commentService.findByIdCommentAndIdTrip(idComment, idTrip).orElseThrow(
@@ -437,7 +480,7 @@ public class TripController {
   public @ResponseBody
   ResponseEntity<HttpStatus>
   deleteAllTripComments(@PathVariable(name = "idTrip") long idTrip,
-                HttpSession session) {
+                        HttpSession session) {
     String action = "deleteAllComments";
     Trip trip = this.getTripAndCheck(idTrip, action);
     User moderator = this.getModeratorAndCheck(session, action);
@@ -454,6 +497,59 @@ public class TripController {
   }
 
 
+  //albums
+
+
+  @RequestMapping(method = POST, path = "/api/trips/{idTrip}/albums")
+  public @ResponseBody
+  ResponseEntity<Album>
+  addAlbum(@PathVariable(name = "idTrip") long idTrip,
+           @Valid @RequestBody AlbumDTO albumDTO) {
+    String action = "addAlbum";
+    if (idTrip != albumDTO.getIdTrip()) {
+      throw new TripException(action + ".error.wrongTrip");
+    }
+    Trip trip = getTripAndCheck(idTrip, action);
+    Album album = this.albumService.createAlbum(albumDTO);
+    return ResponseEntity.ok(album);
+  }
+
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/albums")
+  public @ResponseBody
+  Iterable<Album>
+  getAlbumsByIdTrip(@PathVariable(name = "idTrip") long idTrip) {
+    return this.albumService.findAllByIdTrip(idTrip);
+  }
+
+
+  //photos
+
+
+  @RequestMapping(method = POST, path = "/api/trips/{idTrip}/albums/{idAlbum}/photos")
+  public @ResponseBody
+  ResponseEntity<Photo>
+  addPhoto(@PathVariable(name = "idTrip") long idTrip,
+           @PathVariable(name = "idAlbum") long idAlbum,
+           @Valid @RequestBody PhotoDTO photoDTO) {
+    String action = "addPhoto";
+    Trip trip = getTripAndCheck(idTrip, action);
+    Album album = this.albumService.findByIdAlbum(idAlbum).orElseThrow(
+      () -> new TripException(action + ".error.albumNotFound")
+    );
+    Photo photo = this.photoService.createPhoto(photoDTO);
+    return ResponseEntity.ok(photo);
+  }
+
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/albums/{idAlbum}/photos")
+  public @ResponseBody
+  Iterable<Photo>
+  getPhotosByIdAlbum(@PathVariable(name = "idTrip") long idTrip,
+                     @PathVariable(name = "idAlbum") long idAlbum) {
+    Trip trip = this.getTripAndCheck(idTrip, "getPhotos");
+    return this.photoService.findAllByIdAlbum(idAlbum);
+  }
+
+  
   //helpers
 
 

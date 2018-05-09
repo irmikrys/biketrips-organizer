@@ -29,8 +29,8 @@ export class ContactPage extends Component {
 
   renderText = text => {
     return (
-      text.split("\n").map(i => {
-        return <p>{i}</p>;
+      text.split("\n").map((i, key) => {
+        return <p key={key}>{i}</p>;
       }))
   };
 
@@ -56,9 +56,9 @@ export class ContactPage extends Component {
               <div>
                 <div className="information">
                   <p><b>You can also write to:</b></p>
-                  <p className="bold">
+                  <div className="bold">
                     {this.renderText(ADDRESS)}
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>

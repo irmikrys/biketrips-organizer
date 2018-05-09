@@ -18,6 +18,8 @@ import TripsPage from "../ui/container/user/TripsPage";
 import TripViewPage from "../ui/container/user/TripViewPage";
 import ContactPage from "../ui/container/ContactPage";
 import AboutPage from "../ui/container/AboutPage";
+import AlbumsPage from "../ui/container/user/AlbumsPage";
+import PhotosPage from "../ui/container/user/PhotosPage";
 
 
 export default (onLogout) => (
@@ -27,14 +29,16 @@ export default (onLogout) => (
     <Route path="login" component={LoginPage}/>
     <Route path="applications" component={privateRoute(ApplicationsPage)}/>
     <Route path="apply" component={privateRoute(ApplyPage)}/>
-    <Route path="profile" component={UserProfilePage}/>
-    <Route path="create-trip" component={NewTripPage}/>
-    <Route path="edit-episodes" component={EpisodesFormPage}/>
-    <Route path="edit-participants" component={ParticipantsFormPage}/>
-    <Route path="edit-trip/:idTrip" component={EditTripPage}/>
+    <Route path="profile" component={privateRoute(UserProfilePage)}/>
+    <Route path="create-trip" component={privateRoute(NewTripPage)}/>
+    <Route path="edit-episodes" component={privateRoute(EpisodesFormPage)}/>
+    <Route path="edit-participants" component={privateRoute(ParticipantsFormPage)}/>
+    <Route path="edit-trip/:idTrip" component={privateRoute(EditTripPage)}/>
     <Route path="moderator-trips" component={ModeratorTripsPage}/>
     <Route path="trips" component={TripsPage}/>
     <Route path="trips/:idTrip" component={TripViewPage}/>
+    <Route path="trips/:idTrip/albums" component={AlbumsPage}/>
+    <Route path="trips/:idTrip/albums/:idAlbum" component={PhotosPage}/>
     <Route path="contact" component={ContactPage}/>
     <Route path="about" component={AboutPage}/>
     <Route path="logout" onEnter={onLogout}/>
