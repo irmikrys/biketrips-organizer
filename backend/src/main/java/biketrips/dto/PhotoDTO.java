@@ -1,12 +1,15 @@
 package biketrips.dto;
 
 import biketrips.model.Photo;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public class PhotoDTO {
 
   private long idAlbum;
 
-  private String photo;
+  private byte[] photo;
 
   public PhotoDTO() {
 
@@ -15,6 +18,15 @@ public class PhotoDTO {
   public PhotoDTO(Photo photo) {
     setIdAlbum(photo.getIdAlbum());
     setPhoto(photo.getPhoto());
+  }
+
+  public PhotoDTO(MultipartFile photoFile, long idAlbum) {
+    setIdAlbum(idAlbum);
+    try {
+      setPhoto(photoFile.getBytes());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public Photo toPhoto() {
@@ -32,11 +44,11 @@ public class PhotoDTO {
     this.idAlbum = idAlbum;
   }
 
-  public String getPhoto() {
+  public byte[] getPhoto() {
     return photo;
   }
 
-  public void setPhoto(String photo) {
+  public void setPhoto(byte[] photo) {
     this.photo = photo;
   }
 }

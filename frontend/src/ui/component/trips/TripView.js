@@ -35,7 +35,7 @@ class TripView extends Component {
     });
     if (episodes.length !== 0) {
       const markers = [];
-      episodes.map(episode => {
+      episodes.map((episode, key) => {
         const marker = new window.google.maps.Marker({
           map: map,
           position: {
@@ -141,7 +141,7 @@ class TripView extends Component {
                         )
                         .map((participant, key) => {
                             return (
-                              <div>
+                              <div key={key}>
                                 {
                                   participant.idActivity === 4 &&
                                   <input value="confirmed"

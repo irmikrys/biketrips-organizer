@@ -41,10 +41,10 @@ class PhotosPage extends Component {
     });
     accepted.forEach(file => {
       const {idTrip, idAlbum} = this.props.params;
-      const photo = file.preview;
-      const photoInfo = {idAlbum, photo};
       const {addPhoto} = this.props;
-      addPhoto(idTrip, idAlbum, photoInfo);
+      let data = new FormData();
+      data.append('file', file);
+      addPhoto(idTrip, idAlbum, data);
     });
   };
 

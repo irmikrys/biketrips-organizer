@@ -4,14 +4,18 @@ class PhotosGrid extends Component {
 
   render() {
     return (
-      <div>
+      <div className='photos-container'>
         {
           this.props.photos.length > 0 &&
-          <div className='main'>
+          <div className='photos-grid'>
             {
               Object.values(this.props.photos)
                 .map((photo, key) => {
-                  return <div key={key}>{photo.idPhoto}</div>
+                  console.log(photo);
+                  return <img key={key}
+                              src={`data:image/png;base64,${photo.photo}`}
+                              className='photo-preview'
+                  />
                 })
             }
           </div>
