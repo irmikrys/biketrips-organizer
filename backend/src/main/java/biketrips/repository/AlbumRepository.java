@@ -14,7 +14,7 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
 
   Optional<Album> findByIdAlbum(long idAlbum);
 
-  Optional<Album> findByName(String name);
+  Optional<Album> findAlbumByIdAlbumAndIdTrip(long idAlbum, long idTrip);
 
   Iterable<Album> findAllByIdTrip(long idTrip);
 

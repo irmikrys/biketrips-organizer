@@ -28,8 +28,8 @@ public class AlbumService {
     return this.albumRepository.findByIdAlbum(idAlbum);
   }
 
-  public Optional<Album> findByName(String name) {
-    return this.albumRepository.findByName(name);
+  public Optional<Album> findByIdAlbumAndIdTrip(long idAlbum, long idTrip) {
+    return this.albumRepository.findAlbumByIdAlbumAndIdTrip(idAlbum, idTrip);
   }
 
   public Iterable<Album> findAllByIdTrip(long idTrip) {

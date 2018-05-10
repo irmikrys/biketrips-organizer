@@ -522,6 +522,18 @@ public class TripController {
     return this.albumService.findAllByIdTrip(idTrip);
   }
 
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/albums/{idAlbum}")
+  public @ResponseBody
+  ResponseEntity<AlbumDTO>
+  getAlbumByIdAlbum(@PathVariable(name = "idTrip") long idTrip,
+                    @PathVariable(name = "idAlbum") long idAlbum) {
+    Album album = this.albumService.findByIdAlbumAndIdTrip(idAlbum, idTrip).orElseThrow(
+      () -> new TripException("error.getAlbum.albumNotFound")
+    );
+    AlbumDTO albumDTO = new AlbumDTO(album);
+    return ResponseEntity.ok(albumDTO);
+  }
+
 
   //photos
 
