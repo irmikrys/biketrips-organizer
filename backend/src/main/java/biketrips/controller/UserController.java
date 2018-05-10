@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,9 +27,13 @@ public class UserController {
 
   private final UserService userService;
 
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
   @Autowired
-  public UserController(@Qualifier("userService") UserService userService) {
+  public UserController(@Qualifier("userService") UserService userService,
+                        BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.userService = userService;
+    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
   }
 
   @RequestMapping(method = POST, path = "/api/register")
@@ -90,6 +95,9 @@ public class UserController {
         userEmail -> {
           throw new UserException("updateUser.error.emailExists");
         });
+    }
+    if (!this.bCryptPasswordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
+      throw new UserException("updateUser.error.incorrectPassword");
     }
     this.userService.updateUser(user, userDTO);
     return ResponseEntity.ok(HttpStatus.OK);

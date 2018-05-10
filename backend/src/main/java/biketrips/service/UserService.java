@@ -1,7 +1,6 @@
 package biketrips.service;
 
 import biketrips.dto.UserDTO;
-import biketrips.exceptions.UserException;
 import biketrips.model.User;
 import biketrips.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +48,6 @@ public class UserService {
   }
 
   public void updateUser(User oldUser, UserDTO userDTO) {
-    if (!this.bCryptPasswordEncoder.matches(userDTO.getPassword(), oldUser.getPassword())) {
-      throw new UserException("updateUser.error.incorrectPassword");
-    }
     if (!((oldUser.getEmail().equals(userDTO.getEmail())) &&
       (oldUser.getFirstName().equals(userDTO.getFirstName())) &&
       (oldUser.getLastName().equals(userDTO.getLastName()))

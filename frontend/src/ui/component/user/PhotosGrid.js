@@ -22,6 +22,7 @@ class PhotosGrid extends Component {
                     <div key={key}
                          data-toggle="modal"
                          data-target="#galleryModal"
+                         className='photo-container'
                     >
                       <a href="#albumGallery" data-slide-to={key}>
                         <img src={`data:image/png;base64,${photo.photo}`}
