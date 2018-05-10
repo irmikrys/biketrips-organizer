@@ -29,7 +29,6 @@ export class TripViewPage extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="main">
         {!this.props.updatingTrip && !this.props.updatingEpisodes &&

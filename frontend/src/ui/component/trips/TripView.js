@@ -6,12 +6,7 @@ class TripView extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props);
-    const {participants} = this.props;
     this.state = {
-      isUserParticipant: participants.filter(
-        item => item.username === props.username
-      ).length === 1,
       idActivity: 0,
     };
   }
@@ -24,7 +19,6 @@ class TripView extends Component {
       latitude = episodes[0].locationDTO.latitude;
       longitude = episodes[0].locationDTO.longitude;
     }
-    console.log(latitude + " " + longitude);
     let map = new window.google.maps.Map(document.getElementById('map'), {
       center: {
         lat: latitude,
@@ -59,6 +53,9 @@ class TripView extends Component {
 
   componentDidMount() {
     this.initializeMapWithMarkers(50.0645191000000000, 19.923639699999967);
+    const participant = Object.values(this.props.participants)
+      .filter(user => {return user.username === this.props.username});
+    this.setState({isUserParticipant: participant.length === 1});
   }
 
   handleActivityChange = value => {
@@ -68,13 +65,11 @@ class TripView extends Component {
       idTrip: idTrip,
       idActivity: value
     };
-    console.log(participantInfo);
     updateParticipant(idTrip, username, participantInfo, this.props.fetchParticipants);
     this.setState({idActivity: value});
   };
 
   render() {
-    console.log(this.props);
     const {levels, statuses, trip} = this.props;
     return (
       <div className="left-content">
@@ -85,7 +80,15 @@ class TripView extends Component {
           <div className="column">
             <div className="three-column">
               <label>Status:</label>
-              <div>{statuses.filter(e => e.idStatus === trip.idStatus)[0].name}</div>
+              {
+                Object.values(statuses)
+                  .filter(status => {
+                    return status.idStatus === trip.idStatus
+                  })
+                  .map((status, key) => {
+                    return <div key={key}>{status.name}</div>
+                  })
+              }
             </div>
             <div className="three-column">
               <label>Points:</label>
@@ -93,7 +96,15 @@ class TripView extends Component {
             </div>
             <div className="three-column">
               <label>Level:</label>
-              <div>{levels.filter(e => e.idLevel === trip.idLevel)[0].name}</div>
+              {
+                Object.values(levels)
+                  .filter(level => {
+                    return level.idLevel === trip.idLevel
+                  })
+                  .map((level, key) => {
+                    return <div key={key}>{level.name}</div>
+                  })
+              }
             </div>
             <div className="column">
               <label className="margin-top-2">Description:</label>

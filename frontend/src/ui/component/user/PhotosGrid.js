@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 
 class PhotosGrid extends Component {
 
+  onClick = (idPhoto) => {
+
+  };
+
   render() {
     return (
       <div className='photos-container'>
@@ -15,6 +19,7 @@ class PhotosGrid extends Component {
                   return <img key={key}
                               src={`data:image/png;base64,${photo.photo}`}
                               className='photo-preview'
+                              onClick={() => this.onClick(photo.idPhoto)}
                   />
                 })
             }

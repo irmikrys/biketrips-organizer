@@ -5,21 +5,29 @@ class Timer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      time: Date.now()
-    };
+    this.state = {date: new Date()};
   }
 
   componentDidMount() {
-    setInterval(() => this.setState({ time: Date.now() }), 1000);
-  }
-  componentWillUnmount() {
-    clearInterval(this.interval);
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
   }
 
-  render () {
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+
+  render() {
     return (
-      <div className='centered'>{timeFormatter(new Date(this.state.time))}</div>
+      <div className='centered'>{timeFormatter(this.state.date)}</div>
     );
   }
 
