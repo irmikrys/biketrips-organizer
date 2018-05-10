@@ -16,12 +16,12 @@ export default function refusalReducer(state = initialState, action) {
     case DEACTIVATE_FAIL:
       return {
         ...state,
-        registerSuccess: false
+        refusalSuccess: false
       };
     case DEACTIVATE_SUCCESS:
       return {
         ...state,
-        registerSuccess: true
+        refusalSuccess: true
       };
     default:
       return state;

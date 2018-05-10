@@ -2,17 +2,17 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import TripView from "../../component/trips/TripView";
 import Comments from "../../component/trips/Comments";
-import {fetchTripById} from "../../../reducers/trip";
-import {fetchAvailableLevels} from "../../../reducers/levels";
-import {fetchAvailableStatuses} from "../../../reducers/statuses";
-import {fetchEpisodesByIdTrip} from "../../../reducers/episodes";
-import {fetchParticipantsByIdTrip} from "../../../reducers/participants";
-import {getSession} from "../../../reducers/authentication";
-import {fetchActivitiesForUser} from "../../../reducers/activities";
-import {updateParticipant} from "../../../reducers/participantUpdate";
-import {fetchCommentsByIdTrip} from "../../../reducers/fetchComments";
-import {createComment} from "../../../reducers/addComment";
-import {deleteCommentById} from "../../../reducers/commentDelete";
+import {fetchTripById} from "../../../reducers/trips/trip";
+import {fetchAvailableLevels} from "../../../reducers/trips/levels";
+import {fetchAvailableStatuses} from "../../../reducers/trips/statuses";
+import {fetchEpisodesByIdTrip} from "../../../reducers/episodes/episodes";
+import {fetchParticipantsByIdTrip} from "../../../reducers/participants/participants";
+import {getSession} from "../../../reducers/authentication/authentication";
+import {fetchActivitiesForUser} from "../../../reducers/participants/activities";
+import {updateParticipant} from "../../../reducers/participants/participantUpdate";
+import {fetchCommentsByIdTrip} from "../../../reducers/comments/fetchComments";
+import {createComment} from "../../../reducers/comments/addComment";
+import {deleteCommentById} from "../../../reducers/comments/commentDelete";
 
 export class TripViewPage extends Component {
 
@@ -29,7 +29,6 @@ export class TripViewPage extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="main">
         {!this.props.updatingTrip && !this.props.updatingEpisodes &&

@@ -3,3 +3,6 @@ export const datetimeFormatter = date =>
 
 export const dateFormatter = date =>
   `${date.toDateString()}`;
+
+export const timeFormatter = date =>
+  `${date.toLocaleTimeString()}`;

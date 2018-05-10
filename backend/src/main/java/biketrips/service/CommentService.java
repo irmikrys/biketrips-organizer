@@ -53,4 +53,5 @@ public class CommentService {
   public void deleteAllByIdTrip(long idTrip) {
     this.commentRepository.deleteAllByIdTrip(idTrip);
   }
+
 }

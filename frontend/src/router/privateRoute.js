@@ -1,5 +1,5 @@
 import React from 'react';
-import {redirectToLoginWithMessage} from '../reducers/authentication';
+import {redirectToLoginWithMessage} from '../reducers/authentication/authentication';
 import {connect} from 'react-redux';
 
 const mapStateToProps = (state) => ({

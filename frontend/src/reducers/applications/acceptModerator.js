@@ -33,7 +33,7 @@ export default function acceptModerReducer(state = initialState, action) {
 export function acceptModerator(username, role) {
   return {
     types: [ACCEPT_MODER, ACCEPT_MODER_SUCCESS, ACCEPT_MODER_FAIL],
-    promise: (client) => client.put(`/api/users/${username}`, role),
+    promise: (client) => client.put(`/api/users/${username}/role`, role),
     afterSuccess: (dispatch, getState, response) => {
       browserHistory.push('/applications');
       dispatch(fetchActiveApplications());

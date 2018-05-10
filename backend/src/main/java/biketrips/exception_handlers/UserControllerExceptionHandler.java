@@ -4,6 +4,7 @@ import biketrips.controller.UserController;
 import biketrips.dto.ErrorMessage;
 import biketrips.exceptions.AccessingPrivateResourcesException;
 import biketrips.exceptions.RegisterException;
+import biketrips.exceptions.UserException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,14 @@ public class UserControllerExceptionHandler {
   @ResponseBody
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorMessage handleRegisterException(RegisterException e) {
+    log.warn(e.getMessage());
+    return new ErrorMessage(e.getMessage());
+  }
+
+  @ExceptionHandler(UserException.class)
+  @ResponseBody
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorMessage handleUserException(UserException e) {
     log.warn(e.getMessage());
     return new ErrorMessage(e.getMessage());
   }

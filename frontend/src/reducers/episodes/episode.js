@@ -15,13 +15,13 @@ export default function episodeReducer(state = initialState, action) {
       return {
         ...state,
         updating: true,
-        user: null
+        episode: null
       };
     case FETCH_EPISODE_SUCCESS:
       return {
         ...state,
         updating: false,
-        user: action.result.data
+        episode: action.result.data
       };
     default:
       return state;

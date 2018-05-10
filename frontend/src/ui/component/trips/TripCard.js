@@ -14,9 +14,15 @@ class TripCard extends Component {
         <h3>{trip.name}</h3>
         <div className="trip-details">
           <div><b>Moderator: </b>{trip.moderator}</div>
-          <div><b>Level: </b>
-            {this.props.levels.filter(e => e.idLevel === trip.idLevel)[0].name}
-          </div>
+          {
+            Object.values(this.props.levels)
+              .filter(level => {
+                return level.idLevel === trip.idLevel
+              })
+              .map((level, key) => {
+                return <div key={key}><b>Level: </b>{level.name}</div>
+              })
+          }
           <div><b>Points: </b>{trip.points}</div>
           <div><b>Start: </b>{dateFormatter(new Date(trip.startDate))}</div>
           <div><b>End: </b>{dateFormatter(new Date(trip.endDate))}</div>

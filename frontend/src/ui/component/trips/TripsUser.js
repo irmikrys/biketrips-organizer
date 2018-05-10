@@ -10,7 +10,6 @@ class TripsUser extends Component {
   }
 
   render() {
-    console.log(this.props.trips);
     return (
       <div className="main-color-none">
         {

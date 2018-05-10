@@ -1,9 +1,9 @@
 import {connect} from 'react-redux';
 import React from 'react';
-import {fetchTripById} from "../../../reducers/trip";
+import {fetchTripById} from "../../../reducers/trips/trip";
 import TripsUser from "../../component/trips/TripsUser";
-import {fetchAvailableLevels} from "../../../reducers/levels";
-import {fetchUserActiveTrips} from "../../../reducers/tripsActive";
+import {fetchAvailableLevels} from "../../../reducers/trips/levels";
+import {fetchUserActiveTrips} from "../../../reducers/trips/tripsActive";
 
 function mapStateToProps(state) {
   return {

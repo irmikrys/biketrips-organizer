@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import initStore from 'config/store';
 import { setupAxiosInterceptors } from 'rest/axios';
-import { redirectToLoginWithMessage, logout } from 'reducers/authentication';
+import { redirectToLoginWithMessage, logout } from 'reducers/authentication/authentication';
 import { browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 

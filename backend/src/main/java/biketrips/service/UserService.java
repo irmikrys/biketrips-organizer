@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service("userService")
@@ -33,7 +34,7 @@ public class UserService {
     return userRepository.findByUsername(username);
   }
 
-  public Optional<User>  findByEmail(String username) {
+  public Optional<User> findByEmail(String username) {
     return userRepository.findByEmail(username);
   }
 
@@ -47,12 +48,42 @@ public class UserService {
   }
 
   public void updateUser(User oldUser, UserDTO userDTO) {
+    if (!((oldUser.getEmail().equals(userDTO.getEmail())) &&
+      (oldUser.getFirstName().equals(userDTO.getFirstName())) &&
+      (oldUser.getLastName().equals(userDTO.getLastName()))
+    )) {
+      final String sql = "" +
+        "UPDATE users u " +
+        "SET u.email = ?, u.firstName = ?, u.lastName = ? " +
+        "WHERE u.username = ?";
+      this.jdbcTemplate.update(sql, userDTO.getEmail(), userDTO.getFirstName(),
+        userDTO.getLastName(), oldUser.getUsername());
+    }
+  }
+
+  public void updateRole(User oldUser, UserDTO userDTO) {
     final String sql = "" +
       "UPDATE users u " +
-      "SET u.role = ?, u.email = ?, u.firstName = ?, u.lastName = ?, u.points = ? " +
+      "SET u.role = ? " +
       "WHERE u.username = ?";
-    this.jdbcTemplate.update(sql, userDTO.getRole(), userDTO.getEmail(),
-      userDTO.getFirstName(), userDTO.getLastName(), userDTO.getPoints(),
-      oldUser.getUsername());
+    this.jdbcTemplate.update(sql, userDTO.getRole(), oldUser.getUsername());
+  }
+
+  public void updatePoints(User oldUser, UserDTO userDTO) {
+    final String sql = "" +
+      "UPDATE users u " +
+      "SET u.points = ? " +
+      "WHERE u.username = ?";
+    this.jdbcTemplate.update(sql, userDTO.getPoints(), oldUser.getUsername());
+  }
+
+  public void updatePhoto(User user, byte[] photo) {
+    if (!Arrays.equals(user.getPhoto(), photo)) {
+      final String sql = "" +
+        "UPDATE users u " +
+        "SET u.photo = ? " +
+        "WHERE u.username = ?";
+      this.jdbcTemplate.update(sql, photo, user.getUsername());
+    }
   }
 }

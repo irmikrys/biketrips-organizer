@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import UserProfile from "../../component/user/UserProfile";
-import {fetchUserFromSession} from "../../../reducers/user";
-import {fetchUserTrips} from "../../../reducers/trips";
-import {fetchUserArchiveTrips} from "../../../reducers/tripsArchive";
-import {fetchUserActiveTrips} from "../../../reducers/tripsActive";
+import {fetchUserFromSession} from "../../../reducers/user/user";
+import {fetchUserTrips} from "../../../reducers/trips/trips";
+import {fetchUserArchiveTrips} from "../../../reducers/trips/tripsArchive";
+import {fetchUserActiveTrips} from "../../../reducers/trips/tripsActive";
+import {editProfile} from "../../../reducers/user/editProfile";
 
 export class UserProfilePage extends Component {
 
@@ -17,7 +18,6 @@ export class UserProfilePage extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
         {
@@ -32,7 +32,9 @@ export class UserProfilePage extends Component {
                        trips={this.props.trips}
                        tripsArchive={this.props.tripsArchive}
                        tripsActive={this.props.tripsActive}
-                       fetchUser={this.props.fetchUser.bind(this, this.props.username)}
+                       fetchUser={this.props.fetchUser.bind(this)}
+                       editProfile={this.props.edit.bind(this)}
+                       errorMessage={this.props.errorMessage}
           />
         }
       </div>
@@ -52,7 +54,8 @@ function mapStateToProps(state) {
     tripsArchive: state.tripsArchive.trips,
     updatingArchive: state.tripsArchive.updating,
     tripsActive: state.tripsActive.trips,
-    updatingActive: state.tripsActive.updating
+    updatingActive: state.tripsActive.updating,
+    errorMessage: state.editProfile.errorMessage
   };
 }
 
@@ -60,7 +63,8 @@ const mapActionsToProps = {
   fetchUser: fetchUserFromSession,
   fetchTrips: fetchUserTrips,
   fetchArchive: fetchUserArchiveTrips,
-  fetchActive: fetchUserActiveTrips
+  fetchActive: fetchUserActiveTrips,
+  edit: editProfile
 };
 
 export default connect(

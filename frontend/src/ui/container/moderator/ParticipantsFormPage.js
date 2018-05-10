@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchModeratorTrips} from "../../../reducers/trips";
+import {fetchModeratorTrips} from "../../../reducers/trips/trips";
 import ParticipantsForm from "../../component/forms/ParticipantsForm";
-import {createParticipant} from "../../../reducers/participant";
+import {createParticipant} from "../../../reducers/participants/participant";
 
 class ParticipantsFormPage extends Component {
 
