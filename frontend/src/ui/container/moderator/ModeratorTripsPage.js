@@ -8,6 +8,7 @@ import {fetchAvailableLevels} from "../../../reducers/trips/levels";
 import {fetchAvailableStatuses} from "../../../reducers/trips/statuses";
 import {getSession} from "../../../reducers/authentication/authentication";
 import {fetchAvailableActivities} from "../../../reducers/participants/activities";
+import SearchBar from "../../component/trips/FilterBar";
 
 export class ModeratorTripsPage extends Component {
 
@@ -21,7 +22,8 @@ export class ModeratorTripsPage extends Component {
 
   render() {
     return (
-      <div className="main">
+      <div className="main-color-none">
+        <SearchBar className='search-bar-container margin-bottom-30'/>
         {
           (this.props.updating || this.props.userUpdating) &&
           <div className="loader"/>

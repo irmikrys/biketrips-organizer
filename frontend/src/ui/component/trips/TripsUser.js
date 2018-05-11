@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import TripsUserGrid from "./TripsUserGrid";
+import FilterBar from "./FilterBar";
 
 class TripsUser extends Component {
 
@@ -12,6 +13,7 @@ class TripsUser extends Component {
   render() {
     return (
       <div className="main-color-none">
+        <FilterBar className='search-bar-container margin-bottom-50'/>
         {
           !this.props.updating && <div className="user-trip-grid">
             <TripsUserGrid trips={this.props.trips}

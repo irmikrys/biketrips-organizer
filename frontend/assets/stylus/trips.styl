@@ -12,7 +12,7 @@
     .trip-tile
       background theme_tile
       color black
-      opacity 0.8
+      opacity 0.9
       position relative
       margin 2.5%
       padding 20px
@@ -198,3 +198,42 @@
 .trash:hover
   color theme_middle
   cursor pointer
+
+.margin-bottom-50
+  margin-bottom -50px
+
+.margin-bottom-30
+  margin-bottom -25px
+
+.search-bar-container
+  text-align center
+  margin-top 50px
+
+  .search-bar
+    width 90%
+    display inline-flex
+
+    div.search-bar-item:first-child
+      margin-right 3px
+      width 25%
+
+    div.search-bar-item:nth-child(2)
+      margin-right 3px
+      width 25%
+
+    div.search-bar-item:nth-child(3)
+      width 25%
+      margin-right 3px
+      position relative
+
+      .glyphicon-search
+        cursor pointer
+        position absolute
+        font-size 20px
+        top 15px
+        right 15px
+        z-index 1
+        color #757575
+
+    div.search-bar-item:nth-child(4)
+      width 25%
