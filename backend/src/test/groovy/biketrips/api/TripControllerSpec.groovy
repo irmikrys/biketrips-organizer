@@ -350,6 +350,15 @@ class TripControllerSpec extends AbstractMvcSpec {
     resultAfter.json.size == 1
   }
 
+  def "get trips by user"() {
+    when:
+    def result = get('/api/trips/billgates', new RequestParams(authToken: token2))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 1
+  }
+
   def "add participant with non-existing idActivity"() {
     given:
     def request = [
@@ -534,6 +543,29 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.json.size == 1
   }
 
+  def "delete non-existing comment"() {
+    when:
+    def result = delete('/api/trips/2/comments/3', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "delete Trip's all comments"() {
+    when:
+    def result = delete('/api/trips/2/comments', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "delete all comments from non-existing trip"() {
+    when:
+    def result = delete('/api/trips/5/comments', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
 
   def "delete participant by username"() {
     when:
@@ -566,6 +598,6 @@ class TripControllerSpec extends AbstractMvcSpec {
     then:
     result.status == HttpStatus.BAD_REQUEST
   }
-//TODO EPISODES,Trips by user, updating and deleting comments (+with participants)
+//TODO EPISODES,Trips by user, updating and deleting comments (+with participants), albums
 
 }
