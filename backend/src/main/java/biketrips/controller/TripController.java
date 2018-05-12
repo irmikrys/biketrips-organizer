@@ -154,9 +154,11 @@ public class TripController {
   @RequestMapping(method = GET, path = "/api/moderator/trips")
   public @ResponseBody
   Iterable<Trip>
-  getTripsByModerator(HttpSession session) {
+  getTripsByModerator(@RequestParam(name = "idLevel", defaultValue = "%") String idLevel,
+                      @RequestParam(name = "idStatus", defaultValue = "%") String idStatus,
+                      HttpSession session) {
     User user = getModeratorAndCheck(session, "getTripsByModerator");
-    return this.tripService.findAllByModerator(user.getUsername());
+    return this.tripService.findAllByParams(idLevel, idStatus, user.getUsername());
   }
 
 
@@ -357,18 +359,13 @@ public class TripController {
   @RequestMapping(method = GET, path = "/api/user/trips")
   public @ResponseBody
   Iterable<Trip>
-  getTripsByParticipant(HttpSession session) {
+  getTripsByParticipant(@RequestParam(name = "idLevel", defaultValue = "%") String idLevel,
+                        @RequestParam(name = "idStatus", defaultValue = "%") String idStatus,
+                        HttpSession session) {
     UserSession userSession = (UserSession) session.getAttribute("user");
     String username = userSession.getUsername();
     Iterable<Participant> participants = this.participantService.findAllByUsername(username);
-    List<Trip> trips = new ArrayList<>();
-    for (Participant p : participants) {
-      Trip trip = this.tripService.findByIdTrip(p.getIdTrip()).orElseThrow(
-        () -> new TripException("getParticipantTrips.error.tripNotFound")
-      );
-      trips.add(trip);
-    }
-    return trips;
+    return this.tripService.findAllByParamsAndParticipant(idLevel, idStatus, username);
   }
 
   @RequestMapping(method = GET, path = "/api/user/trips/archive")

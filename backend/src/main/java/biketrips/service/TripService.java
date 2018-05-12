@@ -44,6 +44,14 @@ public class TripService {
     return this.tripRepository.findAllByIdStatus(idStatus);
   }
 
+  public Iterable<Trip> findAllByParams(String idLevel, String idStatus, String moderator) {
+    return this.tripRepository.findAllByParams(idLevel, idStatus, moderator);
+  }
+
+  public Iterable<Trip> findAllByParamsAndParticipant(String idLevel, String idStatus, String participant) {
+    return this.tripRepository.findAllByParamsAndParticipant(idLevel, idStatus, participant);
+  }
+
   public Trip createTrip(TripDTO tripDTO) {
     Trip trip = tripDTO.toTrip();
     return this.tripRepository.save(trip);
