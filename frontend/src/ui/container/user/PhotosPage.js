@@ -5,12 +5,14 @@ import {addPhotoToAlbum} from "../../../reducers/photos/addPhoto";
 import Dropzone from 'react-dropzone';
 import {DROPZONE_ACTIVE, DROPZONE_INACTIVE} from "../../constants/constants";
 import PhotosGrid from "../../component/user/PhotosGrid";
+import {fetchAlbumByIdTripAndIdAlbum} from "../../../reducers/albums/album";
 
 class PhotosPage extends Component {
 
   constructor(props) {
     super(props);
     props.fetchPhotos(this.props.params.idTrip, this.props.params.idAlbum);
+    props.fetchAlbum(this.props.params.idTrip, this.props.params.idAlbum);
     this.state = {
       accepted: [],
       rejected: [],
@@ -41,10 +43,10 @@ class PhotosPage extends Component {
     });
     accepted.forEach(file => {
       const {idTrip, idAlbum} = this.props.params;
-      const photo = file.preview;
-      const photoInfo = {idAlbum, photo};
       const {addPhoto} = this.props;
-      addPhoto(idTrip, idAlbum, photoInfo);
+      let data = new FormData();
+      data.append('file', file);
+      addPhoto(idTrip, idAlbum, data);
     });
   };
 
@@ -98,10 +100,13 @@ class PhotosPage extends Component {
           </div>
         }
         {
-          this.props.updating && <div className='loader'/>
+          (this.props.updating || this.props.albumUpdating) && <div className='loader'/>
         }
         {
-          !this.props.updating && <PhotosGrid photos={this.props.photos}/>
+          !this.props.updating && !this.props.albumUpdating &&
+          <PhotosGrid photos={this.props.photos}
+                      album={this.props.album}
+          />
         }
       </div>
     );
@@ -111,13 +116,16 @@ class PhotosPage extends Component {
 function mapStateToProps(state) {
   return {
     photos: state.photos.photos,
-    updating: state.photos.updating
+    updating: state.photos.updating,
+    album: state.album.album,
+    albumUpdating: state.album.updating
   };
 }
 
 const mapActionsToProps = {
   fetchPhotos: fetchPhotosByIdAlbum,
-  addPhoto: addPhotoToAlbum
+  addPhoto: addPhotoToAlbum,
+  fetchAlbum: fetchAlbumByIdTripAndIdAlbum
 };
 
 export default connect(

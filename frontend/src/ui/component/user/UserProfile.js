@@ -95,12 +95,12 @@ class UserProfile extends Component {
               Object.values(this.props.tripsArchive)
                 .map((trip, key) => {
                   return (
-                    <div className='trip'>
+                    <div key={key} className='trip'>
                       <div className='photos-column'>
                         <span className='glyphicon glyphicon-camera'
                               onClick={() => this.seeAlbums(trip.idTrip)}/>
                       </div>
-                      <div key={key} className='trip-archive'>
+                      <div className='trip-archive'>
                         <span className='link' onClick={() => this.seeTrip(trip.idTrip)}>{trip.name}</span>
                         <span className='info'>{' - ' + trip.description}</span>
                       </div>

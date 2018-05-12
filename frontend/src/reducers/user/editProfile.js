@@ -32,7 +32,7 @@ export function editProfile(userInfo, fetchUser) {
   return  {
     types: [EDIT_PROFILE, EDIT_PROFILE_SUCCESS, EDIT_PROFILE_FAIL],
     promise: (client) => client.put(`/api/users/${username}`, userInfo),
-    afterSuccess: (dispatch, getState, response) => {
+    afterSuccess: () => {
       fetchUser();
     }
   };

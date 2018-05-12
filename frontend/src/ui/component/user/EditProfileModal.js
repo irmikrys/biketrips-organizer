@@ -47,11 +47,11 @@ class EditProfileModal extends Component {
     event.preventDefault();
     const {editProfile, fetchUser} = this.props;
     editProfile(this.state, fetchUser);
-    this.render();
   };
 
   render() {
     const {errorMessage} = this.props;
+    console.log(errorMessage);
     const errorPanel = errorMessage ? <ErrorPanel messageKey={errorMessage}/> : null;
     return (
       <div>

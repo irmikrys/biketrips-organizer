@@ -5,13 +5,15 @@ class Comments extends Component {
 
   constructor(props) {
     super(props);
-    const {participants} = this.props;
     this.state = {
-      isUserParticipant: participants.filter(
-        item => item.username === props.username
-      ).length === 1,
       commentInput: "",
     };
+  }
+
+  componentDidMount() {
+    const participant = Object.values(this.props.participants)
+      .filter(user => {return user.username === this.props.username});
+    this.setState({isUserParticipant: participant.length === 1});
   }
 
   handleInputChange = event => {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -521,6 +522,18 @@ public class TripController {
     return this.albumService.findAllByIdTrip(idTrip);
   }
 
+  @RequestMapping(method = GET, path = "/api/trips/{idTrip}/albums/{idAlbum}")
+  public @ResponseBody
+  ResponseEntity<AlbumDTO>
+  getAlbumByIdAlbum(@PathVariable(name = "idTrip") long idTrip,
+                    @PathVariable(name = "idAlbum") long idAlbum) {
+    Album album = this.albumService.findByIdAlbumAndIdTrip(idAlbum, idTrip).orElseThrow(
+      () -> new TripException("error.getAlbum.albumNotFound")
+    );
+    AlbumDTO albumDTO = new AlbumDTO(album);
+    return ResponseEntity.ok(albumDTO);
+  }
+
 
   //photos
 
@@ -530,12 +543,13 @@ public class TripController {
   ResponseEntity<Photo>
   addPhoto(@PathVariable(name = "idTrip") long idTrip,
            @PathVariable(name = "idAlbum") long idAlbum,
-           @Valid @RequestBody PhotoDTO photoDTO) {
+           @RequestParam("file") MultipartFile file) {
     String action = "addPhoto";
     Trip trip = getTripAndCheck(idTrip, action);
     Album album = this.albumService.findByIdAlbum(idAlbum).orElseThrow(
       () -> new TripException(action + ".error.albumNotFound")
     );
+    PhotoDTO photoDTO = new PhotoDTO(file, idAlbum);
     Photo photo = this.photoService.createPhoto(photoDTO);
     return ResponseEntity.ok(photo);
   }
@@ -549,7 +563,7 @@ public class TripController {
     return this.photoService.findAllByIdAlbum(idAlbum);
   }
 
-  
+
   //helpers
 
 
