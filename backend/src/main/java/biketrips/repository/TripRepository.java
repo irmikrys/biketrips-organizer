@@ -18,7 +18,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
   Iterable<Trip> findAllByIdLevel(int idLevel);
 
-  Iterable<Trip> findAllByIdStatus(int idStatus);
+  Iterable<Trip> findAllByIdStatusAndModerator(int idStatus, String moderator);
 
   @QueryHints(forCounting = false)
   @Query(

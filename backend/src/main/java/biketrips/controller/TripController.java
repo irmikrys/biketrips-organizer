@@ -161,6 +161,14 @@ public class TripController {
     return this.tripService.findAllByParams(idLevel, idStatus, user.getUsername());
   }
 
+  @RequestMapping(method = GET, path = "/api/moderator/trips/active")
+  public @ResponseBody
+  Iterable<Trip>
+  getActiveTripsByModerator(HttpSession session) {
+    User user = getModeratorAndCheck(session, "getActiveTripsByModerator");
+    return this.tripService.findAllByIdStatusAndModerator(1, user.getUsername());
+  }
+
 
   //episodes
 

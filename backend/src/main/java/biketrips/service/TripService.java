@@ -40,8 +40,8 @@ public class TripService {
     return this.tripRepository.findAllByIdLevel(idLevel);
   }
 
-  public Iterable<Trip> findAllByIdStatus(int idStatus) {
-    return this.tripRepository.findAllByIdStatus(idStatus);
+  public Iterable<Trip> findAllByIdStatusAndModerator(int idStatus, String moderator) {
+    return this.tripRepository.findAllByIdStatusAndModerator(idStatus, moderator);
   }
 
   public Iterable<Trip> findAllByParams(String idLevel, String idStatus, String moderator) {

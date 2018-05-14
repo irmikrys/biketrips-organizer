@@ -32,7 +32,13 @@ export default function tripsActiveReducer(state = initialState, action) {
 export function fetchUserActiveTrips() {
   return {
     types: [FETCH_TRIPS_ACTIVE, FETCH_TRIPS_ACTIVE_SUCCESS, FETCH_TRIPS_ACTIVE_FAIL],
-    promise: client => client.get(`api/user/trips/active`)
+    promise: client => client.get('/api/user/trips/active')
   };
 }
 
+export function fetchModeratorActiveTrips() {
+  return {
+    types: [FETCH_TRIPS_ACTIVE, FETCH_TRIPS_ACTIVE_SUCCESS, FETCH_TRIPS_ACTIVE_FAIL],
+    promise: client => client.get('/api/moderator/trips/active')
+  };
+}
