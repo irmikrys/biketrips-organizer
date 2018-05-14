@@ -98,6 +98,7 @@ class EpisodeRow extends Component {
     this.setState({
       submitted: true
     });
+    console.log(this.state.date);
   };
 
   render() {
@@ -106,6 +107,7 @@ class EpisodeRow extends Component {
     const {deleted, submitted} = this.state;
     const {errorMessage} = this.state;
     let episodeData = currentEpisode === null ? episode : currentEpisode;
+    let time = episode.time !== null ? episode.time : this.state.date;
     const errorPanel = errorMessage !== "" && submitted ?
       <p className="error-message">{errorMessage}</p> : null;
     let disabled = submitted && errorPanel === null;
@@ -119,7 +121,7 @@ class EpisodeRow extends Component {
               {
                 submitted && errorPanel === null &&
                 <input name="time"
-                       value={datetimeFormatter(new Date(episode.time))}
+                       value={datetimeFormatter(new Date(time))}
                        disabled={true}
                 />
               }
