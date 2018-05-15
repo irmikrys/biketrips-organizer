@@ -84,7 +84,7 @@ export default class ParticipantsForm extends Component {
                                            submitted={false}
                                            deleted={false}
                                            create={this.props.createParticipant}
-                                           // errorMessage={this.props.errorMessage}
+                                           errorMessage={this.props.errorMessage}
                                            participant={child}
                     />
                   })

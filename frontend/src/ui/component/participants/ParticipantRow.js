@@ -35,12 +35,16 @@ class ParticipantRow extends Component {
     this.setState({
       submitted: true
     });
+    console.log('submitting: ' + participantInfo.username);
+    console.log(this.props.errorMessage);
   };
 
   handleDelete = event => {
     event.preventDefault();
-    const {username, idTrip} = this.props.participant;
-    if(this.state.submitted) {
+    const {idTrip} = this.props.participant;
+    const username = this.props.participant.username === "" ? this.state.username : this.props.participant.username;
+    console.log('deleting: ' + username);
+    if (this.state.submitted) {
       axios.delete(`/api/trips/${idTrip}/participants/${username}`);
     }
     this.setState({
