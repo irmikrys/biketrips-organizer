@@ -1,5 +1,12 @@
 import {FormFieldBuilder} from "../component/forms/FormFieldBuilder";
 
+export const SORT_BY_SELECT_OPTIONS = [
+  {value: "endDate", label: `${String.fromCharCode(8593)} End Date`},
+  {value: "endDate,desc", label: `${String.fromCharCode(8595)} End Date`},
+  {value: "startDate", label: `${String.fromCharCode(8593)} Start Date`},
+  {value: "startDate,desc", label: `${String.fromCharCode(8595)} Start Date`},
+];
+
 export const MENU_FOR_USER = [
   {label: 'Trips', link: '/trips', icon: ''},
   {label: 'Apply', link: '/apply', icon: ''}

@@ -23,6 +23,15 @@ class TripCard extends Component {
                 return <div key={key}><b>Level: </b>{level.name}</div>
               })
           }
+          {
+            Object.values(this.props.statuses)
+              .filter(status => {
+                return status.idStatus === trip.idStatus
+              })
+              .map((status, key) => {
+                return <div key={key}><b>Status: </b>{status.name}</div>
+              })
+          }
           <div><b>Points: </b>{trip.points}</div>
           <div><b>Start: </b>{dateFormatter(new Date(trip.startDate))}</div>
           <div><b>End: </b>{dateFormatter(new Date(trip.endDate))}</div>

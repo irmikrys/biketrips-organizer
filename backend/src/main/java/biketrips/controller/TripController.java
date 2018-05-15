@@ -170,6 +170,46 @@ public class TripController {
   }
 
 
+  //participant trips
+
+
+  @RequestMapping(method = GET, path = "/api/user/trips")
+  public @ResponseBody
+  Iterable<Trip>
+  getTripsByParticipant(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    return this.tripService.findAllByParticipant(username);
+  }
+
+  @RequestMapping(method = GET, path = "/api/user/trips/archive")
+  public @ResponseBody
+  Iterable<Trip>
+  getArchivedTripsByParticipant(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    return this.tripService.findAllByParticipantAndIdStatus(username, 3);
+  }
+
+  @RequestMapping(method = GET, path = "/api/user/trips/active")
+  public @ResponseBody
+  Iterable<Trip>
+  getActiveTripsByParticipant(@RequestParam(name = "idLevel", defaultValue = "%") String idLevel,
+                              @RequestParam(name = "idStatus", defaultValue = "%") String idStatus,
+                              HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute("user");
+    String username = userSession.getUsername();
+    Iterable<Trip> tripsParticipant = this.tripService.findAllByParticipantAndParams(idLevel, idStatus, username);
+    List<Trip> trips = new ArrayList<>();
+    for (Trip trip : tripsParticipant) {
+      if (trip.getIdStatus() == 2 || trip.getIdStatus() == 1) {
+        trips.add(trip);
+      }
+    }
+    return trips;
+  }
+
+
   //episodes
 
 
@@ -358,60 +398,6 @@ public class TripController {
   Iterable<Participant>
   getAllParticipants() {
     return this.participantService.findAll();
-  }
-
-
-  //participant trips
-
-
-  @RequestMapping(method = GET, path = "/api/user/trips")
-  public @ResponseBody
-  Iterable<Trip>
-  getTripsByParticipant(@RequestParam(name = "idLevel", defaultValue = "%") String idLevel,
-                        @RequestParam(name = "idStatus", defaultValue = "%") String idStatus,
-                        HttpSession session) {
-    UserSession userSession = (UserSession) session.getAttribute("user");
-    String username = userSession.getUsername();
-    Iterable<Participant> participants = this.participantService.findAllByUsername(username);
-    return this.tripService.findAllByParamsAndParticipant(idLevel, idStatus, username);
-  }
-
-  @RequestMapping(method = GET, path = "/api/user/trips/archive")
-  public @ResponseBody
-  Iterable<Trip>
-  getArchivedTripsByParticipant(HttpSession session) {
-    UserSession userSession = (UserSession) session.getAttribute("user");
-    String username = userSession.getUsername();
-    Iterable<Participant> participants = this.participantService.findAllByUsername(username);
-    List<Trip> trips = new ArrayList<>();
-    for (Participant p : participants) {
-      Trip trip = this.tripService.findByIdTrip(p.getIdTrip()).orElseThrow(
-        () -> new TripException("getParticipantTrips.error.tripNotFound")
-      );
-      if (trip.getIdStatus() == 3) {
-        trips.add(trip);
-      }
-    }
-    return trips;
-  }
-
-  @RequestMapping(method = GET, path = "/api/user/trips/active")
-  public @ResponseBody
-  Iterable<Trip>
-  getActiveTripsByParticipant(HttpSession session) {
-    UserSession userSession = (UserSession) session.getAttribute("user");
-    String username = userSession.getUsername();
-    Iterable<Participant> participants = this.participantService.findAllByUsername(username);
-    List<Trip> trips = new ArrayList<>();
-    for (Participant p : participants) {
-      Trip trip = this.tripService.findByIdTrip(p.getIdTrip()).orElseThrow(
-        () -> new TripException("getParticipantTrips.error.tripNotFound")
-      );
-      if (trip.getIdStatus() == 2 || trip.getIdStatus() == 1) {
-        trips.add(trip);
-      }
-    }
-    return trips;
   }
 
 

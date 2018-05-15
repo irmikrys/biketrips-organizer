@@ -1,35 +1,57 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import TripsGrid from "../../component/trips/TripsGrid"
-import {fetchModeratorTrips} from "../../../reducers/trips/trips";
+import {fetchModeratorTrips, setFilterCriteria} from "../../../reducers/trips/trips";
 import {fetchTripById} from "../../../reducers/trips/trip";
 import {updateTrip} from "../../../reducers/trips/tripUpdate";
 import {fetchAvailableLevels} from "../../../reducers/trips/levels";
 import {fetchAvailableStatuses} from "../../../reducers/trips/statuses";
-import {getSession} from "../../../reducers/authentication/authentication";
 import {fetchAvailableActivities} from "../../../reducers/participants/activities";
-import SearchBar from "../../component/trips/FilterBar";
+import FilterBar from "../../component/trips/FilterBar";
+import * as _ from "lodash";
 
 export class ModeratorTripsPage extends Component {
 
   constructor(props) {
     super(props);
-    props.getCurrentSession();
     props.fetchLevels();
     props.fetchStatuses();
-    props.fetchTrips();
+
+    if(_.isEmpty(props.filterCriteria))
+      props.fetchTrips();
+
+    this.state = {
+      filterCriteria: props.filterCriteria
+    };
+  }
+
+  handleFilterBarChange = filterCriteria => {
+    this.props.setFilters(filterCriteria);
+    this.props.fetchTrips(filterCriteria);
+  };
+
+  componentWillReceiveProps(props) {
+    if (props.filterCriteria !== this.state.filterCriteria) {
+      props.fetchTrips(props.filterCriteria);
+      this.setState({filterCriteria: props.filterCriteria});
+    }
   }
 
   render() {
     return (
       <div className="main-color-none">
-        <SearchBar className='search-bar-container margin-bottom-30'/>
+        <FilterBar className='search-bar-container margin-bottom-30'
+                   levels={this.props.levels}
+                   statuses={this.props.statuses}
+                   filterCriteria={this.state.filterCriteria}
+                   onChange={this.handleFilterBarChange.bind(this)}
+        />
         {
-          (this.props.updating || this.props.userUpdating) &&
+          (this.props.updating) &&
           <div className="loader"/>
         }
         {
-          !this.props.updating && !this.props.userUpdating &&
+          !this.props.updating &&
           <div className="trip-grid">
             <TripsGrid trips={this.props.trips}
                        levels={this.props.levels}
@@ -45,16 +67,14 @@ export class ModeratorTripsPage extends Component {
   }
 }
 
-
 function mapStateToProps(state) {
   return {
-    username: state.authentication.username,
-    userUpdating: state.authentication.loading,
     trips: state.trips.trips,
     updating: state.trips.updating,
     levels: state.levels.levels,
     statuses: state.statuses.statuses,
-    activities: state.activities.activities
+    activities: state.activities.activities,
+    filterCriteria: state.trips.filterCriteria
   };
 }
 
@@ -65,7 +85,7 @@ const mapActionsToProps = {
   fetchLevels: fetchAvailableLevels,
   fetchStatuses: fetchAvailableStatuses,
   fetchActivities: fetchAvailableActivities,
-  getCurrentSession: getSession
+  setFilters: setFilterCriteria
 };
 
 export default connect(
