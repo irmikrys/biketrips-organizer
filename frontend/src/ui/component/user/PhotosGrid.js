@@ -10,32 +10,26 @@ class PhotosGrid extends Component {
     return (
       <div className='photos-container'>
         {
-          this.props.photos.length === 0 && null
-        }
-        {
           this.props.photos.length > 0 &&
           <div className='photos-grid'>
             {
               Object.values(this.props.photos)
                 .map((photo, key) => {
-                  return (
-                    <div key={key}
-                         data-toggle="modal"
-                         data-target="#galleryModal"
-                         className='photo-container'
-                    >
-                      <a href="#albumGallery" data-slide-to={key}>
-                        <img src={`data:image/png;base64,${photo.photo}`}
-                             className='photo-preview img-thumbnail'
-                        />
-                      </a>
-                    </div>
-                  )
+                  console.log(photo);
+                  return <img key={key}
+                              data-toggle="modal"
+                              data-target="#galleryModal"
+                              href="#albumGallery" data-slide-to={key}
+                              src={`data:image/png;base64,${photo.photo}`}
+                              className='photo-preview img-thumbnail'
+                  />
                 })
             }
           </div>
         }
-
+        {
+          this.props.photos.length === 0 && null
+        }
         <div className="modal fade" id="galleryModal">
           <div className="modal-dialog">
             <div className="modal-content">
