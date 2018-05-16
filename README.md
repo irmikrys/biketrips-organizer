@@ -32,7 +32,7 @@ $ ./gradlew assemble
 Następnie go uruchomić:
 
 ``
-$ java -jar time-bank-0.0.1-SNAPSHOT.jar --spring.profiles.active=production
+$ java -jar biketrips-organizer-0.0.1-SNAPSHOT.jar --spring.profiles.active=production
 ``
 
 Aplikacja zostanie uruchomiona na porcie 8080.
