@@ -1,9 +1,11 @@
 DROP SCHEMA IF EXISTS test;
-CREATE SCHEMA test;
+CREATE SCHEMA IF NOT EXISTS test;
+
 USE test;
 
 DROP TABLE IF EXISTS participants;
 DROP TABLE IF EXISTS applications;
+DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS episodes;
 DROP TABLE IF EXISTS photos;
@@ -21,7 +23,7 @@ CREATE TABLE users (
   firstName VARCHAR(30) NOT NULL,
   lastName  VARCHAR(30) NOT NULL,
   role      VARCHAR(30) NOT NULL,
-  photo     MEDIUMBLOB           DEFAULT NULL,
+  photo     LONGBLOB             DEFAULT NULL,
   points    INTEGER     NOT NULL DEFAULT 0,
   PRIMARY KEY (username)
 );
@@ -50,12 +52,12 @@ CREATE TABLE statuses (
 CREATE TABLE trips (
   idTrip      BIGINT       NOT NULL AUTO_INCREMENT,
   moderator   VARCHAR(30)  NOT NULL,
-  name        VARCHAR(30)  NOT NULL,
+  name        VARCHAR(255)  NOT NULL,
   startDate   DATETIME     NOT NULL,
   endDate     DATETIME     NOT NULL,
   idLevel     INTEGER      NOT NULL,
   idStatus    INTEGER      NOT NULL,
-  description VARCHAR(255) NOT NULL,
+  description VARCHAR(500) NOT NULL,
   points      INTEGER      NOT NULL,
   PRIMARY KEY (idTrip),
   FOREIGN KEY (moderator) REFERENCES users (username),
@@ -81,7 +83,7 @@ CREATE TABLE participants (
 
 CREATE TABLE locations (
   idLocation  BIGINT          NOT NULL AUTO_INCREMENT,
-  description VARCHAR(60)     NOT NULL,
+  description VARCHAR(255)    NOT NULL,
   latitude    NUMERIC(18, 14) NOT NULL,
   longitude   NUMERIC(18, 14) NOT NULL,
   PRIMARY KEY (idLocation)
@@ -98,17 +100,46 @@ CREATE TABLE episodes (
   FOREIGN KEY (idLocation) REFERENCES locations (idLocation)
 );
 
+CREATE TABLE comments (
+  idComment  BIGINT       NOT NULL AUTO_INCREMENT,
+  owner      VARCHAR(30)  NOT NULL,
+  idTrip     BIGINT       NOT NULL,
+  content    VARCHAR(255) NOT NULL,
+  createDate DATETIME     NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (idComment),
+  FOREIGN KEY (owner) REFERENCES users (username),
+  FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
+);
+
 CREATE TABLE albums (
-  idAlbum BIGINT NOT NULL AUTO_INCREMENT,
-  idTrip  BIGINT NOT NULL,
+  idAlbum BIGINT      NOT NULL AUTO_INCREMENT,
+  name    VARCHAR(60) NOT NULL,
+  idTrip  BIGINT      NOT NULL,
   PRIMARY KEY (idAlbum),
   FOREIGN KEY (idTrip) REFERENCES trips (idTrip)
 );
 
 CREATE TABLE photos (
-  idPhoto BIGINT      NOT NULL AUTO_INCREMENT,
-  idAlbum BIGINT      NOT NULL,
-  url     VARCHAR(40) NOT NULL,
+  idPhoto BIGINT   NOT NULL AUTO_INCREMENT,
+  idAlbum BIGINT   NOT NULL,
+  photo   LONGBLOB NOT NULL,
   PRIMARY KEY (idPhoto),
   FOREIGN KEY (idAlbum) REFERENCES albums (idAlbum)
 );
+
+INSERT INTO activities (idActivity, name) VALUES
+  (1, 'invited'),
+  (2, 'accepted'),
+  (3, 'denied'),
+  (4, 'confirmed');
+
+INSERT INTO statuses (idStatus, name) VALUES
+  (1, 'active'),
+  (2, 'in progress'),
+  (3, 'archived'),
+  (4, 'cancelled');
+
+INSERT INTO levels (idLevel, name) VALUES
+  (1, 'easy'),
+  (2, 'medium'),
+  (3, 'hard');

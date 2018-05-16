@@ -219,7 +219,7 @@ class TripControllerSpec extends AbstractMvcSpec {
 
     then:
     result.status == HttpStatus.OK
-    result.json.size == 3
+    result.json.size == 4
   }
 
   def "get all levels"() {
