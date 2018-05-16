@@ -93,7 +93,7 @@ class UserControllerSpec extends AbstractMvcSpec {
     res.json.username == 'annacuk'
     token2 != null
   }
-  def "upadate account with correct data"() {
+  def "update account with correct data"() {
     given:
     def request = [
       username: 'dennisritchie',
@@ -111,7 +111,7 @@ class UserControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.OK
   }
 
-  def "upadate account with wrong password"() {
+  def "update account with wrong password"() {
     given:
     def request = [
       username: 'dennisritchie',
@@ -129,7 +129,7 @@ class UserControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "upadate account with already used mail"() {
+  def "update account with already used mail"() {
     given:
     def request = [
       username: 'dennisritchie',
@@ -147,7 +147,7 @@ class UserControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "upadate non-existing account"() {
+  def "update non-existing account"() {
     given:
     def request = [
       username: 'dennisritchie',
@@ -165,7 +165,7 @@ class UserControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "upadate non-updatable data"() {
+  def "update non-updatable data"() {
     given:
     def request = [
       username: 'dennis',

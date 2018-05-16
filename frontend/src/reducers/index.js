@@ -12,7 +12,6 @@ import tripCreation from "./trips/tripCreation";
 import episodes from "./episodes/episodes";
 import trips from "./trips/trips";
 import episode from "./episodes/episode";
-import participant from "./participants/participant";
 import trip from "./trips/trip";
 import tripUpdate from "./trips/tripUpdate";
 import participants from "./participants/participants";
@@ -45,7 +44,6 @@ export default combineReducers({
   episodes,
   trips,
   episode,
-  participant,
   trip,
   tripUpdate,
   tripsArchive,

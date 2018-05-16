@@ -30,7 +30,7 @@ public class TripDTO {
   @NotBlank
   private String description;
 
-  @DecimalMin(value = "0", inclusive = false)
+  @DecimalMin(value = "10", inclusive = true)
   @DecimalMax(value = "1000")
   private int points;
 

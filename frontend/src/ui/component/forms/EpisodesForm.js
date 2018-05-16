@@ -3,6 +3,7 @@ import Select from "react-select";
 import axios from 'axios';
 import {Link} from "react-router";
 import EpisodeRow from "../episodes/EpisodeRow";
+import {dateFormatter} from "../utils";
 
 export default class EpisodesForm extends Component {
 
@@ -56,8 +57,11 @@ export default class EpisodesForm extends Component {
                     clearable={false}
                     value={this.state.idTrip}
                     onChange={this.handleTripChange}
-                    options={this.props.trips.map(item => {
-                      return {value: item.idTrip, label: item.name}
+                    options={this.props.trips.map(trip => {
+                      return {
+                        value: trip.idTrip,
+                        label: trip.name + ', ' + dateFormatter(new Date(trip.startDate)) + ' - ' + dateFormatter(new Date(trip.endDate))
+                      }
                     })}
             />
             <div>

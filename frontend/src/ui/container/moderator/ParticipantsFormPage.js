@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {fetchModeratorActiveTrips} from "../../../reducers/trips/tripsActive";
 import ParticipantsForm from "../../component/forms/ParticipantsForm";
-import {createParticipant} from "../../../reducers/participants/participant";
 
 class ParticipantsFormPage extends Component {
 
@@ -16,7 +15,6 @@ class ParticipantsFormPage extends Component {
       <div>
         {
           !this.props.updating && <ParticipantsForm trips={this.props.trips}
-                                                    createParticipant={this.props.create.bind(this)}
                                                     errorMessage={this.props.errorMessage}
           />
         }
@@ -33,14 +31,12 @@ function mapStateToProps(state) {
     trips: state.tripsActive.trips,
     updating: state.tripsActive.updating,
     username: state.authentication.username,
-    isAuthenticated: state.authentication.isAuthenticated,
-    errorMessage: state.participant.errorMessage
+    isAuthenticated: state.authentication.isAuthenticated
   };
 }
 
 const mapActionsToProps = {
-  fetchTrips: fetchModeratorActiveTrips,
-  create: createParticipant
+  fetchTrips: fetchModeratorActiveTrips
 };
 
 export default connect(

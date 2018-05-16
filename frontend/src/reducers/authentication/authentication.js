@@ -126,7 +126,7 @@ export function getSession() {
 export function redirectToLoginWithMessage(messageKey) {
   return (dispatch, getState) => {
     const currentPath = getState().routing.locationBeforeTransitions.pathname;
-    dispatch(displayAuthError(messageKey));
+    // dispatch(displayAuthError(messageKey));
     browserHistory.replace({pathname: '/login', state: {nextPathname: currentPath}});
   }
 }
