@@ -4,9 +4,14 @@ import biketrips.AbstractMvcSpec
 import org.springframework.http.HttpStatus
 import org.springframework.security.test.context.support.WithMockUser
 import spock.lang.Stepwise
+import spock.lang.Shared
+import spockmvc.RequestParams
 
 @Stepwise
 class UserControllerSpec extends AbstractMvcSpec {
+  @Shared
+  String token
+  String token2
 
   def "create account with correct data"() {
     given:
@@ -59,6 +64,163 @@ class UserControllerSpec extends AbstractMvcSpec {
 
     then:
     result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "user logging in"() {
+    given:
+    def credentials = [username: 'dennisritchie', password: 'TWkJb8ZB']
+
+    when:
+    def res = post('/api/session', credentials)
+    token = res.json.token
+
+    then:
+    res.status == HttpStatus.OK
+    res.json.username == 'dennisritchie'
+    token != null
+  }
+
+  def "moder logging in"() {
+    given:
+    def credentials = [username: 'annacuk', password: 'Raz2trzy4']
+
+    when:
+    def res = post('/api/session', credentials)
+    token2 = res.json.token
+
+    then:
+    res.status == HttpStatus.OK
+    res.json.username == 'annacuk'
+    token2 != null
+  }
+  def "upadate account with correct data"() {
+    given:
+    def request = [
+      username: 'dennisritchie',
+      password: 'TWkJb8ZB',
+      email: 'dennisrit@test.com',
+      firstName: 'Dennis',
+      lastName: 'Ritchie',
+      role: 'USER'
+    ]
+
+    when:
+    def result = put('/api/users/dennisritchie', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "upadate account with wrong password"() {
+    given:
+    def request = [
+      username: 'dennisritchie',
+      password: '123',
+      email: 'dennisrit@test.com',
+      firstName: 'Dennis',
+      lastName: 'Ritchie',
+      role: 'USER'
+    ]
+
+    when:
+    def result = put('/api/users/dennisritchie', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "upadate account with already used mail"() {
+    given:
+    def request = [
+      username: 'dennisritchie',
+      password: 'TWkJb8ZB',
+      email: 'steve@jobs',
+      firstName: 'Dennis',
+      lastName: 'Ritchie',
+      role: 'USER'
+    ]
+
+    when:
+    def result = put('/api/users/dennisritchie', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "upadate non-existing account"() {
+    given:
+    def request = [
+      username: 'dennisritchie',
+      password: 'TWkJb8ZB',
+      email: 'dennisritchie@test.com',
+      firstName: 'Dennis',
+      lastName: 'Ritchie',
+      role: 'USER'
+    ]
+
+    when:
+    def result = put('/api/users/dennisr', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "upadate non-updatable data"() {
+    given:
+    def request = [
+      username: 'dennis',
+      password: 'TWkJb8ZB',
+      email: 'dennisritchie@test.com',
+      firstName: 'Dennis',
+      lastName: 'Ritchie',
+      role: 'USER'
+    ]
+
+    when:
+    def result = put('/api/users/dennisritchie', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "update user photo"() {
+    given:
+    def request = [
+      photo  : '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000'
+    ]
+
+    when:
+    def result = put('/api/users/dennisrichie/photo', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "update non-existing user photo"() {
+    given:
+    def request = [
+      photo  : '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000\n' +
+        '0000000000000000000000000000000000000000'
+    ]
+
+    when:
+    def result = put('/api/users/denni/photo', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
   }
 
   @WithMockUser

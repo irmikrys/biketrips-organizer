@@ -2,6 +2,7 @@ package biketrips.api
 
 import biketrips.AbstractMvcSpec
 import org.springframework.http.HttpStatus
+import org.springframework.security.test.context.support.WithMockUser
 import spock.lang.Shared
 import spock.lang.Stepwise
 import spockmvc.RequestParams
@@ -38,7 +39,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     then:
     res.status == HttpStatus.OK
     res.json.username == 'billgates'
-    token != null
+    token2 != null
   }
 
   def "create new trip with correct data"() {
@@ -326,12 +327,29 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.json.size == 1
   }
 
+  def "get trips by non-existing moderator"() {
+    when:
+    def result = get('/api/moderator/trips', new RequestParams(authToken: token2))
+
+    then:
+    result.status == HttpStatus.FORBIDDEN
+  }
+
+  def "get Active trips by moderator"() {
+    when:
+    def result = get('/api/moderator/trips/active', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 0
+  }
+
   def "add participant"() {
     given:
     def request = [
       username  : 'billgates',
       idTrip    : '2',
-      idActivity: '2'
+      idActivity: '2  '
     ]
 
     when:
@@ -350,13 +368,19 @@ class TripControllerSpec extends AbstractMvcSpec {
     resultAfter.json.size == 1
   }
 
-  def "get trips by user"() {
+  def "add participant with empty data"() {
+    given:
+    def request = [
+      username  : '',
+      idTrip    : '2',
+      idActivity: '2  '
+    ]
+
     when:
-    def result = get('/api/trips/billgates', new RequestParams(authToken: token2))
+    def result = post('/api/trips/2/participants', request, new RequestParams(authToken: token))
 
     then:
-    result.status == HttpStatus.OK
-    result.json.size == 1
+    result.status == HttpStatus.BAD_REQUEST
   }
 
   def "add participant with non-existing idActivity"() {
@@ -373,6 +397,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     then:
     result.status == HttpStatus.BAD_REQUEST
   }
+
 
   def "add non-existing participant"() {
     given:
@@ -393,7 +418,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     given:
     def request = [
       username  : 'billgates',
-      idTrip    : '2',
+      idTrip    : '3',
       idActivity: '1'
     ]
 
@@ -419,6 +444,20 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
+  def "add participant to wrong trip"() {
+    given:
+    def request = [
+      username  : 'billgates',
+      idTrip    : '6',
+      idActivity: '5'
+    ]
+
+    when:
+    def result = post('/api/trips/2/participants', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
   def "add participant to non-existing trip"() {
     given:
     def request = [
@@ -429,6 +468,48 @@ class TripControllerSpec extends AbstractMvcSpec {
 
     when:
     def result = post('/api/trips/5/participants', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "update participant"() {
+    given:
+    def request = [
+      username  : 'billgates',
+      idTrip    : '2',
+      idActivity: '3',
+    ]
+    when:
+    def result = put('/api/trips/2/participants/billgates', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "update participant to not owned trips"() {
+    given:
+    def request = [
+      username  : 'billgates',
+      idTrip    : '1',
+      idActivity: '3',
+    ]
+    when:
+    def result = put('/api/trips/1/participants/billgates', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "update non-existing participant"() {
+    given:
+    def request = [
+      username  : 'ellie',
+      idTrip    : '2',
+      idActivity: '3',
+    ]
+    when:
+    def result = put('/api/trips/2/participants/ellie', request, new RequestParams(authToken: token))
 
     then:
     result.status == HttpStatus.BAD_REQUEST
@@ -459,7 +540,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.OK
     result.json.username == 'billgates'
     result.json.idTrip == 2
-    result.json.idActivity == 2
+    result.json.idActivity == 3
   }
 
   def "get participant with incorrect username"() {
@@ -524,11 +605,48 @@ class TripControllerSpec extends AbstractMvcSpec {
     given:
     def request = [
       idTrip : '1',
-      content: ''
+      content: 'ssffs'
     ]
 
     when:
     def result = post('/api/trips/2/comments', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "get Trip's comments"() {
+    when:
+    def result = get('/api/trips/2/comments', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 1
+  }
+
+  def "update non-existing comment"() {
+    given:
+    def request = [
+      idTrip : '2',
+      content: 'kot'
+    ]
+
+    when:
+    def result = put('/api/trips/2/comments/3', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "update comment from non-existing trip"() {
+    given:
+    def request = [
+      idTrip : '4',
+      content: 'kot'
+    ]
+
+    when:
+    def result = put('/api/trips/4/comments/3', request, new RequestParams(authToken: token))
 
     then:
     result.status == HttpStatus.BAD_REQUEST
@@ -591,13 +709,168 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "delete participant with incorrect username"() {
+  def "delete non-existing participant"() {
     when:
     def result = delete('/api/trips/2/participants/stevejobs', new RequestParams(authToken: token))
 
     then:
     result.status == HttpStatus.BAD_REQUEST
   }
-//TODO EPISODES,Trips by user, updating and deleting comments (+with participants), albums
 
+  def "add album"() {
+    given:
+    def request = [
+      idTrip: '2',
+      name  : 'album1',
+    ]
+
+    when:
+    def result = post('/api/trips/2/albums', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "add album with no name"() {
+    given:
+    def request = [
+      idTrip: '2',
+      name  : '',
+    ]
+
+    when:
+    def result = post('/api/trips/2/albums', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "add album to wrong Trip"() {
+    given:
+    def request = [
+      idTrip: '2',
+      name  : 'album1',
+    ]
+
+    when:
+    def result = post('/api/trips/5/albums', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "get Trip's albums"() {
+    when:
+    def result = get('/api/trips/2/albums', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "get album by id"() {
+    when:
+    def result = get('/api/trips/2/albums/1', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "get albums's photos"() {
+    when:
+    def result = get('/api/trips/2/albums/1/photos', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 0
+  }
+
+  def "Create new episode with correct data"() {
+    given:
+    def request = [
+      idTrip     : '2',
+      time       : '2012-05-23',
+      description: 'opis jakis',
+      locationDTO: [
+        description: 'Kraków, Polska',
+        latitude   : '19,57',
+        longitude  : '50,03'
+      ]
+    ]
+
+    when:
+    def result = post('/api/trips/2/episodes', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "Create new episode with empty data"() {
+    given:
+    def request = [
+      idTrip     : '2',
+      time       : '',
+      description: 'opis jakis',
+
+    ]
+
+    when:
+    def result = post('/api/trips/2/episodes', request, new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+
+  def "Get trip's episodes"() {
+    when:
+    def result = get('/api/trips/2/episodes', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "Get non-existing trip's episodes"() {
+    when:
+    def result = get('/api/trips/2/episodes', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  def "Get episode with non-existing id"() {
+    when:
+    def result = get('/api/trips/2/episodes/5', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  def "Get episode from non-existing trip"() {
+    when:
+    def result = get('/api/trips/5/episodes/1', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
+  }
+
+  @WithMockUser
+  def "get participants"() {
+
+    when:
+    def result = get('/api/participants')
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
+  @WithMockUser
+  def "get all episodes"() {
+
+    when:
+    def result = get('/api/episodes')
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 0
+  }
 }
