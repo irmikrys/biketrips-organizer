@@ -83,8 +83,6 @@ export default class ParticipantsForm extends Component {
                                            tripSelected={tripSelected}
                                            submitted={false}
                                            deleted={false}
-                                           create={this.props.createParticipant}
-                                           errorMessage={this.props.errorMessage}
                                            participant={child}
                     />
                   })
