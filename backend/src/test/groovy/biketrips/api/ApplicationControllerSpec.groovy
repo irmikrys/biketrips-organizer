@@ -6,7 +6,7 @@ import org.springframework.security.test.context.support.WithMockUser
 import spock.lang.Shared
 import spockmvc.RequestParams
 
-class ApplicationController extends AbstractMvcSpec {
+class ApplicationControllerSpec extends AbstractMvcSpec {
   @Shared
   String token
 
