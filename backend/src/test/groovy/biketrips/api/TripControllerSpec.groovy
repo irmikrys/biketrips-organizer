@@ -863,6 +863,43 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.OK
   }
 
+  def "get all activities for user"() {
+
+    when:
+    def result = get('/api/activities/user', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 3
+  }
+
+  def "get trips by user"() {
+    when:
+    def result = get('/api/user/trips', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 0
+  }
+
+  def "get participant's archived trips"() {
+    when:
+    def result = get('/api/user/trips/archive', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 0
+  }
+  def "get participant's active trips"() {
+    when:
+    def result = get('/api/user/trips/active', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 0
+  }
+
+
   @WithMockUser
   def "get all episodes"() {
 
@@ -872,5 +909,16 @@ class TripControllerSpec extends AbstractMvcSpec {
     then:
     result.status == HttpStatus.OK
     result.json.size == 0
+  }
+
+  @WithMockUser
+  def "get all activities"() {
+
+    when:
+    def result = get('/api/activities')
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 4
   }
 }
