@@ -28,20 +28,28 @@ public class TripService {
     return this.tripRepository.findAll();
   }
 
-  public Iterable<Trip> findAllByModerator(String username) {
-    return this.tripRepository.findAllByModerator(username);
-  }
-
   public Optional<Trip> findByIdTrip(long idTrip) {
     return this.tripRepository.findByIdTrip(idTrip);
   }
 
-  public Iterable<Trip> findAllByIdLevel(int idLevel) {
-    return this.tripRepository.findAllByIdLevel(idLevel);
+  public Iterable<Trip> findAllByIdStatusAndModerator(int idStatus, String moderator) {
+    return this.tripRepository.findAllByIdStatusAndModerator(idStatus, moderator);
   }
 
-  public Iterable<Trip> findAllByIdStatus(int idStatus) {
-    return this.tripRepository.findAllByIdStatus(idStatus);
+  public Iterable<Trip> findAllByParams(String idLevel, String idStatus, String moderator) {
+    return this.tripRepository.findAllByParams(idLevel, idStatus, moderator);
+  }
+
+  public Iterable<Trip> findAllByParticipant(String participant) {
+    return this.tripRepository.findAllByParticipant(participant);
+  }
+
+  public Iterable<Trip> findAllByParticipantAndIdStatus(String participant, long idStatus) {
+    return this.tripRepository.findAllByParticipantAndIdStatus(participant, idStatus);
+  }
+
+  public Iterable<Trip> findAllByParticipantAndParams(String idLevel, String idStatus, String participant) {
+    return this.tripRepository.findAllByParticipantAndParams(idLevel, idStatus, participant);
   }
 
   public Trip createTrip(TripDTO tripDTO) {

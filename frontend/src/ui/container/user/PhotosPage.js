@@ -46,7 +46,9 @@ class PhotosPage extends Component {
       const {addPhoto} = this.props;
       let data = new FormData();
       data.append('file', file);
-      addPhoto(idTrip, idAlbum, data);
+      if(file.size <= 1048576) {
+        addPhoto(idTrip, idAlbum, data);
+      }
     });
   };
 
@@ -74,11 +76,10 @@ class PhotosPage extends Component {
                 onDrop={this.onDrop.bind(this)}
               >
                 <p>Click to select files to upload.</p>
-                <p>Only *.jpeg and *.png images will be accepted</p>
+                <p>Only *.jpeg and *.png images under 1048576 bytes will be accepted</p>
               </Dropzone>
             </div>
             <div className='aside'>
-              <h2>Accepted files</h2>
               <ul>
                 {
                   this.state.photos
@@ -87,7 +88,6 @@ class PhotosPage extends Component {
                     )
                 }
               </ul>
-              <h2>Rejected files</h2>
               <ul>
                 {
                   this.state.rejected

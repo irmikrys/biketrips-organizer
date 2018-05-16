@@ -51,8 +51,10 @@ class TripTile extends Component {
     return (
       <div className="trip-tile">
         <h3 className="title">{trip.name}
-          <span className='glyphicon glyphicon-pencil'
-                onClick={this.handleClick}/>
+          {
+            this.props.trip.idStatus !== 3 && <span className='glyphicon glyphicon-pencil'
+                  onClick={this.handleClick}/>
+          }
         </h3>
         <div className="tile-content">
           <div className="column">

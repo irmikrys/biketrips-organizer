@@ -9,7 +9,8 @@ class ParticipantRow extends Component {
     this.state = {
       username: "",
       submitted: this.props.submitted,
-      deleted: this.props.deleted
+      deleted: this.props.deleted,
+      errorMessage: "",
     };
   }
 
@@ -20,9 +21,21 @@ class ParticipantRow extends Component {
     this.setState({[inputName]: value});
   };
 
+  addParticipant = participantInfo => {
+    axios.post(`/api/trips/${participantInfo.idTrip}/participants`, participantInfo)
+      .catch((error) => {
+        console.log(error);
+        this.setState({
+          errorMessage: error.data.messageKey
+        });
+      });
+  };
+
   handleSubmit = event => {
+    this.setState({
+      errorMessage: ""
+    });
     event.preventDefault();
-    const {create} = this.props;
     const username = this.state.username;
     const idTrip = this.props.participant.idTrip;
     const idActivity = 1;
@@ -31,16 +44,18 @@ class ParticipantRow extends Component {
       idTrip,
       idActivity
     };
-    create(idTrip, participantInfo);
+    this.addParticipant(participantInfo);
     this.setState({
       submitted: true
     });
+    console.log(this.state.errorMessage);
   };
 
   handleDelete = event => {
     event.preventDefault();
-    const {username, idTrip} = this.props.participant;
-    if(this.state.submitted) {
+    const {idTrip} = this.props.participant;
+    const username = this.props.participant.username === "" ? this.state.username : this.props.participant.username;
+    if (this.state.submitted) {
       axios.delete(`/api/trips/${idTrip}/participants/${username}`);
     }
     this.setState({
@@ -48,10 +63,9 @@ class ParticipantRow extends Component {
     })
   };
 
-  //fixme add error message only to at-the-moment submitting rows
   render() {
     const username = this.state.username === "" ? this.props.participant.username : this.state.username;
-    const {errorMessage} = this.props;
+    const {errorMessage} = this.state;
     const {deleted, submitted} = this.state;
     const errorPanel = errorMessage && submitted ? <ErrorPanel messageKey={errorMessage}/> : null;
     return (
