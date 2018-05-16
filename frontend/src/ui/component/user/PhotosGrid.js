@@ -16,13 +16,14 @@ class PhotosGrid extends Component {
               Object.values(this.props.photos)
                 .map((photo, key) => {
                   console.log(photo);
-                  return <img key={key}
-                              data-toggle="modal"
-                              data-target="#galleryModal"
-                              href="#albumGallery" data-slide-to={key}
-                              src={`data:image/png;base64,${photo.photo}`}
-                              className='photo-preview img-thumbnail'
-                  />
+                  return <a href="#albumGallery" data-slide-to={key}>
+                    <img key={key}
+                         data-toggle="modal"
+                         data-target="#galleryModal"
+                         src={`data:image/png;base64,${photo.photo}`}
+                         className='photo-preview img-thumbnail'
+                    />
+                  </a>
                 })
             }
           </div>
