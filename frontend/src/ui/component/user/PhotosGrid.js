@@ -59,7 +59,7 @@ class PhotosGrid extends Component {
                                    className="photo-big"
                               />
                               <div className="carousel-caption">
-                                <p>{key}</p>
+                                <p/>
                               </div>
                             </div>
                           )
