@@ -183,46 +183,6 @@ class UserControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.BAD_REQUEST
   }
 
-  def "update user photo"() {
-    given:
-    def request = [
-      photo  : '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000'
-    ]
-
-    when:
-    def result = put('/api/users/dennisrichie/photo', request, new RequestParams(authToken: token))
-
-    then:
-    result.status == HttpStatus.OK
-  }
-
-  def "update non-existing user photo"() {
-    given:
-    def request = [
-      photo  : '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000\n' +
-        '0000000000000000000000000000000000000000'
-    ]
-
-    when:
-    def result = put('/api/users/denni/photo', request, new RequestParams(authToken: token))
-
-    then:
-    result.status == HttpStatus.OK
-  }
-
   @WithMockUser
   def "get list of all users"() {
 
