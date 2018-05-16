@@ -141,14 +141,6 @@ class EpisodeRow extends Component {
               }
             </div>
             <div>
-              {
-                (!submitted || (submitted && errorPanel !== null)) &&
-                <div className="temporary-date-input">
-                  <span className="glyphicon glyphicon-time"/>
-                </div>
-              }
-            </div>
-            <div>
               <Geosuggest placeholder="location"
                           initialValue={episodeData.locationDTO == null ?
                             '' : episodeData.locationDTO.description}
