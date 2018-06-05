@@ -40,6 +40,9 @@ dependencies {
   // https://mvnrepository.com/artifact/com.google.guava/guava
   compile group: 'com.google.guava', name: 'guava', version: 'r05'
 
+  compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.8.0'
+  compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.8.0'
+
   testCompile 'org.springframework.boot:spring-boot-starter-test'
   testCompile 'org.springframework.security:spring-security-test'
   testCompile 'org.spockframework:spock-spring'
