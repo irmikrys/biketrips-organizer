@@ -36,3 +36,7 @@ $ java -jar biketrips-organizer-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ``
 
 Aplikacja zostanie uruchomiona na porcie 8080.
+
+## API
+
+Dokumentacja API znajduje się w folderze ``backend/resources``. 
