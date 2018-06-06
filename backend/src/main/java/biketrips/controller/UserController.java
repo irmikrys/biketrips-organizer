@@ -36,7 +36,7 @@ public class UserController {
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
   }
 
-  @RequestMapping(method = POST, path = "/api/register")
+  @RequestMapping(method = POST, path = "/api/users")
   public @ResponseBody
   ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO)
     throws RegisterException {
