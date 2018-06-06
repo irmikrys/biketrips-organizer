@@ -33,7 +33,7 @@ export default function registerReducer(state = initialState, action) {
 export function register(userInfo) {
   return {
     types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
-    promise: (client) => client.post('/api/register', userInfo),
+    promise: (client) => client.post('/api/users', userInfo),
     afterSuccess: (dispatch, getState, response) => {
       browserHistory.push('/login');
       dispatch(setRegisterSuccess(true));

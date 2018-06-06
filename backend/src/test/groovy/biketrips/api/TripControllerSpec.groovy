@@ -219,7 +219,7 @@ class TripControllerSpec extends AbstractMvcSpec {
 
     then:
     result.status == HttpStatus.OK
-    result.json.size == 3
+    result.json.size == 4
   }
 
   def "get all levels"() {
@@ -368,6 +368,21 @@ class TripControllerSpec extends AbstractMvcSpec {
     resultAfter.json.size == 1
   }
 
+  def "add participant by unathorized user"() {
+    given:
+    def request = [
+      username  : 'billgates',
+      idTrip    : '2',
+      idActivity: '2  '
+    ]
+
+    when:
+    def result = post('/api/trips/2/participants', request, new RequestParams(authToken: token2))
+
+    then:
+    result.status == HttpStatus.FORBIDDEN
+  }
+
   def "add participant with empty data"() {
     given:
     def request = [
@@ -486,6 +501,7 @@ class TripControllerSpec extends AbstractMvcSpec {
     then:
     result.status == HttpStatus.OK
   }
+
 
   def "update participant to not owned trips"() {
     given:
@@ -767,6 +783,14 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.OK
   }
 
+  def "get non-existing Trip's albums"() {
+    when:
+    def result = get('/api/trips/2/albums', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+  }
+
   def "get album by id"() {
     when:
     def result = get('/api/trips/2/albums/1', new RequestParams(authToken: token))
@@ -782,6 +806,14 @@ class TripControllerSpec extends AbstractMvcSpec {
     then:
     result.status == HttpStatus.OK
     result.json.size == 0
+  }
+
+  def "get non-existing trips's photos"() {
+    when:
+    def result = get('/api/trips/99/albums/5/photos', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.BAD_REQUEST
   }
 
   def "Create new episode with correct data"() {
@@ -863,6 +895,43 @@ class TripControllerSpec extends AbstractMvcSpec {
     result.status == HttpStatus.OK
   }
 
+  def "get all activities for user"() {
+
+    when:
+    def result = get('/api/activities/user', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 3
+  }
+
+  def "get trips by user"() {
+    when:
+    def result = get('/api/user/trips', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 0
+  }
+
+  def "get participant's archived trips"() {
+    when:
+    def result = get('/api/user/trips/archive', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 0
+  }
+  def "get participant's active trips"() {
+    when:
+    def result = get('/api/user/trips/active', new RequestParams(authToken: token))
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 0
+  }
+
+
   @WithMockUser
   def "get all episodes"() {
 
@@ -872,5 +941,16 @@ class TripControllerSpec extends AbstractMvcSpec {
     then:
     result.status == HttpStatus.OK
     result.json.size == 0
+  }
+
+  @WithMockUser
+  def "get all activities"() {
+
+    when:
+    def result = get('/api/activities')
+
+    then:
+    result.status == HttpStatus.OK
+    result.json.size == 4
   }
 }

@@ -1,0 +1,1132 @@
+swagger: '2.0'
+info:
+  description: Biketrips Organizer server.
+  version: 1.0.0
+  title: Swagger Biketrips Organizer
+  contact:
+    email: irmina.krysiak@gmail.com
+  license:
+    name: MIT
+    url: 'https://github.com/irmikrys/biketrips-organizer/blob/master/LICENSE'
+host: localhost:3000
+
+
+tags:
+  - name: trip
+    description: Everything about trips
+  - name: application
+    description: Access to applications for moderator
+  - name: user
+    description: Operations about user
+  - name: session
+    description: Login and logout operations
+schemes:
+  - http
+paths:
+  /api/register:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: This can be done by the not logged in user.
+      operationId: createUser
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Created user object
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: 'register.error.usernameExists, register.error.emailExists'
+        default:
+          description: successful operation
+  /api/users:
+    get:
+      tags:
+        - user
+      summary: Get all users
+      operationId: getAllUsers
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+  /api/users/{username}:
+    get:
+      tags:
+        - user
+      summary: Get user by username
+      operationId: getUser
+      produces:
+        - application/json
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "Username must exist"
+        required: true
+        type: "string"
+      responses:
+        '400':
+          description: 'getDetails.error.userNotFound'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/User"
+    put:
+      tags:
+        - user
+      summary: Update user
+      operationId: updateUser
+      produces:
+        - application/json
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "Name that will to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user"
+        required: true
+        schema:
+            $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: 'updateUser.error.userNotFound, updateUser.error.unauthorised, updateUser.error.emailExists, updateUser.error.incorrectPassword'
+        '200':
+          description: successful operation
+  /api/users/{username}/role:
+    put:
+      tags:
+        - user
+      summary: Update user role
+      description: Only moderator can do this
+      operationId: updateUserRole
+      produces:
+        - application/json
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "Username that will have his role changed"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user"
+        required: true
+        schema:
+            $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: 'updateUserRole.error.notAdmin, updateUser.error.userNotFound'
+        '200':
+          description: successful operation
+  /api/users/{username}/points:
+    put:
+      tags:
+        - user
+      summary: Update user points
+      description: Only moderator can do this
+      operationId: updateUserPoints
+      produces:
+        - application/json
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "Username that will have his points changed"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user"
+        required: true
+        schema:
+            $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: 'updateUserPoints.error.moderatorNotFound, updateUserPoints.error.userNotModerator, updateUserPoints.error.userNotFound'
+        '200':
+          description: successful operation
+  /api/users/{username}/photo:
+    put:
+      tags:
+        - user
+      summary: Update user photo
+      description: Photo must be in correct format
+      operationId: updateUserPhoto
+      produces:
+        - application/json
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "Username that will have his photo changed"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user"
+        required: true
+        schema:
+            $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: 'updateUserPhoto.error.userNotFound'
+        '200':
+          description: successful operation
+
+  /api/activies:
+    get:
+      tags:
+        - trip
+      summary: Get all activities
+      operationId: getAllActivities
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+  /api/activies/user:
+    get:
+      tags:
+        - trip
+      summary: Get activities for user
+      operationId: getActivitiesForUser
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+  /api/statuses:
+    get:
+      tags:
+        - trip
+      summary: Get all statuses
+      operationId: getAllStatuses
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+  /api/levels:
+    get:
+      tags:
+        - trip
+      summary: Get all levels
+      operationId: getAllLevels
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+  /api/trips:
+    get:
+      tags:
+        - trip
+      summary: Get all trips
+      operationId: getAllTrips
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: successful operation
+    post:
+      tags:
+        - trip
+      summary: Create trip
+      description: This can be done only by moderator.
+      operationId: createTrip
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Added trip
+          required: true
+          schema:
+            $ref: '#/definitions/Trip'
+      responses:
+        '400':
+          description: 'createTrip.error.levelNotFound, createTrip.error.statusNotFound'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Trip"
+
+  /api/trips/{idTrip}:
+    get:
+      tags:
+      - trip
+      summary: "Find trip by Id"
+      operationId: "getTrip"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "idTrip"
+        in: "path"
+        description: "Id of trip to return"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '400':
+          description: 'getTrip.error.tripNotFound'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Trip"
+    put:
+      tags:
+        - trip
+      summary: Update trip
+      description: This can be done only by moderator who owns the trip.
+      operationId: updateTrip
+      produces:
+        - application/json
+      parameters:
+      - name: "idTrip"
+        in: "path"
+        description: "Id of trip to update"
+        required: true
+        type: "integer"
+        format: "int32"
+      - in: body
+        name: body
+        description: Added trip
+        required: true
+        schema:
+          $ref: '#/definitions/Trip'
+      responses:
+        '400':
+          description: 'updateTrip.error.tripNotFound, updateTrip.error.userNotFound, updateTrip.error.unauthorised"'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Trip"
+  /api/moderator/trips:
+    get:
+      tags:
+      - trip
+      summary: "Get trips by moderator"
+      operationId: "getTripsByModerator"
+      produces:
+      - "application/json"
+      parameters:      []
+      responses:
+        '200':
+          description: successful operation
+  /api/trips/{idTrip}/episodes:
+    post:
+      tags:
+        - trip
+      summary: Create episode
+      description: This can be done only by moderator who owns the trip.
+      operationId: createEpisode
+      produces:
+        - application/json
+      parameters:
+      - name: "idTrip"
+        in: "path"
+        description: "Id of trip to add an episode in"
+        required: true
+        type: "integer"
+        format: "int32"
+      - in: body
+        name: body
+        description: Added Episode
+        required: true
+        schema:
+          $ref: '#/definitions/Episode'
+      responses:
+        '400':
+          description: 'createEpisode.error.tripNotFound, createEpisode.error.userNotFound, createEpisode.error.unauthorised, createEpisode.error.wrongTrip, createEpisode.error.ambiguousTime'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Episode"
+    get:
+      tags:
+        - trip
+      summary: Get episodes by trip's Id
+      operationId: getEpisodesByIdTrip
+      produces:
+        - application/json
+      parameters:
+      - name: "idTrip"
+        in: "path"
+        description: "Id of trip to add an episode in"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '400':
+          description: 'getTripEpisodes.error.locationNotFound'
+        '200':
+          description: successful operation
+  /api/trips/{idTrip}/episodes/{idEpisode}:
+    get:
+      tags:
+        - trip
+      summary: Get episode by Id
+      operationId: getEpisode
+      produces:
+        - application/json
+      parameters:
+      - name: "idTrip"
+        in: "path"
+        description: "Id of trip to which episode belongs to"
+        required: true
+        type: "integer"
+        format: "int32"
+      - name: "idEpisode"
+        in: "path"
+        description: "Id of episode"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '400':
+          description: 'getEpisode.error.tripNotFound, getEpisode.error.locationNotFound'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Episode"
+    put:
+      tags:
+        - trip
+      summary: Update episode
+      description: This can be done only by moderator who owns the trip.
+      operationId: updateEpisode
+      produces:
+        - application/json
+      parameters:
+      - name: "idTrip"
+        in: "path"
+        description: "Id of trip to which episode belongs to"
+        required: true
+        type: "integer"
+        format: "int32"
+      - name: "idEpisode"
+        in: "path"
+        description: "Id of episode to edit"
+        required: true
+        type: "integer"
+        format: "int32"
+      - in: body
+        name: body
+        description: Added Episode
+        required: true
+        schema:
+          $ref: '#/definitions/Episode'
+      responses:
+        '400':
+          description: 'updateEpisode.error.tripNotFound, updateEpisode.error.userNotFound, updateEpisode.error.unauthorised, updateEpisode.error.wrongTrip, updateEpisode.error.locationNotFound, updateEpisode.error.episodeNotFound'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Episode"
+    delete:
+      tags:
+        - trip
+      summary: Delete episode
+      description: This can be done only by moderator who owns the trip.
+      operationId: deleteEpisode
+      produces:
+        - application/json
+      parameters:
+      - name: "idTrip"
+        in: "path"
+        description: "Id of trip to which episode belongs to"
+        required: true
+        type: "integer"
+        format: "int32"
+      - name: "idEpisode"
+        in: "path"
+        description: "Id of episode to edit"
+        required: true
+        type: "integer"
+        format: "int32"
+      responses:
+        '400':
+          description: 'deleteEpisode.error.tripNotFound, deleteEpisode.error.userNotFound, deleteEpisode.error.unauthorised, deleteEpisode.error.wrongTrip, deleteEpisode.error.episodeNotFound'
+        '200':
+          description: successful operation
+  /api/episodes:
+    get:
+      tags:
+        - trip
+      summary: Get all episodes
+      operationId: getAllEpisodes
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+
+  /api/trips/{idTrip}/participants:
+    post:
+      tags:
+        - trip
+      summary: Add participant
+      description: This can be done only by moderator who owns the trip.
+      operationId: addParticipant
+      produces:
+        - application/json
+      parameters:
+      - name: "idTrip"
+        in: "path"
+        description: "Id of trip to add participant to"
+        required: true
+        type: "integer"
+        format: "int32"
+      - in: body
+        name: body
+        description: "Added participant"
+        required: true
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        '400':
+          description: 'addParticipant.error.tripNotFound, addParticipant.error.userNotFound, addParticipant.error.unauthorised, addParticipant.error.userAlreadyAdded'
+        '200':
+          description: successful operation
+    get:
+      tags:
+        - trip
+      summary: Get participants by trip's Id
+      operationId: getParticipantById
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip to get participant from"
+          required: true
+          type: "integer"
+          format: "int32"
+
+      responses:
+        '200':
+          description: successful operation
+
+  /api/trips/{idTrip}/participants/{username}:
+    get:
+      tags:
+        - trip
+      summary: Get trip's participant bu username
+      operationId: getParticipant
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip to get participant from"
+          required: true
+          type: "integer"
+          format: "int32"
+        - name: "username"
+          in: "path"
+          description: "Username of searched participant"
+          required: true
+          type: "string"
+      responses:
+        '400':
+          description: 'getParticipant.error.tripNotFound, getParticipant.error.userNotFound, getParticipant.error.unauthorised, getParticipant.error.participantNotFound'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/User"
+    delete:
+      tags:
+        - trip
+      summary: Delete participant from trip
+      operationId: deleteParticipant
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip to delete participant from"
+          required: true
+          type: "integer"
+          format: "int32"
+        - name: "username"
+          in: "path"
+          description: "Username of searched participant"
+          required: true
+          type: "string"
+      responses:
+        '400':
+          description: 'deleteParticipant.error.tripNotFound, deleteParticipant.error.userNotFound, deleteParticipant.error.unauthorised, deleteParticipant.error.participantNotFound'
+        '200':
+          description: successful operation
+    put:
+      tags:
+        - trip
+      summary: Update participant
+      operationId: updateParticipant
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip that participant takes part in"
+          required: true
+          type: "integer"
+          format: "int32"
+        - name: "username"
+          in: "path"
+          description: "Username of searched participant"
+          required: true
+          type: "string"
+      responses:
+        '400':
+          description: 'updateParticipant.error.tripNotFound, updateParticipant.error.userNotFound, updateParticipant.error.unauthorised, updateParticipant.error.participantNotFound, updateParticipant.error.unauthorized'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/User"
+  /api/participants:
+    get:
+      tags:
+        - trip
+      summary: Get all participants
+      operationId: getAllParticipants
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+  /api/trips/{idTrip}/comments:
+    post:
+      tags:
+        - trip
+      summary: Add Comment to Trip
+      operationId: addComment
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip that the comment will be added"
+          required: true
+          type: "integer"
+          format: "int32"
+        - in: body
+          name: body
+          description: Added comment
+          required: true
+          schema:
+            $ref: '#/definitions/Comment'
+      responses:
+        '400':
+          description: 'addComment.error.tripNotFound, addComment.error.userNotFound, addComment.error.unauthorised, addComment.error.wrongTrip'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Comment"
+    delete:
+      tags:
+        - trip
+      summary: Delete all comments from trip
+      description: This can be done by the moderator.
+      operationId: deleteAllComments
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip that comments will be deleted"
+          required: true
+          type: "integer"
+          format: "int32"
+      responses:
+        '400':
+          description: 'deleteAllTripComments.error.tripNotFound, deleteAllTripComments.error.userNotFound, deleteAllTripComments.error.unauthorised, deleteAllTripComments.error.wrongTrip'
+        '200':
+          description: successful operation
+    get:
+      tags:
+        - trip
+      summary: Get all comments from trip by Id
+      operationId: getAllComments
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip"
+          required: true
+          type: "integer"
+          format: "int32"
+      responses:
+        '200':
+          description: successful operation
+  /api/trips/{idTrip}/comments/{idComment}:
+    put:
+      tags:
+        - trip
+      summary: Update Comment by Id
+      operationId: updateComment
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip to which comment belongs to"
+          required: true
+          type: "integer"
+          format: "int32"
+        - name: "idComment"
+          in: "path"
+          description: "Id of comment to update"
+          required: true
+          type: "integer"
+          format: "int32"
+        - in: body
+          name: body
+          description: Updated comment
+          required: true
+          schema:
+            $ref: '#/definitions/Comment'
+      responses:
+        '400':
+          description: 'updateComment.error.tripNotFound, updateComment.error.userNotFound, updateComment.error.unauthorised, updateComment.error.wrongTrip, updateComment.error.commentNotFound, updateComment.error.participantNotFound '
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Comment"
+    delete:
+      tags:
+        - trip
+      summary: Delete Comment by Id
+      description: This can be done by the moderator.
+      operationId: deleteComment
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip to which comment belongs to"
+          required: true
+          type: "integer"
+          format: "int32"
+        - name: "idComment"
+          in: "path"
+          description: "Id of comment to delete"
+          required: true
+          type: "integer"
+          format: "int32"
+      responses:
+        '400':
+          description: 'deleteComment.error.tripNotFound, deleteComment.error.userNotFound, deleteComment.error.unauthorised, deleteComment.error.wrongTrip, deleteComment.error.commentNotFound'
+        '200':
+          description: successful operation
+
+  /api/apply:
+    post:
+      tags:
+        - application
+      summary: Create Application
+      description: This can be done by user.
+      operationId: createApplication
+      parameters:
+        - in: body
+          name: body
+          description: Application
+          required: true
+          schema:
+            $ref: '#/definitions/Application'
+      responses:
+        '400':
+          description: 'application.error.usernameExists, application.error.emailExists, application.error.userNotFound, application.error.emailNotFound, application.error.unauthorisedName, application.error.unauthorisedEmail'
+        '200':
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Application"
+
+  /api/applications:
+    get:
+      tags:
+        - application
+      summary: Get all applications
+      description: This can be done by admin.
+      operationId: getAllApplications
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+  /api/applications/{username}:
+    get:
+      tags:
+        - application
+      summary: Get application bu username
+      description: This can be done by admin.
+      operationId: getApplication
+      parameters:
+        - name: "username"
+          in: "path"
+          description: "Username whose application you want to get"
+          required: true
+          type: "string"
+      responses:
+        '400':
+          description: 'getApplication.error.applicationNotFound, getApplication.error.userNotFound'
+        '200':
+          description: successful operation
+    delete:
+      tags:
+        - application
+      summary: Delete application
+      description: This can be done by admin.
+      operationId: deleteApplication
+      parameters:
+        - name: "username"
+          in: "path"
+          description: "Ysername whose appliaction will be deleted"
+          required: true
+          type: "string"
+      responses:
+        '400':
+          description: 'getApplication.error.applicationNotFound'
+        '200':
+          description: successful operation
+    put:
+      tags:
+        - application
+      summary: Update application
+      operationId: updateApplication
+      parameters:
+        - name: "username"
+          in: "path"
+          description: "Username whose appliaction will be updated"
+          required: true
+          type: "string"
+        - in: body
+          name: body
+          description: Application
+          required: true
+          schema:
+            $ref: '#/definitions/Application'
+      responses:
+        '400':
+          description: 'getApplication.error.applicationNotFound'
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Application'
+  /api/activeApplications:
+    get:
+      tags:
+        - application
+      summary: Get all active applications
+      operationId: getAllActiveApplications
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+  /api/trips/{idTrip}/albums:
+    post:
+      tags:
+        - trip
+      summary: Add album
+      operationId: addAlbum
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip that album will belong to"
+          required: true
+          type: "integer"
+          format: "int32"
+        - in: body
+          name: body
+          description: Album
+          required: true
+          schema:
+            $ref: '#/definitions/Album'
+      responses:
+        '400':
+          description: 'addAlbum.error.wrongTrip'
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Album'
+    get:
+      tags:
+        - trip
+      summary: Get all trip's albums
+      operationId: getAlbumsByIdTrip
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip"
+          required: true
+          type: "integer"
+          format: "int32"
+      responses:
+        '200':
+          description: successful operation
+  /api/trips/{idTrip}/albums/{idAlbum}:
+    get:
+      tags:
+        - trip
+      summary: Get album
+      operationId: getAlbumByIdAlbum
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip"
+          required: true
+          type: "integer"
+          format: "int32"
+        - name: "idAlbum"
+          in: "path"
+          description: "Id of album"
+          required: true
+          type: "integer"
+          format: "int32"
+      responses:
+        '400':
+          description: 'error.getAlbum.albumNotFound'
+        '200':
+          description: successful operation
+  /api/trips/{idTrip}/albums/{idAlbum}/photos:
+    post:
+      tags:
+        - trip
+      summary: Add photo
+      operationId: addPhoto
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip that photo will belong to"
+          required: true
+          type: "integer"
+          format: "int32"
+        - name: "idAlbum"
+          in: "path"
+          description: "Id of album that photo will belong to"
+          required: true
+          type: "integer"
+          format: "int32"
+        - in: body
+          name: body
+          description: Photo
+          required: true
+          schema:
+            $ref: '#/definitions/Photo'
+      responses:
+        '400':
+          description: 'addPhoto.error.albumNotFound, addPhoto.error.tripNotFound'
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Photo'
+    get:
+      tags:
+        - trip
+      summary: Get all album's photos
+      operationId: getPhotosByIdAlbum
+      parameters:
+        - name: "idTrip"
+          in: "path"
+          description: "Id of trip that photos belong to"
+          required: true
+          type: "integer"
+          format: "int32"
+        - name: "idAlbum"
+          in: "path"
+          description: "Id of album that photos belong to"
+          required: true
+          type: "integer"
+          format: "int32"
+      responses:
+        '200':
+          description: successful operation
+
+
+
+
+
+  /api/session:
+    post:
+      tags:
+        - session
+      summary: Login
+      parameters:
+        - name: "username"
+          in: "query"
+          description: "The user name for login"
+          required: true
+          type: "string"
+        - name: "password"
+          in: "query"
+          description: "The password for login in clear text"
+          required: true
+          type: "string"
+      responses:
+          '200':
+            description: successful operation
+    delete:
+      tags:
+        - session
+      summary: Logout
+      parameters: []
+      responses:
+          '200':
+            description: successful operation
+    get:
+      tags:
+        - session
+      summary: Get sesion
+      parameters: []
+      responses:
+          '200':
+            description: successful operation
+
+
+securityDefinitions:
+  user_auth:
+    type: "oauth2"
+    authorizationUrl: "http://localhost:300/api/session"
+    flow: "implicit"
+    scopes:
+      read: Grants read access
+      write: Grants write access
+      admin: Grants access to admin operations
+
+definitions:
+  User:
+    type: object
+    properties:
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      points:
+        type: integer
+        format: int32
+      photo:
+        type: string
+        format: 'byte[]'
+    xml:
+      name: User
+  Trip:
+    type: object
+    properties:
+      idTrip:
+        type: integer
+        format: int32
+      name:
+        type: string
+      moderator:
+        type: string
+      startDate:
+          type: string
+          format: date
+      endDate:
+          type: string
+          format: date
+      idLevel:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 9
+      idStatus:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 9
+      description:
+        type: string
+      points:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 999
+    xml:
+      name: Trip
+  Episode:
+    type: object
+    properties:
+      idEpisode:
+        type: integer
+        format: int32
+      idTrip:
+        type: integer
+        format: int32
+      Date:
+          type: string
+          format: date
+      description:
+        type: string
+      location:
+        type: object
+        properties:
+          longitude:
+            type: integer
+            format: int32
+            minimum: -90
+            maximum: 90
+          latitude:
+            type: integer
+            format: int32
+            minimum: -90
+            maximum: 90
+          description:
+            type: string
+            minLength: 3
+            maxLength: 60
+    xml:
+      name: Episode
+  Comment:
+    type: object
+    properties:
+      idTrip:
+        type: integer
+        format: int32
+      content:
+        type: string
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+  Application:
+    type: object
+    properties:
+      username:
+        type: string
+        minLength: 3
+        maxLength: 30
+      email:
+        type: string
+      isActive:
+        type: boolean
+      createDate:
+          type: string
+          format: date
+  Album:
+    type: object
+    properties:
+      idTrip:
+        type: integer
+        format: int32
+      name:
+        type: string
+  Photo:
+    type: object
+    properties:
+      idAlbum:
+        type: integer
+        format: int32
+      photo:
+        type: string
+        format: 'byte[]'
