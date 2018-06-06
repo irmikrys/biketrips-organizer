@@ -39,4 +39,4 @@ Aplikacja zostanie uruchomiona na porcie 8080.
 
 ## API
 
-Dokumentacja API znajduje się w folderze ``backend/resources``. 
+Dokumentacja API znajduje się w folderze ``backend/src/java/resources``. 
